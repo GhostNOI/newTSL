@@ -1,0 +1,44 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#operation-log{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.operation-wrap{
+  width: 100%;
+}
+//宽度
+.operation-width3{
+  width: 25%;
+  float: left;
+}
+.operation-width12{
+  width: 100%;
+}
+.operation-top-wrap{
+  overflow: hidden;
+  padding: 10px;
+}
+.operation-label{
+  line-height: 34px;
+  color: #fff;
+  margin-right: 15px;
+  float: left;
+  padding-top: 5px;
+}
+//按钮
+.operation-query-btn{
+  display: inline-block;
+  color: #fff;
+  height: 34px ;
+  line-height: 34px;
+  width: 100px;
+  float: left;
+}
+//表格
+.operation-table{
+  width: 100%;
+}

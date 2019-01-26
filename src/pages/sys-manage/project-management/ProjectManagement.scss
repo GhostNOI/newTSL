@@ -1,0 +1,94 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#project-management{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+//查询区域
+.project-query{
+  overflow: hidden;
+  padding: 10px;
+}
+.project-management-wrap{
+  width: 100%;
+}
+.project-management-label{
+  float: left;
+  color: #fff;
+  line-height: 34px;
+  margin-right: 20px;
+  width: 100px;
+  padding-top: 5px;
+}
+.project-width4{
+  width: 33%;
+  float: left;
+}
+.project-width2{
+  width: 15%;
+  float: left;
+}
+//查询按钮
+.project-query-btn{
+  display: inline-block;
+  height: 38px;
+  line-height: 38px;
+  color: #fff;
+  width: 100px;
+}
+
+//表格区域
+.project-table-wrap{
+  width: 100%;
+  padding: 10px 20px;
+  color: #fff;
+  tr {
+    border-top: 1px solid #212335;
+    th {
+      text-align: left;
+    }
+    td {
+      padding: 10px 0;
+      &:nth-of-type(1) {
+        width: 50px;
+      }
+      .iconfont {
+        font-size: 20px;
+        text-align: center;
+        float: left;
+        width: 100%;
+      }
+    }
+  }
+}
+//表头
+.project-table-head{
+  background: #242531;
+  tr{
+    height: 50px;
+    line-height: 50px;
+  }
+}
+//展开的表格
+.project-table-extend{
+  background: #181822;
+  border-top: 1px solid #212335;
+}
+.project-table{
+  width: 100%;
+}
+.project-table-open:hover{
+  cursor: pointer;
+}
+.project-table-width1{
+  width: 10%;
+}
+.project-table-width2{
+  width: 20%;
+}
+.project-table-width3{
+  width: 40%;
+}

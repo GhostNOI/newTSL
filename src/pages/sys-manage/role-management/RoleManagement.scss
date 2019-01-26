@@ -1,0 +1,36 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#role-management{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.role-management-top{
+  overflow: hidden;
+  padding-right: 30px;
+  height: 60px;
+  .new-build{
+    float: right;
+    width: 200px;
+  }
+}
+.role-management-wrap{
+  width: 100%;
+}
+.role-management-table-wrap{
+  width: 100%;
+  padding: 10px;
+}
+.role-management-table{
+  width: 100%;
+}
+//按钮样式
+.role-management-btn{
+  display: inline-block;
+  height: 38px;
+  line-height: 38px;
+  color: #fff;
+  width: 200px;
+}

@@ -1,0 +1,59 @@
+#database{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+*{
+  box-sizing: border-box;
+}
+.database-top{
+  width: 100%;
+
+}
+.width-float{
+  float: left;
+  width: 16.6%;
+}
+.backup{
+  float: left;
+  width: 33.3%;
+}
+.manual-backup{
+  width: 50%;
+  float: left;
+}
+.back-btn{
+  height: 38px;
+  line-height: 38px;
+  color: #fff;
+}
+.right-left{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.database-bottom{
+  width: 100%;
+}
+/*服务器指标*/
+.quota-btn{
+  width: 90%;
+  float: left;
+}
+.quota-change{
+  width: 10%;
+  float: left;
+}
+.quota-date{
+  width: 100%;
+  float: left;
+}
+.button-tiny {
+  font-size: 9.6px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 24px;
+  background: transparent;
+}
+.visible-info{
+  position: relative;
+}
+

@@ -1,0 +1,108 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#user-management{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.user-management-wrap{
+  width: 100%;
+}
+.tableFliter{
+  overflow: hidden;
+}
+//宽度
+.user-management-width2{
+  width: 16%;
+  float: left;
+}
+.user-management-width3{
+  width: 25%;
+  float: left;
+}
+.user-management-width4{
+  width: 33%;
+  float: left;
+}
+//top
+.user-management-top{
+  overflow: hidden;
+}
+//表单
+.user-management-label{
+  float: left;
+  color: #fff;
+  line-height: 34px;
+  margin-right: 20px;
+  width: 100px;
+  padding-top: 5px;
+}
+.form-control{
+  border: 1px solid #383b5d;
+  background: transparent;
+  float: left;
+  width: 205px;
+}
+//按钮
+.ctrlBtnPanel{
+  padding: 0;
+  height: 50px;
+}
+.user-management-btn{
+  display: inline-block;
+  color: #fff;
+  height: 34px ;
+  line-height: 34px;
+  width: 100px;
+  cursor: pointer;
+}
+//表格
+.user-management-table-wrap{
+  width: 100%;
+  th,tr{
+    border-top: 1px solid #212335;
+  }
+}
+.user-management-table{
+  width: 100%;
+}
+
+//dialog
+.user-dialog{
+  background: #100f16;
+}
+//修改禁用样式
+a.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+//启用禁用
+a.active{
+  color: #ccc;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+a.notActive{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+//表格启用中，禁用中样式
+.proEnable{
+  background: #52C41A;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px;
+}
+.proDisable{
+  background: #4C505D;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px;
+}

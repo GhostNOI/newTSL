@@ -1,0 +1,18 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#notfound{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.btn{
+  color: #fff;
+  background: transparent;
+  padding: 5px 10px;
+  border-color: #169af7;
+}
+.btn:hover{
+  background: #169af7;
+}

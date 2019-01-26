@@ -1,0 +1,94 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#warning-event{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.warning-event-top,.warning-event-bottom{
+  width: 100%;
+}
+.warning-event-top-left,.warning-event-top-right{
+  width: 50%;
+  float: left;
+}
+/* 按钮 */
+.button-tiny {
+  font-size: 9.6px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 24px;
+  background: transparent;
+}
+.ranking,.ranking-chart{
+  width: 35%;
+  float: left;
+}
+.up-down{
+  width: 15%;
+  float: right;
+}
+.ranking-height{
+  height: 350px;
+}
+.badgeRound {
+  border-radius: 50% !important;
+}
+.darkTable2{
+  border: 1px solid rgba(36, 37, 49, 0);
+  color: rgb(214, 228, 255);
+  text-align: left;
+  table-layout: fixed;
+  margin-bottom: 16px;
+}
+.warning-event-bottom-table{
+  width: 100%;
+  margin-bottom: 20px;
+}
+.warning-event-rank{
+  padding-top: 20px;
+}
+.warning-event-num{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 20px;
+  text-align: center;
+}
+//弹框
+.device{
+  color: #fff;
+  height:50px;
+  min-width: 80px;
+  display: inline-block;
+}
+.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.badge1{
+  width: 38px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
+.disaster{
+  background: #E74C3C;
+}
+.serious{
+  background: #D35400;
+}
+.alert{
+  background: #F39C12;
+}
+.info{
+  background: #2980B9;
+}

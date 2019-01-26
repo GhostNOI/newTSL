@@ -1,0 +1,56 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#notification-setting{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+
+//宽度
+.notification-width12{
+  width: 100%;
+}
+.notification-setting-table{
+  width: 100%;
+}
+.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.noticeLabel{
+  color: #fff;
+  width: 100px;
+  display: inline-block;
+}
+.cus-height{
+  height: 60px;
+}
+.ipt{
+  border: none;
+  background: #100f16;
+  //border: 1px solid #383b5d;
+  color: #fff;
+  text-indent: 10px;
+}
+.user-management-btn{
+  display: inline-block;
+  color: #fff;
+  height: 34px ;
+  line-height: 34px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  float: right;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+select{
+  background: transparent;
+  border: 1px solid #383b5d;
+  width: 50px;
+  color: #fff;
+}

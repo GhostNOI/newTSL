@@ -1,0 +1,27 @@
+/* 页面高度固定 */
+#tendency{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+/* 转换成怪异盒模型 */
+.strange{
+  box-sizing: border-box;
+}
+
+.diagram{
+  width: 100%;
+
+}
+.process-ranking{
+  width: 50%;
+  float: left;
+  padding-right: 15px;
+}
+.process-change{
+  width: 50%;
+  float: left;
+  padding-left: 15px;
+}
+.tendency-date{
+  color: #fff;
+}

@@ -1,0 +1,112 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#warning-log{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.warning-top{
+  width: 100%;
+  overflow: hidden;
+}
+
+.warning-log-content{
+  width: 100%;
+}
+.warning-log-width{
+  width: 30%;
+  float: left;
+  overflow: hidden;
+}
+.warning-query-label{
+  line-height: 34px;
+  color: #fff;
+  margin-right: 15px;
+  float: left;
+}
+//按钮样式
+.button-tiny {
+  font-size: 9.6px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 24px;
+  background: transparent;
+}
+.warning-btn{
+  display: inline-block;
+  color: #fff;
+  width: 100px;
+  height: 40px;
+  line-height: 40px;
+}
+.warning-query-btn{
+  float: left;
+  margin-top: 20px;
+}
+//导出记录
+.export-record{
+  width: 10%;
+  float: left;
+
+}
+//表格区域宽度
+.warning-bottom-table{
+  width: 100%;
+
+}
+.warning-table{
+  width: 100%;
+}
+//预警等级
+.badge1{
+  width: 38px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
+.disaster{
+  background: #E74C3C;
+}
+.serious{
+  background: #D35400;
+}
+.alert{
+  background: #F39C12;
+}
+.info{
+  background: #2980B9;
+}
+.modelLabel{
+  color: #fff;
+  width: 100px;
+  display: inline-block;
+  float: left;
+  margin-left: 100px;
+
+}
+.modelArea{
+  margin-bottom: 10px;
+}
+//修改按钮
+.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+textarea{
+  resize: none;
+  background: #100f16;
+  width: 80%;
+  border: 1px solid #5a5c7d;
+
+}
+.textA{
+  width: 360px;
+  margin-left: -5px;
+}

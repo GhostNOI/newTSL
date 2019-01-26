@@ -1,0 +1,124 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#smart-device{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.smart-wrap{
+  width: 100%;
+
+}
+.smart-btn{
+  width: 25%;
+  float: left;
+}
+.smart-item{
+  width: 16%;
+  float: left;
+}
+.smart-right{
+  width: 11%;
+  float: left;
+}
+.button-tiny {
+  font-size: 9.6px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 24px;
+  background: transparent;
+}
+.smart-bottom{
+  width: 100%;
+}
+//查询输入框
+.smart-query-input{
+  width: 100%;
+  float: left;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.tableFliter{
+  overflow: hidden;
+}
+.smart-query-label{
+  line-height: 34px;
+  color: #fff;
+  margin-right: 15px;
+  float: left;
+  width: 70px;
+}
+//查询选择框
+.smart-query-select{
+  width: 33%;
+  float: left;
+  padding-top: 10px;
+}
+.smart-query-btn{
+  width: 33%;
+  float: left;
+}
+.smart-filter{
+  overflow: hidden;
+  padding: 0 15px;
+}
+/* 查询按钮 */
+.query-btn{
+  width: 38%;
+  color: #fff;
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 5px;
+}
+.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.model-item{
+  margin-right: 10px;
+  color: #fff;
+  font-size: 20px;
+  display: inline-block;
+  width: 110px;
+  text-align: right;
+}
+.model-item1{
+  color: #fff;
+  font-weight: 100;
+  font-size: 15px;
+  display: inline-block;
+  min-width: 150px;
+  text-align: left;
+}
+.form-control{
+  width: 50%;
+  height: 40px;
+  line-height: 40px;
+  text-indent: 10px;
+  float: left;
+  background: transparent;
+  border: 1px solid #383b5d;
+}
+.smart-width{
+  width: 20%;
+  float: left;
+}
+table{
+  th{
+    background: #252531;
+  }
+  td{
+    text-align: center;
+  }
+}
+.onLine{
+  color: #3ff88f;
+}
+.notOnLine{
+  color: #f5a623;
+}

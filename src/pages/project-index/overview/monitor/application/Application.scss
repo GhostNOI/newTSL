@@ -1,0 +1,110 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#application{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.application-top,.application-bottom{
+  width: 100%;
+}
+
+.scroll-item{
+  background: transparent !important;
+  width: 240px !important;
+}
+//application-top btn
+.application-btn{
+  width: 25%;
+  float: left;
+}
+.application-item{
+  width: 16%;
+  background: transparent;
+}
+.application-svg{
+  width: 10%;
+  float: left;
+}
+table{
+  color: rgba(214, 228, 255, 0.9);
+  thead{
+    background: #242531;
+  }
+  tr{
+    height: 60px;
+    border-bottom: 1px solid #202130;
+  }
+
+
+}
+.extend{
+  cursor: pointer;
+  height: 20px;
+  line-height: 14px;
+  padding: 4px 7px;
+  display: inline-block;
+  font-size: 11px;
+}
+.normal{
+  background: #2980B9;
+
+
+}
+.abnormal{
+  background: #E74C3C;
+
+}
+.tableII{
+  background: #181822;
+}
+
+//gundong
+.scroll-wrap {
+  width: 75%;
+  height: 131px;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.scroll-wrap::-webkit-scrollbar {
+  display: none;
+}
+.item-wrap {
+  height: 100%;
+  position: absolute;
+  white-space: nowrap;
+  left: 0;
+  top: 0;
+}
+.scroll-item {
+  display: inline-block;
+  width: 150px;
+  height: 100%;
+  background: #ccc;
+  text-align: center;
+  line-height: 98px;
+  color: #fff;
+  font-size: 20px;
+}
+.left-arrow, .right-arrow {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  background: rgba(0,0,0,0);
+  z-index: 999;
+  cursor: pointer;
+  width: 20px;
+}
+.left-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.right-arrow {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

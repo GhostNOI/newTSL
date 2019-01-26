@@ -1,0 +1,121 @@
+//计算属性适配页面高度
+*{
+  box-sizing: border-box;
+}
+#overview{
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+.row-custom{
+  overflow: hidden;
+}
+.overview-left{
+  width: calc(50% - 20px);
+  float: left;
+}
+.overview-right{
+  width: calc(50% - 20px);
+  float: right;
+}
+
+//平台信息
+.platform-info{
+  width: calc(50% - 20px);
+  float: left;
+  padding: 10px;
+}
+.device-number{
+  width: calc(25% - 5px);
+  float: left;
+}
+//日志
+.overview-logs{
+  display: flex;
+  justify-content: space-around;
+  width: calc(100%);
+}
+.overview-log{
+  width: 25%;
+}
+.log-btn{
+  text-align: center;
+}
+.log-btn:hover{
+  box-sizing: border-box;
+  border: 1px solid #4681ff;
+}
+.overview-chart1{
+  float: left;
+  width: calc(50%);
+  height: 200px;
+}
+.overview-chart2{
+  float: right;
+  width: calc(50%);
+  height: 200px;
+}
+.overview-chart3{
+  float: left;
+  width: calc(60% - 3px);
+  height: 200px;
+}
+.overview-chart4{
+  float: right;
+  width: calc(40%);
+  height: 200px;
+}
+.overview-chart5{
+  float: left;
+  width: 100%;
+  height: 300px;
+}
+.chart-common{
+  margin-bottom: 20px;
+}
+.showCase3 h5{
+  color: #D6E4FF;
+  float: left;
+  line-height: 40px;
+  font-size: 15px;
+  font-weight: 400;
+}
+.showCase h3{
+  color: #fff;
+  float: right;
+  line-height: 40px;
+  font-size: 28px;
+  font-weight: 500;
+}
+.badge1{
+  width: 38px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+}
+.disaster{
+  background: #E74C3C;
+}
+.serious{
+  background: #D35400;
+}
+.alert{
+  background: #F39C12;
+}
+.info{
+  background: #2980B9;
+}
+
+//弹框
+.device{
+  color: #fff;
+  height:50px;
+  min-width: 80px;
+  display: inline-block;
+}
+.source-type{
+  float: left;
+  color: #FFFFFF;
+  margin-right: 30px;
+}

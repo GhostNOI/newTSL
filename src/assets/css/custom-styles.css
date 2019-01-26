@@ -1,0 +1,1321 @@
+/* define bootstrap 5 columns */
+.col-xs-1-5,
+.col-sm-1-5,
+.col-md-1-5,
+.col-lg-1-5{
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-xs-1-5 {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+.col-sm-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+
+a{
+    cursor: pointer;
+}
+
+a.enabled{
+    color: #4681FF;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+a.disabled{
+    color: #4C505D;
+    pointer-events: none;
+    margin-right: 20px;
+}
+
+/*----------------------------------------------
+    COMMON  STYLES    
+------------------------------------------------*/
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #4a4a4a;
+}
+
+ #wrapper {
+    width: 100%;
+}
+
+#page-wrapper {
+    padding: 15px 15px;
+    min-height: 600px;
+    background: #121219;
+}
+#page-inner {
+    width:100%;
+    margin:10px 20px 10px 0px;
+    background-color:transparent;
+    padding:10px;
+    min-height:800px;
+}
+
+.text-center {
+    text-align:center;
+}
+.no-border {
+    border:1px solid rgba(59, 68, 135, 1);
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+margin-top: 7px;
+margin-bottom: -5px;
+}
+h2 {
+    color: #000;
+}
+h4 {
+    padding-top:10px;
+}
+.square-btn-adjust {
+    border: 0px solid transparent; 
+   -webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+
+}
+.tlinks{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+p {
+    font-size:16px;
+    line-height:25px;
+    padding-top:20px;
+}
+.navbar-side {
+    z-index: 0; 
+}
+.panel{
+    border-radius:0px;
+    background-color: rgb(16, 15, 21);
+}
+.navbar-side .nav > li > a > i{
+color: #FFFFFF;
+padding: 8px;
+width: 30px;
+text-align: center;
+}
+.top-navbar{
+  position: fixed;
+  width: 100%;
+  z-index: 300;
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+}
+.navbar-side {
+  z-index: 1;
+  position: fixed;
+  width: 200px;
+  top: 0px;
+}
+#page-wrapper {
+  position: relative;
+  top: 51px;
+}
+.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {
+text-decoration: none;
+background-color: #2497BA;
+color: #fff;
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+background-color: #23C1CD;
+border-color: #24C2CD;
+}
+.breadcrumb {
+padding: 18px;
+margin-bottom: 20px;
+list-style: none;
+background-color: #FFFFFF;
+border-radius: 0;
+-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.dropdown-menu>li>a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.dropdown-menu>li>a i {
+  color: #24C2CE;
+}
+.text-muted {
+  color: #FB5651;
+}
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 4px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #24C2CE;
+  border-radius: 10px;
+}
+/*----------------------------------------------
+   DASHBOARD STYLES    
+------------------------------------------------*/
+.page-header {
+padding-bottom: 9px;
+margin: 10px 0 20px;
+border-bottom: 1px solid transparent;
+text-align: left;}
+.panel-left{  
+    width: 100px;
+    height: 100px;
+    background: #32D088;
+    border: 2px solid white;
+    border-radius: 100%;
+    overflow: hidden;
+    margin: 12px 0px 12px 12px;
+}
+.panel-left .fa-5x {
+font-size: 3em;
+color: rgba(255, 255, 255, 0.69);
+padding: 29px 0;
+margin-bottom:30px;
+}
+.panel-right{  
+    height: 124px;
+    background: transparent;
+    margin-bottom: 0;
+    color: #D6E4FF;
+    text-align: center;
+}
+
+.panel-back {
+    background-color:#fff;
+
+}
+.panel-default {
+  border-color: #ECECEC;
+}
+.panel-default > .panel-heading {
+color: #000;
+border-color: #FFF;
+font-weight:bold;
+background: #FFFFFF;
+font-size: 16px;
+padding: 15px 15px 0;}
+.panel-heading {
+  /* padding: 15px 15px 0px; */
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.jumbotron{
+padding:20px;
+}
+.jumbotron p {
+    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: 200;
+}
+.jumbotron, .well{
+background:#fff;
+}
+   .noti-box {
+min-height: 100px;
+padding: 20px;
+}
+
+    .noti-box .icon-box {
+display: block;
+float: left;
+margin: 0 15px 10px 0;
+width: 70px;
+height: 70px;
+line-height: 75px;
+vertical-align: middle;
+text-align: center;
+font-size: 40px;
+}
+.text-box p{
+    margin: 0 0 3px;
+}
+.main-text {
+    font-size: 25px;
+    font-weight:600;
+}
+.set-icon {
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 50px;
+
+}
+.panel-primary{
+    display:inline-block;
+    margin-bottom: 30px;
+    width:100%;
+    min-height: 124px;
+}
+.green {
+    /* background-color: #1CC09F; */
+    color: #fff;
+}
+ .blue {
+    background-color: #34a5f8;
+    color: #fff
+}
+  .red {
+background-color: #ff5c69;
+color:#fff;
+}
+  .yellow {
+    background-color: #feb734;
+    color:#fff;
+} 
+ .back-footer-red {
+background-color: #F0433D;
+color:#fff;
+border-top: 0px solid #fff;
+}
+ 
+ .icon-box-right {
+display: block;
+float: right;
+margin: 0 15px 10px 0;
+width: 70px;
+height: 70px;
+line-height: 75px;
+vertical-align: middle;
+text-align: center;
+font-size: 40px;
+}
+
+ .main-temp-back {
+background: #8702A8;
+color: #FFFFFF;
+font-size: 16px;
+font-weight: 300;
+text-align: center;
+}
+ .main-temp-back .text-temp {
+font-size: 40px;
+}
+.back-dash {
+    padding:20px;
+    font-size:20px;
+    font-weight:500;
+  -webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+background-color:#2EA7EB;
+color:#fff;
+}
+    .back-dash p {
+        padding-top:16px;
+        font-size:13px;
+        color:#fff;
+        line-height:25px;
+        text-align:justify;
+    }
+
+     .color-bottom-txt {
+   color: #000;
+font-size: 16px;
+line-height: 30px;
+}
+     /*CHAT PANEL*/
+/*Charts*/
+
+.main-chart {
+	background: #fff;
+}
+
+.easypiechart-panel {
+	text-align: center;
+	padding: 1px 0;
+	margin-bottom: 20px;
+}
+
+.placeholder h2 {
+	margin-bottom: 0px;
+}
+
+.donut {
+	width: 100%;
+}
+
+.easypiechart {
+	position: relative;
+	text-align: center;
+	width: 120px;
+	height: 120px;
+	margin: 20px auto 10px auto;
+}
+
+.easypiechart .percent {
+	display: block;
+	position: absolute;
+	font-size: 26px;
+	top: 38px;
+	width: 120px;
+}
+
+#easypiechart-blue .percent { color: #30a5ff;}
+#easypiechart-teal .percent { color: #1ebfae;}
+#easypiechart-orange .percent { color: #ffb53e;}
+#easypiechart-red .percent { color: #ef4040;}
+
+	 
+ .chat-panel .panel-body {
+height: 450px;
+overflow-y: scroll;
+}
+ .chat-box {
+margin: 0;
+padding: 0;
+list-style: none;
+}
+ .chat-box li {
+margin-bottom: 15px;
+padding-bottom: 5px;
+border-bottom: 1px dotted #808080;
+}
+ .chat-box li.left .chat-body {
+margin-left: 90px;
+}
+ .chat-box li .chat-body p {
+margin: 0;
+color: #8d8888;
+}
+.chat-img>img {
+    margin-left:20px;
+}
+footer p{
+font-size: 14px;
+}
+/*----------------------------------------------
+    MENU STYLES    
+------------------------------------------------*/
+
+
+.user-image {
+    margin: 25px auto;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+max-height:170px;
+max-width:170px;
+}
+.top-navbar{
+margin:0px;
+}
+.top-navbar .navbar-brand {
+    color: #fff;
+    width: 260px;
+    text-align: left;
+    height: 60px;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 30px;
+    background: #24383A;
+}
+.navbar-brand b{
+color: #4BD28C;
+}
+.top-navbar .nav > li {
+position: relative;
+display: inline-block;
+margin: 0px;
+padding: 0px;
+}
+.top-navbar .nav > li > a {
+position: relative;
+display: block;
+padding: 20px;
+color: #FFFFFF;
+margin: 0px;
+}
+.top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {
+text-decoration: none;
+color: #319DB5 !important;
+background: transparent;
+}
+.top-navbar .dropdown-menu{
+min-width: 230px;
+border-radius: 4px 4px 4px 4px;
+}
+.top-navbar .dropdown-menu > li > a:hover, .top-navbar .dropdown-menu > li > a:focus{
+color: #225081;
+background:none;
+}
+.dropdown-tasks{
+width: 255px;
+}
+.dropdown-tasks .progress {
+height: 8px;
+margin-bottom: 8px;
+overflow: hidden;
+background-color: #f5f5f5;
+border-radius: 0px;
+}
+.dropdown-tasks > li > a { 
+padding: 0px 15px;
+}
+.dropdown-tasks p {
+font-size: 13px;
+line-height: 21px;
+padding-top: 4px;
+}
+.active-menu {
+    background: rgb(64, 58, 141) !important;
+    background: -moz-linear-gradient(0deg, rgb(64, 58, 141) 30%, rgb(47, 83, 136) 70%) !important;
+    background: -webkit-linear-gradient(0deg, rgb(64, 58, 141) 30%, rgb(47, 83, 136) 70%) !important;
+    background: -o-linear-gradient(0deg, rgb(64, 58, 141) 30%, rgb(47, 83, 136) 70%) !important;
+    background: -ms-linear-gradient(0deg, rgb(64, 58, 141) 30%, rgb(47, 83, 136) 70%) !important;
+    background: linear-gradient(90deg, rgb(64, 58, 141) 30%, rgb(47, 83, 136) 70%) !important;
+    color: #fff !important;
+}
+.active-menu i{
+color: #fff !important;
+}
+.arrow {
+    float: right;
+    margin-top: 8px;
+}
+
+.fa.arrow:before {
+    content: "\f106";
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107";
+}
+
+
+.nav-second-level li,
+.nav-third-level li {
+    border-bottom: none !important;
+}
+
+.nav-second-level li a {
+    padding-left: 37px;
+}
+
+.nav-third-level li a {
+    padding-left: 55px;
+}
+.sidebar-collapse , .sidebar-collapse .nav{
+	background:none;
+}
+.sidebar-collapse .nav {
+	padding:0;
+}
+.sidebar-collapse .nav > li > a {
+	color: #FFFFFF;
+	background:transparent;
+	text-shadow:none;
+}
+.sidebar-collapse > .nav > li > a {
+	padding: 12px 10px;
+}
+.sidebar-collapse > .nav > li {
+	border-bottom: 1px solid rgba(107, 108, 109, 0.19);
+}
+ul.nav.nav-second-level {
+    background-color: transparent;
+}
+.sidebar-collapse .nav > li > a:hover,
+.sidebar-collapse .nav > li > a:focus {
+	 
+	outline:0;
+}
+ 
+.navbar-side {
+	border:none;
+}
+.top-navbar {
+	background: #4A4A4A;
+	border-bottom:none;
+}
+.top-navbar .nav > li > a > i {
+margin-right: 2px;
+}
+.top-navbar .navbar-brand:hover { 
+    color: #1CC09F;
+    background-color: rgb(43, 46, 51);
+}
+.dropdown-user li {
+margin: 8px 0;
+}
+.navbar-default {
+    border:0px solid black;
+}
+.navbar-header {
+    background: transparent;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+background-color: #283643;
+}
+.navbar-default .navbar-toggle {
+border-color: #fff;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+background-color: #FFF;
+}
+.nav > li > a > i {
+    margin-right:10px;
+    color: #FFF;
+}
+.dropdown-menu>li>a>strong {
+  color: #1CC09F;
+  padding: 5px 0;
+  display: inline-block;
+  font-weight: 500;
+}
+#sideNav{
+    position: absolute;
+    right: -28px;
+    z-index: 3;
+    background-color: #CFCECE;
+    padding: 3px 9px;
+    top: 0;
+    color: #283643;
+    cursor:pointer;
+    border-radius: 0 15px 15px 0;
+    width: 28px;
+    font-size: 16px;
+}
+ul.dropdown-menu.dropdown-messages li a div {
+  padding: 2px 0;
+}
+/*----------------------------------------------
+    UI ELEMENTS STYLES     
+------------------------------------------------*/
+.btn-circle {
+width: 50px;
+height: 50px;
+padding: 6px 0;
+ -webkit-border-radius: 25px;
+-moz-border-radius: 25px;
+border-radius: 25px;
+text-align: center;
+font-size: 12px;
+line-height: 1.428571429;
+}
+
+/*----------------------------------------------
+    MEDIA QUERIES     
+------------------------------------------------*/
+ 
+ @media(min-width:768px) {
+     #page-wrapper{
+        margin: 0 0 0 200px;
+        padding: 15px 30px;
+        min-height: 800px;
+    }
+	
+    .navbar-side {
+        width: 200px;
+        z-index: 1;
+        background: rgb(31, 33, 43);
+        height: 100%;
+    }
+
+   .navbar {
+ border-radius: 0px; 
+}
+   
+}
+ @media(max-width:480px) {
+.page-header small {
+display: block;
+padding-top: 14px;
+font-size: 19px;
+}
+.panel-left {
+  width: 85px;
+  height: 85px; 
+  border-radius: 100%;
+  overflow: hidden;
+  margin: 14px;
+}
+}
+
+ul.nav.nav-third-level {
+    background: transparent;
+} 
+
+ul.nav.nav-forth-level {
+    padding:0 0 0 20px;
+    background: transparent;
+} 
+
+
+.divideLine {
+    height: 1px;
+    background-color: #969696;
+    text-align: center;
+    background: -webkit-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0));
+    background: -o-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0));
+    background: -moz-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0));
+    background: linear-gradient(-90deg, rgba(69, 43, 119, 0) 3%, rgba(109, 155, 255, 1) 50%,rgba(69, 43, 119, 0) 97%); 
+}
+
+.borderRightDivide{
+    border-right-width: 1px;
+    border-right-style: solid;
+    text-align: center;
+    border-image: -webkit-linear-gradient(90deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%, rgba(69, 43, 119, 0)  90%)0 30;
+    border-image: -o-linear-gradient(90deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%, rgba(69, 43, 119, 0)  90%) 0 30;
+    border-image: -moz-linear-gradient(90deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%, rgba(69, 43, 119, 0)  90%) 0 30;
+    border-image: linear-gradient(0deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%, rgba(69, 43, 119, 0)  90%) 0 30;
+}
+
+.customH5{
+    font-size: 12px;
+    margin-top: 7px;
+    margin-bottom: -5px;
+    padding: 28px 10px 13px 0;
+}
+
+.customH3{
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: -5px;
+    padding: 0 10px 13px 0;
+}
+
+/*侧边栏内阴影样式*/
+.innerShadow{
+    -moz-box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;              
+    -webkit-box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;           
+    box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;
+}
+
+/*方框内阴影样式*/
+.innerShadow2{
+    -moz-box-shadow:0px 0px 30px 5px rgb(40,49,82) inset;              
+    -webkit-box-shadow:0px 0px 30px 5px rgb(40,49,82) inset;           
+    box-shadow:0px 0px 30px 5px rgb(40,49,82) inset;
+}
+
+/*黑暗模式下的无底色按钮样式*/
+.btnLight{
+    border:0px solid rgba(39, 50, 136, 0);
+    color: #BBC3D3;
+}
+
+.btnLight:hover {
+    background: transparent;
+    text-decoration: none;
+    outline: none; 
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-image: -webkit-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0)) 30 20;
+    border-image: -o-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0)) 30 20;
+    border-image: -moz-linear-gradient(0deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0)) 30 20;
+    border-image: linear-gradient(-90deg, rgba(69, 43, 119, 0), rgba(109, 155, 255, 1),rgba(69, 43, 119, 0)) 30 20; 
+}
+
+.btnLight:focus {
+    background: transparent;
+    text-decoration: none;
+    outline: none; 
+}
+
+.btnLight:active, .btnLight.active, .btnLight.is-active {
+    background: transparent;
+    text-decoration: none;
+    color: #fff;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-image: -webkit-linear-gradient(0deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%,rgba(69, 43, 119, 0) 90%) 30 20;
+    border-image: -o-linear-gradient(0deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%,rgba(69, 43, 119, 0) 90%) 30 20;
+    border-image: -moz-linear-gradient(0deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%,rgba(69, 43, 119, 0) 90%) 30 20;
+    border-image: linear-gradient(-90deg, rgba(69, 43, 119, 0) 10%, rgba(109, 155, 255, 1) 50%,rgba(69, 43, 119, 0) 90%) 30 20; 
+}
+
+/*黑暗模式下开启按钮的样式*/
+.darkBtnPrimary{
+    background: -webkit-linear-gradient(180deg, rgb(8, 136, 230), rgb(69, 43, 119));
+    background: -o-linear-gradient(180deg, rgb(8, 136, 230), rgb(69, 43, 119));
+    background: -moz-linear-gradient(180deg, rgb(8, 136, 230), rgb(69, 43, 119));
+    background: linear-gradient(-90deg, rgb(8, 136, 230), rgb(69, 43, 119)); 
+    border-radius: 0;
+}
+
+.darkBtnPrimary.button-primary:hover, .darkBtnPrimary.button-primary:focus {
+    background: -webkit-gradient(linear, left, right, from(rgb(33, 148, 232)), to(rgb(87, 64, 132)));
+    background: linear-gradient(-90deg, rgb(33, 148, 232), rgb(87, 64, 132)); 
+}
+
+.darkBtnPrimary:active, .darkBtnPrimary.active, .darkBtnPrimary.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(40,49,82)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;
+    color: rgb(4, 59, 98); 
+}
+
+/*黑暗模式下关闭按钮的样式*/
+.darkBtnCaution{
+    background: -webkit-linear-gradient(180deg, rgb(246, 76, 89), rgb(69, 43, 119));
+    background: -o-linear-gradient(180deg, rgb(246, 76, 89), rgb(69, 43, 119));
+    background: -moz-linear-gradient(180deg, rgb(246, 76, 89), rgb(69, 43, 119));
+    background: linear-gradient(-90deg, rgb(246, 76, 89), rgb(69, 43, 119)); 
+}
+
+.darkBtnCaution.button-caution:hover, .darkBtnCaution.button-caution:focus {
+    background: -webkit-gradient(linear, left, right, from(rgb(246, 94, 105)), to(rgb(87, 64, 132)));
+    background: linear-gradient(-90deg, rgb(246, 94, 105), rgb(87, 64, 132)); 
+}
+
+.darkBtnCaution:active, .darkBtnCaution.active, .darkBtnCaution.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(82, 40, 49) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(82, 40, 49)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(82, 40, 49) inset;
+    color:  rgb(121, 6, 16); 
+}
+
+/*黑暗模式下重启按钮的样式*/
+.darkBtnHighlight{
+    background: -webkit-linear-gradient(180deg, rgb(245, 166, 35), rgb(69, 43, 119));
+    background: -o-linear-gradient(180deg, rgb(245, 166, 35), rgb(69, 43, 119));
+    background: -moz-linear-gradient(180deg, rgb(245, 166, 35), rgb(69, 43, 119));
+    background: linear-gradient(-90deg, rgb(245, 166, 35), rgb(69, 43, 119)); 
+}
+
+.darkBtnHighlight.button-highlight:hover, .darkBtnHighlight.button-highlight:focus {
+    background: -webkit-gradient(linear, left, right, from(rgb(246, 175, 57)), to(rgb(87, 64, 132)));
+    background: linear-gradient(-90deg, rgb(246, 175, 57), rgb(87, 64, 132)); 
+}
+
+.darkBtnHighlight:active, .darkBtnHighlight.active, .darkBtnHighlight.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(82, 72, 40) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(82, 72, 40)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(82, 72, 40) inset;
+    color:  rgb(97, 48, 5); 
+}
+
+/*黑暗模式下确认按钮的样式*/
+.darkBtnConfirm{
+    -moz-box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;              
+    -webkit-box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;           
+    box-shadow:0px 0px 40px 10px rgb(40,49,82) inset;
+    background-color: transparent; 
+    color: #fff;
+    border-radius: 0;
+}
+
+.darkBtnConfirm:hover, .darkBtnConfirm:focus {
+    background: rgb(56, 61, 96);
+    color: #fff;
+    border:1px solid rgb(59, 68, 135);
+}
+
+.darkBtnConfirm:active, .darkBtnConfirm.active, .darkBtnConfirm.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(27, 33, 57) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(27, 33, 57)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(27, 33, 57) inset;
+    color: #fff;
+}
+
+/*黑暗模式下取消按钮的样式*/
+.darkBtnCancel{
+    background-color: transparent; 
+    color: rgb(183, 192, 255);
+    border-radius: 0;
+}
+
+.darkBtnCancel:hover, .darkBtnCancel:focus {
+    background: rgb(56, 61, 96);
+    color: rgb(183, 192, 255);
+    border:1px solid rgb(59, 68, 135);
+}
+
+.darkBtnCancel:active, .darkBtnCancel.active, .darkBtnCancel.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(40,49,82)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;
+    color: rgb(112, 118, 163);
+}
+
+/*Rewrite the NavBar brand Style*/
+.navbar-header .navbar-brand{
+    color:#fff;
+}
+.navbar-header .navbar-brand:hover{
+    color:#C0E2F0;
+}
+
+.serverPanel{
+    height: 124px;
+    background: transparent;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    text-align: right;
+    padding-left: 10px;
+    padding-top:20px;
+    padding-right: 0px;
+}
+
+.serverBtn {
+    height: 84px;
+    width: 84px;
+    border-radius: 5px;
+    line-height: 84px;
+    padding: 10px 10px;
+    background: -webkit-linear-gradient(180deg, rgb(76, 200, 255), rgb(154, 85, 245));
+    background: -o-linear-gradient(180deg, rgb(76, 200, 255), rgb(154, 85, 245));
+    background: -moz-linear-gradient(180deg, rgb(76, 200, 255), rgb(154, 85, 245));
+    background: linear-gradient(180deg, rgb(76, 200, 255), rgb(154, 85, 245)); 
+}
+
+.serverBtn.button-primary:hover, .serverBtn.button-primary:focus {
+    background: -webkit-gradient(linear, left, right, from(rgb(68, 179, 229)), to(rgb(138, 76, 220)));
+    background: linear-gradient(180deg, rgb(68, 179, 229), rgb(138, 76, 220)); 
+}
+
+.serverBtn:active, .serverBtn.active, .serverBtn.is-active {
+    -moz-box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;              
+    -webkit-box-shadow:1px 1px 5px 1px rgb(40,49,82)  inset;           
+    box-shadow:1px 1px 5px 1px rgb(40,49,82) inset;
+    color: rgb(165, 195, 255); 
+}
+
+.serverBadge {
+    display: inline-block;
+    min-width: 25px;
+    min-height: 25px;
+    padding: 3px 9px 5px 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: top;
+    background-color: #ee5357;
+    border-radius: 15px;
+    margin-left: -15px;
+    margin-top: -15px;
+    position: relative;
+    z-index: 100;
+}
+
+/*Set Start/ShutDown/Restart button style*/
+.ctrlBtn {
+    height: 40px;
+    line-height: 38px;
+}
+
+.ctrlBtnPanel {
+    width: 100%;
+    height: 124px;
+    background: transparent;
+    margin-bottom: 0;
+    color: #2B2E33;
+    text-align: center;
+    padding-top:42px;
+}
+
+/*自定义模态框样式*/
+.customModal{
+    background-color: rgb(16, 15, 21);
+    color:#fff;
+    border-radius: 0px;
+}
+
+.customModal > .modal-header, .customModal > .modal-footer{
+    border-width: 0;
+}
+
+.customModal > .modal-header > .close > span{
+    vertical-align: middle;
+    color: #fff;
+}
+
+.customModal > .modal-body > p{
+    padding: 0 0;
+    vertical-align: middle;
+}
+
+/*项目首页的样式*/
+.showCase{
+    height: 60px;
+    background-color: #1D223D;
+    margin: 20px 20px;
+    padding: 10px 20px;
+}
+
+.showCase > h5{
+    color: #D6E4FF;
+    float: left;
+    line-height: 40px;
+    margin-top: 0;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.showCase > h3{
+    color: #fff;
+    float: right;
+    line-height: 40px;
+    margin-top: 0;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.listTitle{
+    height: 40px;
+    background-color: transparent;
+    margin: 10px 20px 0 20px;
+    padding: 10px 20px;
+}
+
+.listTitle > h5{
+    color: #fff;
+    float: left;
+    line-height: 20px;
+    font-weight: 600;
+    margin-top: 0;
+}
+
+.listTitle > a{
+    float: right;
+    color: #4681FF;
+}
+
+.eventCase{
+    padding-bottom: 10px;
+    margin: 20px 20px 0 20px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #2d2d3e;
+}
+
+.eventCase > .listTitle{
+    margin: 0 0;
+}
+
+.detailCase{
+    height: 40px;
+    background-color: transparent;
+    padding: 10px 20px;
+}
+
+h6 > .badge{
+    border-radius:0;
+    height: 20px;
+    margin-left: 10px;
+}
+
+td > .badge{
+    border-radius:0;
+    height: 20px;
+}
+
+.detailCase > h6{
+    float: left;
+    color: #D6E4FF;
+    line-height: 20px;
+    margin-top: 0;
+    margin-right: 20px;
+}
+
+.badgeDisaster{
+    background-color: #E74C3C;
+    text-shadow: 1px 1px 1px #7F8C8D;
+}
+
+td > .badgeDisaster{
+    cursor: pointer;
+}
+
+td > .badgeDisaster:hover{
+    background-color: #E95E4F;
+}
+
+td > .badgeDisaster:active{
+    background-color: rgba(231, 76, 60, 0.9);
+    text-shadow: none;
+}
+
+.badgeSerious{
+    background-color: #D35400;
+    text-shadow: 1px 1px 1px #7F8C8D;
+}
+
+.badgeAlert{
+    background-color: #F39C12;
+    text-shadow: 1px 1px 1px #7F8C8D;
+}
+
+.badgeInfo{
+    background-color: #2980B9;
+    text-shadow: 1px 1px 1px #7F8C8D;
+}
+
+.flatBtn {
+    height: 80px;
+    background-color: #1D223D;
+    padding: 10px 0 10px 15px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.flatBtn > h5{
+    color: #D6E4FF;
+    line-height: 30px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.flatBtn > a{
+    color: #D6E4FF;
+    line-height: 25px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.darkTable {
+    border:2px solid #242531;
+    color: rgb(214, 228, 255);
+}
+
+.darkTable > thead > tr > th, .darkTable > tbody > tr > th{
+    text-align: center;
+}
+
+.darkTable > thead > tr > th, .darkTable > thead > tr > td{
+    font-weight: 600;
+    border-color: #242531;
+    background-color: #242531;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.darkTable > tbody > tr > th, .darkTable > tbody > tr > td {
+    color: rgba(214, 228, 255, 0.9);
+    font-weight: 400;
+    border-color: #242531;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.subTd > th, .subTd > td{
+    background-color: #181822;
+}
+.darkPagination {
+    margin: 0;
+    float: left;
+}
+
+.darkPagination > li > a {
+    color: #D6E4FF;
+    background-color: transparent;
+    border-color: #5C5E80;
+    margin-right: 10px;
+}
+
+.darkPagination > li > a:hover, .darkPagination > li > a:focus{
+    color: #D6E4FF;
+    background-color: #4681FF;
+    border-color: #5C5E80;
+}
+
+.darkDropBtn{
+    color: #D6E4FF;
+    background-color: transparent;
+    border-radius: 0;
+    border-color: #5C5E80;
+    margin-right: 10px;
+}
+
+.darkDropBtn:hover, .darkDropBtn:focus {
+    color: #D6E4FF;
+    background-color: #4681FF;
+    border-color: #5C5E80;
+}
+
+.darkDropMenu{
+    background-color: #242531;
+    border-color: #5C5E80;
+    border-radius: 4px !important;
+}
+
+.darkDropMenu > li > a{
+    color: #D6E4FF;
+}
+
+.darkDropMenu > li > a:hover{
+    color: #D6E4FF;
+    background-color: #4681FF;
+}
+.pageJump {
+    float: right;
+}
+
+.pageJump > h5, .tableFliter > h5{
+    color: #D6E4FF;
+    margin: 9px 10px;
+    float: left;
+}
+
+.navbar-right > h5{
+    color: #D6E4FF;
+    margin: 19px 10px;
+    float: left;
+}
+
+.navbar-right > .btn-group {
+    padding: 10px 0 9px 0
+}
+
+.navbar-right > .btn-group > button{
+    width: 150px;
+    text-align: left;
+}
+
+.pageJump > input {
+    color: #D6E4FF;
+    height: 34px;
+    width: 60px;
+    border-radius: 0;
+    background-color: transparent;
+    border-color: #5A5C7D;
+    float: left;
+}
+
+.navUser {
+    height: 34px;
+    border-radius: 17px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #8d8d8d;
+}
+
+.navClock {
+    float: right;
+    color: #D6E4FF;
+    font-size: 14px;
+    line-height: 14px;
+    margin: 19px 30px 19px 10px;
+}
+
+
+
+.showCase2 {
+    height: 101px; 
+    background-color: #1D223D;
+    margin: 15px 15px;
+    padding: 10px 0; 
+}
+
+.customH5-2 {
+    color: #F0F5FF;
+    font-size: 14px;
+    text-align: left;
+    padding: 5px 0 8px 0;
+}
+
+.oneWeekBackup > ul > li:hover{
+    display: block;
+}
+
+.darkDropMenu2 {
+    background-color: #242531;
+    border-color: #5C5E80;
+    border-radius: 4px !important;
+    margin:-10px 15px 0 15px;
+    width: 92%;
+}
+
+
+
+.darkDropMenu2 > li > h5, .darkDropMenu2 > li > h6{
+    padding-left: 15px;
+}
+
+
+
+.customH6 {
+    color: #F0F5FF;
+    font-size: 14px;
+    text-align: left;
+    padding: 5px 0 8px 0;
+}
+
+.errorText {
+    color: #FA541C;
+}
+
+.normalText {
+    color: #3FF88F;
+}
+
+.onlineRateTag {
+    font-size: 14px;
+    padding: 0 0 0 10px;
+}
+
+.tableFliter {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.tableFliter > .ctrlBtnPanel{
+    padding: 0 10px;
+    height: 34px;
+    float: right;
+    width: auto;
+}
+
+.tableFliter > .ctrlBtnPanel > .darkBtnPrimary{
+    padding: 0 20px;
+    height: 34px;
+    line-height: 32px;
+}
+
+.tableFliter > input, .tableFliter > .button-group > button {
+    height: 34px;
+}
+
+.tableFliter > input, .tableFliter > .button-group  {
+    float: right;
+}
+
+.dateSeletor{
+    color: #D6E4FF;
+    background-color: transparent;
+    border-radius: 0;
+    border-color: #5C5E80;
+    margin-right: 10px;
+    width: auto;
+}
