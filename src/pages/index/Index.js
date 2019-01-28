@@ -54,7 +54,7 @@ export default {
         Project_Code: this.value
       }).then((data) => {
         this.country = true
-        console.log(data);
+        // console.log(data);
         let projectList = data.Data.projectDetial
         var map = new AMap.Map('map', {
           zoom:10,//级别
@@ -156,7 +156,7 @@ export default {
         //   this.$router.push({path:`/project-index/${e.Project_Code}`})
         // }
         function toProject(e) {
-          console.log(e);
+          // console.log(e);
           _this.$router.push({path:`/project-index/${e.Project_Code}`})
         }
       })
@@ -206,15 +206,15 @@ export default {
         'User_Id':window.localStorage.getItem('userId')
       }).then((data) => {
         //项目列表
-        console.log(data);
+        // console.log(data);
         this.provinceListResult = data.Data.data.provinceListResult
-        console.log(this.provinceListResult);
+        // console.log(this.provinceListResult);
 
         //创建提示框
         var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
         //创建Mark实例
         let lnglats = data.Data.data.provinceListResult
-        console.log(lnglats);
+        // console.log(lnglats);
         var markers = [];
         for (let i = 0; i < lnglats.length; i++) {
           let lnglat = lnglats[i];
@@ -289,13 +289,13 @@ export default {
         //点击跳转省级地图
         function toProvince(a) {
           _this.country = true
-          console.log(a);
+          // console.log(a);
           //echarts重新赋值
           _this.$http.post('/Manage/User/index',{
             'User_Id':window.localStorage.getItem('userId'),
             'Province_Code':a.AreaCode
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             //项目总数
             _this.projectAllCount = data.Data.data.projectAllCount
             //城市top5
@@ -434,7 +434,7 @@ export default {
             'User_Id':window.localStorage.getItem('userId'),
             'Province_Code':a.AreaCode
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             let projectList = data.Data.data.projectList
             var map = new AMap.Map('map', {
               zoom:10,//级别
@@ -449,7 +449,7 @@ export default {
             let markers = []
             let warningNumber = 0
             for(let i=0;i<projectList.length;i++){
-              console.log(projectList[i].waringMount.length);
+              // console.log(projectList[i].waringMount.length);
               if(projectList[i].waringMount.length == 0){
                 var marker2 = new AMap.Marker({
                   position: new AMap.LngLat(projectList[i].Longitude, projectList[i].Latitude),
@@ -682,7 +682,7 @@ export default {
 
     //原头部组件
     areaChange(val){
-      console.log(val);
+      // console.log(val);
       if(!val && this.areaVal.length>0){
         this.$http.post('/Manage/User/index',{
           User_Id :window.localStorage.getItem('userId'),
@@ -690,7 +690,7 @@ export default {
           City_Code: this.areaVal[1] ? this.areaVal[1] : null,
           Area_Code: this.areaVal[2] ? this.areaVal[2] : null,
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.projectList1 = data.Data.data.projectList;
         })
       }
@@ -700,7 +700,7 @@ export default {
       this.$http.post('/Manage/Login/LoginOut',{
         'User_Id':window.localStorage.getItem('userId')
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
       })
       removeCookie('tsl_token')
       window.localStorage.removeItem('userId')
@@ -762,20 +762,20 @@ export default {
     });
 
 //请求接口获得地图标记的数据
-    console.log(window.localStorage.getItem('userId'));
+//     console.log(window.localStorage.getItem('userId'));
     this.$http.post('/Manage/User/index',{
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
       //项目列表
-      console.log(data);
+      // console.log(data);
       this.provinceListResult = data.Data.data.provinceListResult
-      console.log(this.provinceListResult);
+      // console.log(this.provinceListResult);
 
       //创建提示框
       var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
       //创建Mark实例
       let lnglats = data.Data.data.provinceListResult
-      console.log(lnglats);
+      // console.log(lnglats);
       var markers = [];
       for (let i = 0; i < lnglats.length; i++) {
         let lnglat = lnglats[i];
@@ -839,12 +839,12 @@ export default {
       //点击跳转省级地图
       function toProvince(a) {
         _this.country = true
-        console.log(a);
+        // console.log(a);
         _this.$http.post('/Manage/User/ProviceProjectList',{
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           let projectList = data.Data.data.projectList
           var map = new AMap.Map('map', {
             zoom:10,//级别
@@ -858,7 +858,7 @@ export default {
           //创建marker
           let markers = []
           for(let i=0;i<projectList.length;i++){
-            console.log(projectList[i].waringMount.length);
+            // console.log(projectList[i].waringMount.length);
             if(projectList[i].waringMount.length == 0){
               var marker2 = new AMap.Marker({
                 position: new AMap.LngLat(projectList[i].Longitude, projectList[i].Latitude),
@@ -941,7 +941,7 @@ export default {
             infoWindowProvince.close(map, e.target.getPosition());
           }
           function toProject(e) {
-            console.log(e);
+            // console.log(e);
             _this.$router.push({path:`/project-index/${e.Project_Code}`})
           }
         })
@@ -951,7 +951,7 @@ export default {
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           //项目总数
           _this.projectAllCount = data.Data.data.projectAllCount
           //城市top5
@@ -1349,7 +1349,7 @@ export default {
     this.$http.post('/Manage/User/index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       //项目总数
       this.projectAllCount = data.Data.data.projectAllCount
       //城市top5

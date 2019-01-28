@@ -23,8 +23,6 @@ export default {
       const newDate = FormatDate(neighborTime(this.$route.query.Warning_Time*1000), 'HH:mm')
       let message = this.$route.query.Message
       let displayMessage = `{c} {b}: ${message}.`
-      console.log(message);
-      console.log(displayMessage);
       this.$http.post('/Manage/TrendMap/ServerCpuDetial',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -32,7 +30,7 @@ export default {
         'Timestamp':this.$route.query.Warning_Time,
         'WaringName':this.$route.query.Message
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(+data.ErrorCode === -91){
           return
         }
@@ -108,12 +106,12 @@ export default {
           'Service_Code':total[total.length-1] ? total[total.length-1].Server_Code : '',
           'CPU_Logs_Code':total[total.length-1] ? total[total.length-1].CPU_Logs_Code : ''
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           if(data.ErrorCode == 0 && data.Data.code == 0){
             let total = []
             total = data.Data.data
             this.leftButtomData = total
-            console.log(this.leftButtomData);
+            // console.log(this.leftButtomData);
             let displayProcessName = []
             let displayProcessVal = []
             total.forEach((item,i) => {
@@ -129,9 +127,9 @@ export default {
             })
 
             //进程占用折线图
-            console.log(total[0].CPU_Logs_Code);
-            console.log(total[0].Proc_Name);
-            console.log(this.$route.query.Server_Code);
+            // console.log(total[0].CPU_Logs_Code);
+            // console.log(total[0].Proc_Name);
+            // console.log(this.$route.query.Server_Code);
             this.$http.post('/Manage/Service/ServiceOneProDetial',{
               'User_Id':window.localStorage.getItem('userId'),
               'Project_Code':this.$route.params.id,
@@ -139,7 +137,7 @@ export default {
               'Proc_Name':total[0] ? total[0].Proc_Name : '',
               'Server_Code':this.$route.query.Server_Code,
             }).then((data) => {
-              console.log(data);
+              // console.log(data);
               if(data.ErrorCode = 0 && data.Data.code == 0){
                 let total = []
                 let maxAvgMin =[]
@@ -182,8 +180,8 @@ export default {
 
     //进程top5
     tabProcess(params){
-      console.log(params);
-      console.log(this.middleData[params.dataIndex]);
+      // console.log(params);
+      // console.log(this.middleData[params.dataIndex]);
       //进程占用top5
       this.$http.post('/Manage/Service/ServiceProTop5',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -215,8 +213,8 @@ export default {
     //点击进程top5切换折线图
     leftButtomClick(params) {
       //进程占用折线图
-      console.log(this.leftButtomData);
-      console.log(params.dataIndex);
+      // console.log(this.leftButtomData);
+      // console.log(params.dataIndex);
       this.$http.post('/Manage/Service/ServiceOneProDetial',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.leftButtomData[4 - params.dataIndex].Project_Code,
@@ -224,7 +222,7 @@ export default {
         'Proc_Name':this.leftButtomData[4 - params.dataIndex].Proc_Name,
         'Server_Code':this.leftButtomData[4 - params.dataIndex].Server_Code,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         let total = []
         let maxAvgMin =[]
         total = data.Data.data.pro.detial
@@ -262,8 +260,8 @@ export default {
         title: '走势图'
       }
     ])
-    console.log(this.$route.query);
-    console.log(this.$route.params);
+    // console.log(this.$route.query);
+    // console.log(this.$route.params);
     this.getData()
     this.timer = setInterval(() => {
       this.getData()
@@ -721,7 +719,7 @@ export default {
   },
   watch: {
     $route(newVal) {
-      console.log(newVal.params);
+      // console.log(newVal.params);
       this.getData()
     }
   },

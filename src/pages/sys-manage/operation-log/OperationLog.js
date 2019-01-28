@@ -26,7 +26,7 @@ export default {
         'endTime':this.value[1] ? this.value[1] : '',
         'pageSize':this.pageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.operateLogsList
         this.howMany = data.Data.data.howMany
         this.countPage = data.Data.data.countPage
@@ -39,7 +39,7 @@ export default {
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.operateLogsList
         this.howMany = data.Data.data.howMany
       })
@@ -48,8 +48,8 @@ export default {
     handleCurrentChange(val) {
       //页码切换
       this.pageNum = val
-      console.log(val);
-      console.log(this.pageSize);
+      // console.log(val);
+      // console.log(this.pageSize);
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
@@ -58,7 +58,7 @@ export default {
         'pageNum':val,
         'pageSize':this.pageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.operateLogsList
         this.howMany = data.Data.data.howMany
         this.countPage = data.Data.data.countPage
@@ -87,7 +87,7 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -102,7 +102,7 @@ export default {
     this.$http.post('/Manage/OperateLogs/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.userList = data.Data.data.userList
       this.tableData = data.Data.data.operateLogsList
       this.howMany = data.Data.data.howMany

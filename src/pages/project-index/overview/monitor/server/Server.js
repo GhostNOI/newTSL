@@ -91,6 +91,8 @@ export default {
       ifWarning: false,
       interrupt:null,
       interruptdetail:[],
+      //无数据隐藏进程图
+      ifNoData:true
     }
   },
   filters: {
@@ -137,7 +139,7 @@ export default {
     },
     //点击切换指标
     tap(val,i){
-      console.log(val);
+      // console.log(val);
       val = val ? val : {code: this.serverType, type: this.type};
       i = i ? i : this.serverOptionIndex;
       this.serverOptionIndex = i
@@ -164,7 +166,17 @@ export default {
         'type':val.type,
         'detialType':val.code
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
+        //无数据时隐藏进程图
+        if(data.Data.data.detial.length === 0){
+          this.ifNoData = false
+        }else{
+          this.ifNoData = true
+        }
+        if(data.Data.data.detial.length === 0){
+          return
+        }
+        this.middleData = data.Data.data.detial
         let type = []
         let total = []
         let maxAveMinVal = []
@@ -218,7 +230,7 @@ export default {
           displayMin = maxAveMinVal[0].IO_Waiting_Time_MIN
           displayLast = yAxisData[yAxisData.length-1]
         }else if(this.serverType === 'Memory_Usage_Rate'){
-          console.log('Memory_Usage');
+          // console.log('Memory_Usage');
           total.forEach((item,i) => {
             yAxisData.push(item.Memory_Usage_Rate)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
@@ -295,8 +307,6 @@ export default {
     //点击切换近一天到近七天
     daysTab(val,i){
       this.dayOptionIndex = i
-      console.log(i);
-      console.log(val);
       this.days = val.dayType
       this.$http.post('/Manage/Service/ServerAllIndexDetial',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -306,6 +316,13 @@ export default {
         'type':this.type,
         'detialType':this.serverType
       }).then((data) => {
+        //无数据时隐藏进程图
+        if(data.Data.data.detial.length === 0){
+          this.ifNoData = false
+        }else{
+          this.ifNoData = true
+        }
+        this.middleData = data.Data.data.detial
         let type = []
         let total = []
         let maxAveMinVal = []
@@ -435,7 +452,7 @@ export default {
         'Project_Code':this.$route.params.id,
         'Service_Code':this.$route.params.serverId
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         // console.log(data.Data.data.fourState[0].CPU_Load_Average);
         this.cpuLoadAve = data.Data.data.fourState[0] ? data.Data.data.fourState[0].CPU_Load_Average : ''
         this.memoryFree = data.Data.data.fourState[0] ? data.Data.data.fourState[0].Memory_Usage : ''
@@ -445,7 +462,7 @@ export default {
         this.interrupt = data.Data.data.offFinalResult.length
         this.interruptdetail = data.Data.data.offFinalResult
         if(+this.warningNum > 0){
-          console.log(this.warningNum);
+          // console.log(this.warningNum);
           this.ifWarning = true
         }else{
           this.ifWarning = false
@@ -461,11 +478,17 @@ export default {
         'type':this.type,
         'detialType':this.serverType
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         let total = []
+        //无数据时隐藏进程图
+        if(data.Data.data.detial.length === 0){
+          this.ifNoData = false
+        }else{
+          this.ifNoData = true
+        }
         //中间折线图获取到的数据
         this.middleData = data.Data.data.detial
-        console.log(this.middleData);
+        // console.log(this.middleData);
         let maxAveMin = []
         total = data.Data.data.detial
         maxAveMin = data.Data.data.maxAvgMin

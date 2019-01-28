@@ -74,7 +74,7 @@ export default {
 
     //查询按钮
     query() {
-      console.log(this.value);
+      // console.log(this.value);
       this.$http.post('/Manage/NoticeHistoryLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.receiver,
@@ -84,7 +84,7 @@ export default {
         'startTime':this.value[0] ? this.value[0] : '',
         'endTime':this.value[1] ? this.value[1] : '',
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.noticeHistoryLogs
         this.howManyManage = data.Data.data.howMany
       })
@@ -100,14 +100,14 @@ export default {
       this.$http.post('/Manage/NoticeHistoryLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.noticeHistoryLogs
         this.howManyManage = data.Data.data.howMany
       })
     },
     manageCurrentChange(val) {
       //通知管理页码切换(不完整)
-      console.log(val);
+      // console.log(val);
       this.$http.post('/Manage/NoticeHistoryLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.receiver,
@@ -119,7 +119,7 @@ export default {
         'pageNum':val,
         'pageSize':this.managePageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.noticeHistoryLogs
         this.howManyManage = data.Data.data.howMany
       })
@@ -136,7 +136,7 @@ export default {
         'endTime':this.value[1] ? this.value[1] : '',
         'pageSize':val
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.noticeHistoryLogs
         this.howManyManage = data.Data.data.howMany
       })
@@ -163,7 +163,7 @@ export default {
               'DingDing' :this.form.dingding,
               'Warning_Type':this.eventType.join(",")
             }).then((data) => {
-              console.log(data);
+              // console.log(data);
               if(+data.ErrorCode === -91){
                 this.tips = '操作失败'
                 this.ifTips = true
@@ -194,7 +194,7 @@ export default {
             'DingDing' :this.form.dingding,
             'Warning_Type':this.this.eventType.join(",")
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             if(data.Data.code == 0){
               this.dialogFormVisible = false
               this.$http.post('/Manage/NoticeOtherSeting/Index',{
@@ -253,7 +253,7 @@ export default {
               'DingDing':this.form.dingding,
               'Email':this.form.email
             }).then((data) => {
-              console.log(data);
+              // console.log(data);
               if(data.Data.code == 0){
                 // this.dingdingIpt = false
                 this.dialogFormVisible = false
@@ -262,7 +262,7 @@ export default {
                   'pageNum':this.setPageNum,
                   'pageSize':this.setPageSize
                 }).then((data) => {
-                  console.log(data);
+                  // console.log(data);
                   this.tableData2 = data.Data.data.resultList
                   this.howManySet = data.Data.data.howMany
                 })
@@ -282,7 +282,7 @@ export default {
             'DingDing':this.form.dingding,
             'Email':this.form.email
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             if(data.Data.code == 0){
               // this.dingdingIpt = false
               this.dialogFormVisible = false
@@ -291,7 +291,7 @@ export default {
                 'pageNum':this.setPageNum,
                 'pageSize':this.setPageSize
               }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 this.tableData2 = data.Data.data.resultList
                 this.howManySet = data.Data.data.howMany
               })
@@ -325,7 +325,7 @@ export default {
 
     //钉钉有无
     changeDingding (val) {
-      console.log(val);
+      // console.log(val);
       if(val == 1){
         this.dingdingIpt = true
       }else if(val == 0){
@@ -343,7 +343,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'pageSize':val
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData2 = data.Data.data.resultList
         this.howManySet = data.Data.data.howMany
       })
@@ -356,7 +356,7 @@ export default {
         'pageNum':val,
         'pageSize':this.setPageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData2 = data.Data.data.resultList
         this.howManySet = data.Data.data.howMany
       })
@@ -370,7 +370,7 @@ export default {
     //修改通知人员设定
     changeNotice (val) {
       this.title = '修改'
-      console.log(val);
+      // console.log(val);
       this.form.name = val.Name
       this.form.role = val.Role_Name
       this.form.project = val.warningProjectList[0] ? val.warningProjectList[0].Project_Name : ''
@@ -384,30 +384,33 @@ export default {
       val.warningGroupList.forEach((item,i) => {
         this.eventType.push(item.Warning_Group)
       })
-      console.log(this.warningGroup);
+      // console.log(this.warningGroup);
       this.isCreate = false
     },
 
     //删除通知人
     deleteNotice(val) {
-      console.log(val);
-      this.$http.post('/Manage/NoticeOtherSeting/Delete',{
-        'User_Id':window.localStorage.getItem('userId'),
-        'Id':val.Id
-      }).then((data) => {
-        console.log(data);
-        if(data.Data.code == 0) {
-          this.$http.post('/Manage/NoticeOtherSeting/Index',{
-            'User_Id':window.localStorage.getItem('userId'),
-            'pageNum':this.setPageNum,
-            'pageSize':this.setPageSize
-          }).then((data) => {
-            console.log(data);
-            this.tableData2 = data.Data.data.resultList
-            this.howManySet = data.Data.data.howMany
-          })
-        }
-      })
+      // console.log(val);
+      let sure = window.confirm('确认删除？')
+      if(sure){
+        this.$http.post('/Manage/NoticeOtherSeting/Delete',{
+          'User_Id':window.localStorage.getItem('userId'),
+          'Id':val.Id
+        }).then((data) => {
+          // console.log(data);
+          if(data.Data.code == 0) {
+            this.$http.post('/Manage/NoticeOtherSeting/Index',{
+              'User_Id':window.localStorage.getItem('userId'),
+              'pageNum':this.setPageNum,
+              'pageSize':this.setPageSize
+            }).then((data) => {
+              // console.log(data);
+              this.tableData2 = data.Data.data.resultList
+              this.howManySet = data.Data.data.howMany
+            })
+          }
+        })
+      }
     }
   },
   filters: {
@@ -419,7 +422,6 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -434,7 +436,7 @@ export default {
     this.$http.post('/Manage/NoticeHistoryLogs/Index',{
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.userList = data.Data.data.userList
       this.noticeClass = data.Data.data.noticeClass
       this.noticeType = data.Data.data.noticeType
@@ -446,7 +448,7 @@ export default {
     this.$http.post('/Manage/NoticeOtherSeting/Index',{
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.tableData2 = data.Data.data.resultList
       this.roleList = data.Data.data.roleList
       this.warningGroup = data.Data.data.warningGroup

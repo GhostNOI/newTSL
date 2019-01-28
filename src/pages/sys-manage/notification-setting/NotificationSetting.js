@@ -35,7 +35,7 @@ export default {
   },
   methods:{
     handleOk() {
-      console.log(this.eventType);
+      // console.log(this.eventType);
       // return;
       //
       // const warningGroup = this.eventType.map(item => this.warningGroup.find(items => items.Warning_Group_Name === item).Warning_Type);
@@ -48,12 +48,12 @@ export default {
         'Warning_Level':this.eventLevel.join(","),
         'Notice_Type':this.noticeType.join(",")
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.code == 0){
           this.$http.post('/Manage/NoticeSeting/Index',{
             'User_Id':window.localStorage.getItem('userId')
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             this.tableData1 = data.Data.data.resultList
           })
           this.changeNoticeDialog = false
@@ -77,7 +77,7 @@ export default {
     },
     //通知方式设定修改
     changeNotice(item) {
-      console.log(item);
+      // console.log(item);
       this.title = '修改'
       this.selectRole = item.Role_Id
       this.eventType= item.warningGroupList.map(items => items.Warning_Group);
@@ -97,7 +97,7 @@ export default {
     //通知模板弹框
     changeTemplate(val) {
       this.templateChange = true
-      console.log(val);
+      // console.log(val);
       this.noticeTemplateType = val.Notice_type_Name
       this.noticeTemplateTem = val.Template_Content
       this.Notice_Type = val.Notice_Type
@@ -128,7 +128,7 @@ export default {
 
     //修改更改时间输入框
     changeDealTime(item) {
-      console.log(item);
+      // console.log(item);
       this.noticeEventLevel = item.Level_Name
       this.noticeEventTime = item.Processing_Time
       this.Warning_Level = item.Warning_Level
@@ -143,7 +143,7 @@ export default {
         'Warning_Level':this.Warning_Level,
         'Processing_Time': this.noticeEventTime
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.code == 0) {
           this.changeTime = false
           this.$http.post('/Manage/NoticeTimeSeting/Index',{
@@ -158,7 +158,6 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -174,7 +173,7 @@ export default {
     this.$http.post('/Manage/NoticeSeting/Index',{
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.tableData1 = data.Data.data.resultList
       this.roleList = data.Data.data.RoleList
       this.warningGroup = data.Data.data.warningGroup
@@ -195,7 +194,7 @@ export default {
     this.$http.post('/Manage/NoticeTimeSeting/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.tableData3 = data.Data.data
     })
   }

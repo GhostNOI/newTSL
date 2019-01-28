@@ -170,7 +170,7 @@
                   <table class="table darkTable warning-table">
                     <thead>
                     <tr>
-                      <td style="width: 15%">发生时间</td>
+                      <td style="width: 15%;padding-left: 5px;">发生时间</td>
                       <td style="width: 8%">事件类型</td>
                       <td style="width: 8%">预警等级</td>
                       <td style="width: 10%">预警主题</td>
@@ -183,7 +183,7 @@
                     </thead>
                     <tbody>
                     <tr class="subTd" v-for="(item,i) in warningLogListCount" :key="i">
-                      <td>{{item.Warning_Time | transformDate}}</td>
+                      <td style="padding-left: 5px;padding-right: 5px;">{{item.Warning_Time | transformDate}}</td>
                       <td>{{item.Warning_Group_Name}}</td>
                       <td><span class="badge1" :class="[{disaster: +item.Level_Id === 1}, {serious: +item.Level_Id === 2}, {alert: +item.Level_Id === 3}, {info: +item.Level_Id === 4}]">{{item.Level_Name}}</span></td>
                       <td>{{item.Source_Type_Name}}</td>

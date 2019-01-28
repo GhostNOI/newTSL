@@ -1,4 +1,4 @@
-import {formatTime,deviceType,dateFilter,isOnline} from '../../../../../common/filters.js'
+import {formatTime,deviceType,dateFilter,isOnline,transformDate} from '../../../../../common/filters.js'
 
 
 export default {
@@ -90,7 +90,7 @@ export default {
         'Name':this.lockName,
         'MacAddress':this.lockMAC
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.lockTableData = data.Data.data
         this.lockHowMany = data.Data.howMany
       })
@@ -105,7 +105,7 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'lock'
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.lockTableData = data.Data.data
         this.lockHowMany = data.Data.howMany
       })
@@ -120,7 +120,7 @@ export default {
         'IsOnline':this.cameraType,
         'Name':this.cameraName
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
       })
@@ -134,7 +134,7 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'camera'
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
       })
@@ -149,7 +149,7 @@ export default {
         'IsOnline':this.smokeType,
         'Name':this.smokeName
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
       })
@@ -163,19 +163,19 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'smoke'
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
       })
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
     },
 
     //通行设备
     handleSizeChangeLock(val){
       //一页多少条数据
-      console.log(val);
+      // console.log(val);
       this.lockPageSize = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -184,13 +184,13 @@ export default {
         'pageSize': val,
         'pageNum': this.lockPageNum
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.lockTableData = data.Data.data
       })
     },
     handleCurrentChangeLock(val){
       //页码切换
-      console.log(val);
+      // console.log(val);
       this.lockPageNum = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -199,14 +199,14 @@ export default {
         'pageNum':val,
         'pageSize':this.lockPageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.lockTableData = data.Data.data
       })
     },
 
     //监控设备
     handleSizeChangeCamera(val){
-      console.log(val);
+      // console.log(val);
       this.cameraPageSize = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -215,13 +215,13 @@ export default {
         'pageNum':this.cameraPageNum,
         'pageSize':val,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
       })
     },
     handleCurrentChangeCamera(val){
-      console.log(val);
+      // console.log(val);
       this.cameraPageNum = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -230,7 +230,7 @@ export default {
         'pageNum':val,
         'pageSize': this.cameraPageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
 
@@ -242,7 +242,7 @@ export default {
 
     //烟感设备
     handleSizeChangeSmoke(val){
-      console.log(val);
+      // console.log(val);
       this.smokePageSize = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -251,13 +251,13 @@ export default {
         'pageNum':this.smokePageNum,
         'pageSize':val
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
       })
     },
     handleCurrentChangeSmoke(val){
-      console.log(val);
+      // console.log(val);
       this.smokePageNum = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -266,14 +266,14 @@ export default {
         'pageNum':val,
         'pageSize':this.smokePageSize
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
       })
     },
     //点击弹出弹框
     checkDetail(val) {
-      console.log(val);
+      // console.log(val);
       this.deviceDetail = true
 
       this.deviceName = val.Name
@@ -293,12 +293,12 @@ export default {
     formatTime:formatTime,
     dateFilter:dateFilter,
     isOnline:isOnline,
-    deviceType:deviceType
+    deviceType:deviceType,
+    transformDate:transformDate
   },
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,
@@ -322,7 +322,7 @@ export default {
       'User_Id':window.localStorage.getItem('userId'),
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       let device = 0
       device = Number(data.Data.data.camera.cameraNum) + Number(data.Data.data.lock.lockNum) + Number(data.Data.data.smoke.smokeNum)
       this.deviceTotal = device
@@ -353,7 +353,7 @@ export default {
       // console.log(data);
       this.lockTableData = data.Data.data
       this.lockHowMany = data.Data.howMany
-      console.log(this.pageTotalLock);
+      // console.log(this.pageTotalLock);
     })
     //监控设备
     this.$http.post('/Manage/Device/DeviceDetails',{
@@ -361,7 +361,7 @@ export default {
       'Project_Code':this.$route.params.id,
       'DeviceType':'camera'
     }).then((data) =>{
-      console.log(data);
+      // console.log(data);
       this.cameraTableData = data.Data.data
       this.cameraHowMany = data.Data.howMany
       this.cameraVillageData = data.Data.village_Date
@@ -372,7 +372,7 @@ export default {
       'Project_Code':this.$route.params.id,
       'DeviceType':'smoke'
     }).then((data) =>{
-      console.log(data);
+      // console.log(data);
       this.smokeTableData = data.Data.data
       this.smokeHowMany = data.Data.howMany
       this.smokeVillageData = data.Data.village_Date

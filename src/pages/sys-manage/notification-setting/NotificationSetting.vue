@@ -14,7 +14,7 @@
                           <strong type="text" >新建</strong>
                         </a>
                       </div>
-                      <table class="table darkTable notification-setting-table">
+                      <table class="table darkTable notification-setting-table" style="width: 100%;">
                         <thead>
                         <tr>
                           <td style="width: 15%;padding-left: 5px;padding-right: 5px;">人员类型</td>
@@ -118,7 +118,7 @@
 
                   <div class="col-md-12 notification-width12" style="padding: 20px 0 0 0">
                     <div class="table-responsive">
-                      <table class="table darkTable notification-setting-table">
+                      <table class="table darkTable notification-setting-table" style="width: 100%;">
                         <thead>
                         <tr>
                           <td style="width: 20%;padding-left: 5px;padding-right: 5px;">通知方式</td>
@@ -165,7 +165,7 @@
                 <el-tab-pane label="催办时间设定" name="third">
                   <div class="panel-body" style="min-height: 700px">
                     <div class="col-md-12 notification-width12" style="padding: 20px 0 0 0">
-                      <table class="table darkTable notification-setting-table">
+                      <table class="table darkTable notification-setting-table" style="width: 100%;">
                         <thead>
                         <tr>
                           <td style="width: 25%;padding-left: 5px;padding-right: 5px;">事件类型</td>

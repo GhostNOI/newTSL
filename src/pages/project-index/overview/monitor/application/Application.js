@@ -57,7 +57,6 @@ export default {
     getData() {
       //面包屑
       const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-      console.log(headerObj, 'headerObj');
       this.$store.commit('changeHeadTitle', [
         {
           url: `/project-index/${this.$route.params.id}`,
@@ -72,17 +71,16 @@ export default {
           title: '应用服务'
         }
       ])
-      console.log(111111);
       //获取上部数据
       this.$http.post('/Manage/ApplicationService/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.topData = data.Data.data.serviceListMount
         this.warningNum = data.Data.data.warningMount
         this.waringShow()
-        console.log(this.warningNum);
+        // console.log(this.warningNum);
         this.$nextTick(() => {
           this.scrollArea = this.$refs.scrollArea;
           // 外层容器宽度
@@ -100,7 +98,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data
       })
     },

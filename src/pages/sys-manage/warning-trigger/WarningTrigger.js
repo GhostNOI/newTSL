@@ -68,7 +68,7 @@ export default {
   },
   methods:{
     selectArea(val){
-      console.log(val);
+      // console.log(val);
       if(val.length === 1){
         this.Province_Code = val[0]
       }else if(val.length === 2){
@@ -86,9 +86,9 @@ export default {
         'City_Code':this.City_Code,
         'Area_Code':this.Area_Code
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.projectOption = data.Data.data
-        console.log(this.projectOption);
+        // console.log(this.projectOption);
       })
       this.projectOption = []
     },
@@ -105,7 +105,7 @@ export default {
           'Warning_Level':this.waringLevelChange,
           'Description':item.Description
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.$http.post('/Manage/WarningSeting/Index',{
             'User_Id':window.localStorage.getItem('userId'),
             'Project_Code':this.projectCode
@@ -129,10 +129,10 @@ export default {
         if(+data.ErrorCode === -91){
           return ;
         }
-        console.log(data);
+        // console.log(data);
         this.tableData1 = data.Data.data.result
         this.waringLevel = data.Data.data.warning_Level
-        console.log(this.waringLevel);
+        // console.log(this.waringLevel);
       })
     },
     //重置（无意义）
@@ -150,15 +150,15 @@ export default {
       // })
     },
     changeVal(val,item){
-      console.log(val);
-      console.log(item);
+      // console.log(val);
+      // console.log(item);
       this.waringLevelChange = val
     }
   },
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -170,7 +170,7 @@ export default {
       }
     ])
 
-    console.log(this.$route.query, 'id');
+    // console.log(this.$route.query, 'id');
 //选择项目所在地的省市区的三级联动
     this.$http.post('/Manage/User/ThreeLevelLinkage',{
       User_Id:window.localStorage.getItem('userId')
@@ -185,7 +185,7 @@ export default {
       'User_Id':window.localStorage.getItem('userId'),
       'Project_Code':this.projectCode
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
     })
   },
   filters : {

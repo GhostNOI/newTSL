@@ -22,9 +22,9 @@
           <router-link to="/warningtrigger">
             <el-dropdown-item>预警触发</el-dropdown-item>
           </router-link>
-          <!--<router-link to="/rolemanagement">-->
-            <!--<el-dropdown-item>角色管理</el-dropdown-item>-->
-          <!--</router-link>-->
+          <router-link to="/rolemanagement">
+            <el-dropdown-item>角色管理</el-dropdown-item>
+          </router-link>
           <router-link to="/usermanagement">
             <el-dropdown-item>用户管理</el-dropdown-item>
           </router-link>

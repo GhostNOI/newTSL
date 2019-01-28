@@ -220,7 +220,7 @@
                         <table class="table darkTable notification-table">
                           <thead>
                           <tr>
-                            <td style="width: 10%">通知接收人</td>
+                            <td style="width: 10%;padding-left: 5px;">通知接收人</td>
                             <td style="width: 10%">人员类型</td>
                             <td style="width: 15%">所选项目</td>
                             <td style="width: 15%">事件类型</td>
@@ -233,7 +233,7 @@
                           </thead>
                           <tbody>
                           <tr v-for="(item,i) in tableData2" :key="i">
-                            <td>{{item.Name}}</td>
+                            <td style="padding-left: 5px;">{{item.Name}}</td>
                             <td>{{item.Role_Name}}</td>
                             <td><span v-for="(proItem,proIndex) in item.warningProjectList" :key="proIndex">{{proItem.Project_Name}}　</span>　</td>
                             <td><span v-for="(typeItem,typeIndex) in item.warningGroupList" :key="typeIndex">{{typeItem.Warning_Group_Name}}　</span></td>

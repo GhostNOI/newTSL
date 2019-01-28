@@ -45,6 +45,7 @@ export default {
       tips:'',
       ifTips:false,
       isDingDing:false,
+      ifNewCreate:false
     }
   },
   methods:{
@@ -84,7 +85,7 @@ export default {
         // 'pageSize':this.pageSize,
         'pageNum':val
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.userList
         this.howMany = data.Data.data.howMany
       })
@@ -104,9 +105,15 @@ export default {
         this.howMany = data.Data.data.howMany
       })
     },
+    //新建
+    createNewUser() {
+      this.dialogFormVisible = true
+      this.ifNewCreate = false
+    },
     //新建项目确认
     sureCreate() {
       if(this.pwd){
+        this.ifNewCreate = false
         if(this.form.name === ''){
           this.ifTips = true
           this.tips = '请输入用户名';
@@ -133,7 +140,7 @@ export default {
             }else if(!IS_MAIL.test(this.form.email)){
               this.ifTips = true
               this.tips = '请输入正确的邮箱号'
-              console.log('aa');
+              // console.log('aa');
             }else {
               this.$http.post('/Manage/Login/Register',{
                 'User_Id':window.localStorage.getItem('userId'),
@@ -144,7 +151,7 @@ export default {
                 'email':this.form.email,
                 'dingding':this.form.dingdingNumber
               }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 if(data.Data.code == -7){
                   this.tips = '该用户已存在';
                   this.ifTips = true
@@ -189,7 +196,7 @@ export default {
               'email':this.form.email,
               'dingding':this.form.dingdingNumber
             }).then((data) => {
-              console.log(data);
+              // console.log(data);
               if(data.Data.code == -7){
                 this.tips = '该用户已存在';
                 this.ifTips = true
@@ -226,7 +233,7 @@ export default {
             'email':this.form.email,
             'dingding':this.form.dingdingNumber
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             if(data.Data.code === -7){
               this.tips = '该用户已存在';
               this.ifTips = true
@@ -254,7 +261,7 @@ export default {
           })
         }
       }else{
-        console.log(this.form.permissions);
+        // console.log(this.form.permissions);
         this.$http.post('/Manage/User/UpdateUser',{
           'User_Id':window.localStorage.getItem('userId'),
           'Update_User_Id':this.updateUserId,
@@ -263,7 +270,7 @@ export default {
           'DingDing':this.form.dingdingNumber,
           'RoleId':this.form.permissions
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.$http.post('/Manage/UserRun/Index',{
             'User_Id':window.localStorage.getItem('userId'),
             'pageSize':this.pageSize,
@@ -281,7 +288,7 @@ export default {
 
     //修改
     modify(item) {
-      console.log(item);
+      // console.log(item);
       this.dialogFormVisible = true
       //隐藏掉修改密码
       this.pwd = false
@@ -291,6 +298,7 @@ export default {
       this.form.email = item.Email
       this.updateUserId = item.User_Id
       this.form.permissions = item.Role_Id
+      this.ifNewCreate = true
     },
     //退出弹框
     quit(){
@@ -308,7 +316,7 @@ export default {
 
     //启用禁用
     changeStatus(val) {
-      console.log(val);
+      // console.log(val);
       let userStatus = ''
       if(val.Status == 0){
         userStatus = 1
@@ -320,14 +328,14 @@ export default {
         'Status':userStatus,
         'Update_User_Id':val.User_Id
       }).then((data) => {
-        console.log(this.pageSize);
-        console.log(this.pageNum);
+        // console.log(this.pageSize);
+        // console.log(this.pageNum);
         this.$http.post('/Manage/UserRun/Index',{
           'User_Id':window.localStorage.getItem('userId'),
           // 'pageSize':this.pageSize,
           'pageNum':this.pageNum
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.tableData = data.Data.data.userList
           this.howMany = data.Data.data.howMany
         })
@@ -345,7 +353,7 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -359,7 +367,7 @@ export default {
     this.$http.post('/Manage/UserRun/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.roleList = data.Data.data.roleList
       this.tableData = data.Data.data.userList
       this.howMany = data.Data.data.howMany

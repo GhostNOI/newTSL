@@ -45,7 +45,7 @@ export default {
         'Project_Code':this.$route.params.id,
         'DB_Code':this.$route.params.databaseId
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total
         this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
         this.slowQueryCount = data.Data.data.slowQueryCount
@@ -64,7 +64,7 @@ export default {
         'dayType':1,
         'detialType':'Connection_Total'
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         let total = []
         let maxAveMin = []
         total = data.Data.data.detial
@@ -343,7 +343,7 @@ export default {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
     const databaseListObj = headerObj.databaseList.find(item => item.DB_Code === this.$route.params.databaseId);
-    console.log(headerObj, 'headerObj');
+
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,
@@ -436,7 +436,7 @@ export default {
       ]
     })
 
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
     this.getBtn()
     //页面上部数据
     this.timer = setInterval(() => {

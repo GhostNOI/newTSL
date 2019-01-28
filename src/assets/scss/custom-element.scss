@@ -1004,11 +1004,28 @@
     background: #100f16;
     overflow: hidden;
     padding-bottom: 20px;
+    width: 650px;
     .el-dialog__header{
       overflow: hidden;
       .el-dialog__title{
         color: #fff;
         float: left;
+      }
+    }
+    .el-dialog__body{
+      .modal-content-title{
+        .el-select{
+          float: left;
+        }
+      }
+      .modal-content-detail{
+        .el-checkbox{
+          margin-left: 20px;
+          .el-checkbox__label{
+            color: #c2cee7;
+          }
+        }
+
       }
     }
     .el-dialog__footer{

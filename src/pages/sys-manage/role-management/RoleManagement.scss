@@ -33,4 +33,36 @@
   line-height: 38px;
   color: #fff;
   width: 200px;
+  cursor: pointer;
+}
+.enabled{
+  color: #4681FF;
+  font-weight: 600;
+  margin-right: 20px;
+  cursor: pointer;
+
+}
+.role-ipt{
+  background: #100f16;
+  border: 1px solid #383b5d;
+}
+.role-label{
+  float: left;
+  color: #fff;
+}
+.page-title{
+  color: #c2cee7;
+}
+.modal-content-title{
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.modal-content-detail{
+  overflow: hidden;
+}
+.page-detail{
+  float: left;
+  width: 85%;
+  text-align: left;
+  margin-left: 30px;
 }

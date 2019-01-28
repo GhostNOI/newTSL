@@ -44,7 +44,7 @@ export default {
           Phone:this.phoneNumber,
           Password:this.password
         }).then( (data) => {
-          console.log(data);
+          // console.log(data);
           if(data.Data.code === '-3'){
             this.isReal = true
           }else if(data.Data.code === '-4'){

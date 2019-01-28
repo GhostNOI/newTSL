@@ -25,7 +25,6 @@ export default {
   mounted(){
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,
@@ -184,14 +183,14 @@ export default {
         formatDate = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD')
         this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'HH:mm')
         this.displayTime2 = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
-        console.log(formatDate);
+        // console.log(formatDate);
       }
       this.$http.post('/Manage/ErrorLog/Slow',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'startTime':formatDate ? formatDate : ''
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
           this.noData = true
         }else{
@@ -238,7 +237,7 @@ export default {
     handleCurrentChange(val) {
       //页码切换
       this.pageNum = val
-      console.log(val);
+      // console.log(val);
       this.$http.post('/Manage/ErrorLog/Slow',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -253,7 +252,7 @@ export default {
       })
     },
     handleSizeChange(val){
-      console.log(val);
+      // console.log(val);
       //表格一页数据多少切换
       this.pageSize = val
       this.$http.post('/Manage/ErrorLog/Slow',{
@@ -275,10 +274,10 @@ export default {
       }else{
         this.datePick = ''
       }
-      console.log(this.dayType);
-      console.log(this.datePick);
-      console.log(this.datePick[0]);
-      console.log(this.datePick[1]);
+      // console.log(this.dayType);
+      // console.log(this.datePick);
+      // console.log(this.datePick[0]);
+      // console.log(this.datePick[1]);
       this.$http.post('/Manage/ErrorLog/Slow',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -286,7 +285,7 @@ export default {
         'endTime': this.datePick ? this.datePick[1] : '',
         'dayType':this.dayType
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
           this.noData = true
         }else{
@@ -295,7 +294,7 @@ export default {
         this.tableData1  = data.Data.data.allSlowErrorDetial
         this.howMany = data.Data.data.howMany
         let times = data.Data.data.allSlowErrorTimeMount
-        console.log(times);
+        // console.log(times);
         let formatTime = [];
         let number = []
         times.forEach((item,i) => {
@@ -321,7 +320,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
           this.noData = true
         }else{
@@ -330,7 +329,7 @@ export default {
         this.tableData1  = data.Data.data.allSlowErrorDetial
         this.howMany = data.Data.data.howMany
         let times = data.Data.data.allSlowErrorTimeMount
-        console.log(times);
+        // console.log(times);
         let formatTime = [];
         let number = []
         times.forEach((item,i) => {
@@ -349,8 +348,8 @@ export default {
       })
     },
     dateSelect(val){
-      console.log(val);
-      console.log(this.value4);
+      // console.log(val);
+      // console.log(this.value4);
     }
   },
   filters: {

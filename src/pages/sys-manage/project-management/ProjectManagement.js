@@ -32,7 +32,7 @@ export default {
   methods: {
     //选择省市区
     selectArea (val) {
-      console.log(val);
+      // console.log(val);
       if(val.length === 1){
         this.Province_Code = val[0]
       }else if(val.length === 2){
@@ -49,9 +49,9 @@ export default {
         'City_Code':this.City_Code,
         'Area_Code':this.Area_Code
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.projectOption = data.Data.data.projectList
-        console.log(this.projectOption);
+        // console.log(this.projectOption);
       })
     },
     //查询
@@ -63,7 +63,7 @@ export default {
         'City_Code':this.City_Code,
         'Area_Code':this.Area_Code
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData = data.Data.data.projectRunList
       })
     },
@@ -83,7 +83,7 @@ export default {
         'Related_User_Id':this.formManage.manageUser,
         'Project_Code':this.formManage.project
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.code == -1){
           this.errorTip = '请重新登录'
         }else if(data.Data.code == 1){
@@ -92,7 +92,7 @@ export default {
           this.errorTip = '不存在该项目'
         }else if(data.Data.code == 3){
           this.errorTip = '该用户已关联该项目'
-          console.log(this.errorTip);
+          // console.log(this.errorTip);
         }else if(data.Data.code == 4){
           this.errorTip = '系统错误'
         }else if(data.Data.code == 0){
@@ -113,7 +113,7 @@ export default {
         'Related_User_Id':this.formOps.opsUser,
         'Project_Code':this.formOps.project
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.code == -1){
           this.errorTip = '请重新登录'
         }else if(data.Data.code == 1){
@@ -129,7 +129,7 @@ export default {
           this.$http.post('/Manage/ProjectUser/Index',{
             'User_Id':window.localStorage.getItem('userId'),
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             this.tableData = data.Data.data.projectRunList
           })
           this.dialogFormVisibleOps = false
@@ -140,7 +140,7 @@ export default {
 
     //删除项目管理员
     deleteManage(item){
-      console.log(item);
+      // console.log(item);
       let sure = window.confirm('确认删除？')
       if(sure){
         this.$http.post('/Manage/ProjectUser/Remove',{
@@ -203,7 +203,6 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -226,7 +225,7 @@ export default {
     this.$http.post('/Manage/ProjectUser/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.tableData = data.Data.data.projectRunList
       this.howMany = data.Data.data.howMany
 
@@ -236,7 +235,16 @@ export default {
     this.$http.post('/Manage/ProjectUser/BeforeInsert',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
+      if(+data.Data.isAdmin === 1){
+        this.manageUser = true
+        this.opsUser = false
+      }else if(+data.Data.isAdmin === 2){
+        this.manageUser = false
+        this.opsUser = true
+      }if(+data.Data.isAdmin === 0){
+        return;
+      }
       // if(data.Data.data.RoleUserList.OPSuser.length != 0){
       //   this.opsUser = true
       //   this.manageUser = false

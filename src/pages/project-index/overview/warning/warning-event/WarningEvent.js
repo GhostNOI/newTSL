@@ -649,7 +649,7 @@ export default {
       'dayType':7,
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       let eventRank = []
       eventRank = data.Data.waringPiechart
       // console.log(eventRank);
@@ -661,7 +661,7 @@ export default {
         this.ringRatio.push(item.waringRingRatio)
         this.eventRank.push(item)
       })
-      console.log(this.ringRatio);
+      // console.log(this.ringRatio);
       this.eventRankingChart.setOption({
         series:[
           {data:eventNum}
@@ -676,7 +676,7 @@ export default {
       'Project_Code':this.$route.params.id,
       // 'Project_Code':'cc5b7135fb814c5ea32d1815a1385163',
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.waringEventList = data.Data.waringEventList
       this.howMany = data.Data.howMany
       // console.log(this.waringEventList);

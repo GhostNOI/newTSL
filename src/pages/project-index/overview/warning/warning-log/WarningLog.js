@@ -38,18 +38,18 @@ export default {
   },
   methods:{
     radioChange(val) {
-      console.log(val);
+      // console.log(val);
       if(val != 0){
         this.selectDateExport = []
       }
-      console.log(this.selectDateExport);
+      // console.log(this.selectDateExport);
     },
     getData() {
       this.$http.post('/Manage/WaringLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.warningLevel = data.Data.data.warningLevel
         this.warningGroup = data.Data.data.warningGroup
         this.userList = data.Data.data.userList
@@ -72,7 +72,7 @@ export default {
         'pageSize':this.pageSize,
         'pageNum':val
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
       })
@@ -91,14 +91,14 @@ export default {
         'pageSize':val,
         'pageNum':this.pageNum
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
       })
     },
     //查询
     query() {
-      console.log(this.selectDate);
+      // console.log(this.selectDate);
       this.$http.post('/Manage/WaringLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -108,7 +108,7 @@ export default {
         'Warning_Level':this.eventLevel,
         'Do_User_Id':this.dealUser,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
       })
@@ -123,7 +123,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
       })
@@ -139,7 +139,7 @@ export default {
       params.append('Warning_Level',this.waringLevel)
       params.append('Do_User_Id',this.user)
       params.append('dayType',this.dayType)
-      console.log(window.localStorage.getItem('userId'));
+      // console.log(window.localStorage.getItem('userId'));
       axios({
         method:'POST',
         url:'http://47.96.70.222:9030/api/Manage/WaringLogs/ExportNotes',
@@ -149,7 +149,7 @@ export default {
         },
         responseType:'blob'
       }).then(response => {
-        console.log(response);
+        // console.log(response);
         this.download(response.data)
         this.dialogFormVisible = false
       })
@@ -176,7 +176,7 @@ export default {
     //修改预警事件
     changeEvent(val) {
       this.changeAlertEvent = true
-      console.log(val);
+      // console.log(val);
       this.alertEvent = val.Message
       this.description = val.Desc
       this.changeUser = val.Name
@@ -207,7 +207,7 @@ export default {
             'pageSize':this.pageSize,
             'pageNum':this.pageNum
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             this.warningLogListCount = data.Data.data.warningLogListCount
             this.howMany = data.Data.data.howMany
           })
@@ -232,7 +232,7 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,

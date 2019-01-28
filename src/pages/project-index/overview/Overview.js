@@ -536,7 +536,7 @@ export default {
         User_Id:window.localStorage.getItem('userId'),
         Project_Code: Project_Code
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         // console.log(data.Data);
         //设备数量以及平台部署位置
         //预警赋值
@@ -823,26 +823,26 @@ export default {
 
     },
     toDetail(val){
-      console.log(val);
-      if(val.Warning_Group == '1'){
+      // console.log(val);
+      if(+val.Warning_Group === 1){
         //服务器跳转到走势图
         this.$router.push({
           path:'tendency',
           query:val
         })
-      }else if(val.Warning_Group == '2'){
+      }else if(+val.Warning_Group === 2){
         //数据库，跳转到慢日志
         this.$router.push({
           path:'slowlog',
           query:val
         })
-      }else if(val.Warning_Group == '3'){
+      }else if(+val.Warning_Group === 3){
         //应用服务，跳转到错误日志
         this.$router.push({
           path:'errorLog',
           query:val
         })
-      }else if(val.Warning_Group == '4'){
+      }else if(+val.Warning_Group === 4){
         //智能设备，打开弹框
         if(val.CameraMsg.length > 0){
           this.deviceName = val.CameraMsg[0].Name

@@ -10,7 +10,7 @@
                 <div class="col-md-3 user-management-width3">
                   <div class="tableFliter">
                     <label for="name" class="user-management-label">姓名</label>
-                    <input type="text" id="name" placeholder="请输入" class="form-control" v-model="iptName">
+                    <input type="text" id="name" placeholder="请输入" class="form-control" v-model="iptName" style="text-indent: 10px;">
                   </div>
                   <!--<div class="tableFliter">-->
                     <!--<label for="projectManagement" class="user-management-label">项目管理</label>-->
@@ -23,7 +23,7 @@
                 <div class="col-md-3 user-management-width3">
                   <div class="tableFliter">
                     <label for="phone" class="user-management-label">手机号</label>
-                    <input type="text" id="phone" placeholder="请输入" class="form-control" v-model="iptPhone">
+                    <input type="text" id="phone" placeholder="请输入" class="form-control" v-model="iptPhone" style="text-indent: 10px;">
                   </div>
                 </div>
                 <div class="col-md-4 user-management-width4">
@@ -51,7 +51,7 @@
                     </a>
                   </div>
                   <div class="ctrlBtnPanel">
-                    <a class="darkBtnPrimary no-border user-management-btn" @click="dialogFormVisible = true">
+                    <a class="darkBtnPrimary no-border user-management-btn" @click="createNewUser">
                       <strong type="text" >新建</strong>
                     </a>
                     <a class=" user-management-btn" >
@@ -64,7 +64,7 @@
                           <el-input v-model="form.name" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="手机号" :label-width="formLabelWidth">
-                          <el-input v-model="form.phone" autocomplete="off"></el-input>
+                          <el-input v-model="form.phone" autocomplete="off" :disabled="ifNewCreate"></el-input>
                         </el-form-item>
                         <el-form-item label="初始密码" :label-width="formLabelWidth" v-if="pwd">
                           <el-input v-model="form.password" disabled value="123456" placeholder="123456"></el-input>

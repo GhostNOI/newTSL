@@ -46,10 +46,10 @@
                     <a class="darkBtnPrimary no-border project-query-btn" @click="resetForm" style="cursor: pointer;margin-bottom: 20px;" >
                       <strong>重置</strong>
                     </a>
-                    <a class="darkBtnPrimary no-border project-query-btn" @click="dialogFormVisibleManage = true" v-if="manageUser" style="cursor: pointer;">
+                    <a class="darkBtnPrimary no-border project-query-btn" @click="dialogFormVisibleManage = true" v-if="manageUser" style="cursor: pointer;float:left;margin-left: 18px;">
                       <strong>新建管理员</strong>
                     </a>
-                    <a class="darkBtnPrimary no-border project-query-btn" @click="dialogFormVisibleOps = true" v-if="opsUser" style="cursor: pointer;">
+                    <a class="darkBtnPrimary no-border project-query-btn" @click="dialogFormVisibleOps = true" v-if="opsUser" style="cursor: pointer;float:left;margin-left: 18px;">
                       <strong>新建运维人员</strong>
                     </a>
                   </div>

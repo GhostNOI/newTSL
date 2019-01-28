@@ -35,7 +35,7 @@ export default {
     },
     //跳转到智能设备
     toSmartDevice(val) {
-      console.log(val);
+      // console.log(val);
       this.$router.push(`/project-index/${val.Project_Code}/smartdevice`)
     },
     selectArea (val) {
@@ -50,7 +50,7 @@ export default {
         this.City_Code = this.threeLevelLinkage[1]
         this.Area_Code = this.threeLevelLinkage[2]
       }
-      console.log(this.threeLevelLinkage);
+      // console.log(this.threeLevelLinkage);
     },
     //查询
     query () {
@@ -62,11 +62,11 @@ export default {
         'Project_Code':this.projectId,
         'Project_Name':this.projectName
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.projectTable = data.Data.data
         this.howMany = data.Data.howMany
       })
-      console.log('aa');
+      // console.log('aa');
     },
     //重置
     resetForm() {
@@ -76,14 +76,14 @@ export default {
       this.$http.post('/Manage/ProjectList/Index',{
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.projectTable = data.Data.data
         this.howMany = data.Data.howMany
       })
     },
     //分页按钮
     handleCurrentChange(val) {
-      console.log(val);
+      // console.log(val);
       this.$http.post('/Manage/ProjectList/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'pageNum':val,
@@ -97,7 +97,7 @@ export default {
     },
     //每页多少条数据
     handleSizeChange(val){
-      console.log(val);
+      // console.log(val);
       this.$http.post('/Manage/ProjectList/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'pageSize':val,
@@ -119,7 +119,7 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: '',
@@ -135,10 +135,10 @@ export default {
     this.$http.post('/Manage/ProjectList/Index',{
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.projectTable = data.Data.data
       this.howMany = data.Data.howMany
-      console.log(this.projectTable);
+      // console.log(this.projectTable);
     })
 
     //选择项目所在地的省市区的三级联动

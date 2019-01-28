@@ -62,7 +62,7 @@ export default {
         'endTime': this.datePick ? this.datePick[1] : '',
         'dayType':this.dayType
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData1 = data.Data.data.allErrorDetial
         this.howMany = data.Data.data.howMany
         this.noData = true
@@ -95,7 +95,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData1 = data.Data.data.allErrorDetial
         this.howMany = data.Data.data.howMany
         if(data.Data.data.allErrorDetial.length){
@@ -131,7 +131,6 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,
@@ -271,14 +270,14 @@ export default {
       formatDate = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD')
       this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'HH:mm')
       this.displayTime2 = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
-      console.log(formatDate);
+      // console.log(formatDate);
     }
       this.$http.post('/Manage/ErrorLog/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'startTime':formatDate ? formatDate : ''
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         this.tableData1 = data.Data.data.allErrorDetial
         this.howMany = data.Data.data.howMany
         if(data.Data.data.allErrorDetial.length){

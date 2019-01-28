@@ -36,15 +36,12 @@ export default {
 
   },
   methods: {
-    aaa(){
-      console.log('aa');
-    },
     logOut() {
-      console.log('aa');
+      // console.log('aa');
       this.$http.post('/Manage/Login/LoginOut', {
         'User_Id': window.localStorage.getItem('userId')
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         removeCookie('tsl_token')
         window.localStorage.removeItem('userId')
         window.localStorage.removeItem('insertTime')

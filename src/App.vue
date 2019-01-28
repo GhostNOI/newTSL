@@ -40,7 +40,7 @@
           User_Id:window.localStorage.getItem('userId'),
           Id:this.sysId
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           if(data.Data.code == 0){
             this.sysInfo = false
           }
@@ -50,21 +50,21 @@
   mounted() {
 
     // 系统弹窗
-    // if(window.localStorage.getItem('userId')){
-    //   this.timer = setInterval(() => {
-    //     this.$http.post('/Manage/User/SysAlert',{
-    //       User_Id: window.localStorage.getItem('userId')
-    //     }).then((data) => {
-    //       console.log(data);
-    //       this.sysContent = data.Data.data.noticeTemple[0].Template_Content
-    //       this.sysMessage = data.Data.data.result[0].Message
-    //       this.sysId = data.Data.data.result[0].Id
-    //       if(data.Data.data.result.length > 0){
-    //         this.sysInfo = true
-    //       }
-    //     })
-    //   },5000)
-    // }
+    if(window.localStorage.getItem('userId')){
+      this.timer = setInterval(() => {
+        this.$http.post('/Manage/User/SysAlert',{
+          User_Id: window.localStorage.getItem('userId')
+        }).then((data) => {
+          // console.log(data);
+          this.sysContent = data.Data.data.noticeTemple[0].Template_Content
+          this.sysMessage = data.Data.data.result[0] ? data.Data.data.result[0].Message : ''
+          this.sysId = data.Data.data.result[0] ? data.Data.data.result[0].Id : ''
+          if(data.Data.data.result.length > 0){
+            this.sysInfo = true
+          }
+        })
+      },90000)
+    }
 
 
 

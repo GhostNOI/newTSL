@@ -93,7 +93,7 @@
                 <table class="table darkTable property-table">
                   <thead>
                   <tr>
-                    <th style="width: 10%">项目ID</th>
+                    <th style="width: 10%;text-align: left;padding-left: 5px;">项目ID</th>
                     <td style="width: 15%">项目名称</td>
                     <td style="width: 15%">部署地点</td>
                     <td style="width: 15%">部署时间</td>
