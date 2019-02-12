@@ -691,7 +691,7 @@ export default {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
     const serverListObj = headerObj.serverList.find(item => item.Server_Code === this.$route.params.serverId);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,

@@ -60,7 +60,7 @@ export const hideLoading = () => {
       }
       let dateNow = Date.now();
       let date = dateNow - window.localStorage.getItem('insertTime')*1000;
-      console.log(date, 'date');
+      // console.log(date, 'date');
       if(date > 6900000 && date < 7200000){
         window.localStorage.setItem('insertTime', date*1000000);
         post('/Manage/Login/GetNewToken',{})

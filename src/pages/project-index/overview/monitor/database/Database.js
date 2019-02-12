@@ -133,6 +133,8 @@ export default {
       this.dialogFormVisible = false
     },
     tap(val,i){
+      val = val ? val : {code: this.detialType}
+      i = i ? i : this.databaseOptionIndex
       this.databaseOptionIndex = i
       // console.log(val);
       this.detialType = val.code
@@ -440,7 +442,8 @@ export default {
     this.getBtn()
     //页面上部数据
     this.timer = setInterval(() => {
-      this.getData()
+      // this.getData()
+      this.tap()
     },300000)
     this.getData()
 

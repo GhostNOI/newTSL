@@ -50,8 +50,8 @@
   mounted() {
 
     // 系统弹窗
-    if(window.localStorage.getItem('userId')){
-      this.timer = setInterval(() => {
+    this.timer = setInterval(() => {
+      if(window.localStorage.getItem('userId')){
         this.$http.post('/Manage/User/SysAlert',{
           User_Id: window.localStorage.getItem('userId')
         }).then((data) => {
@@ -63,8 +63,9 @@
             this.sysInfo = true
           }
         })
-      },90000)
-    }
+      }
+    },90000)
+
 
 
 
