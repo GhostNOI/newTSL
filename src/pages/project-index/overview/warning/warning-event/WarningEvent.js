@@ -131,6 +131,11 @@ export default {
           this.ringRatio.push(item.waringRingRatio)
           this.eventRank.push(item)
         })
+        if(eventRank.length < 5){
+          for(let i = 0; i < 5-eventRank.length; i++){
+            eventNum.unshift(0)
+          }
+        }
         console.log(this.ringRatio);
         this.eventRankingChart.setOption({
           series:[
@@ -580,6 +585,7 @@ export default {
         axisTick: {
           length: 0
         },
+        data:['','','','','']
       },
       series: [
         {
@@ -649,10 +655,10 @@ export default {
       'dayType':7,
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      // console.log(data);
+      console.log(data);
       let eventRank = []
       eventRank = data.Data.waringPiechart
-      // console.log(eventRank);
+      console.log(eventRank);
       let eventNum = []
       this.ringRatio = []
       this.eventRank = []
@@ -661,6 +667,11 @@ export default {
         this.ringRatio.push(item.waringRingRatio)
         this.eventRank.push(item)
       })
+      if(eventRank.length < 5){
+        for(let i = 0; i < 5-eventRank.length; i++){
+          eventNum.unshift(0)
+        }
+      }
       // console.log(this.ringRatio);
       this.eventRankingChart.setOption({
         series:[
