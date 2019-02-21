@@ -55,13 +55,13 @@ export default {
   methods:{
     //倒计时
     countDown(val) {
-      console.log(val);
+      // console.log(val);
       this.$http.post('/Manage/WaringEvent/WaringEventList',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'warning_Id':val.Id
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         if(data.Data.waringEventList){
           if(data.Data.waringEventList[0].lastTime === ''){
             this.delive = `已催办给${data.Data.waringEventList[0].other_Name}`
@@ -119,10 +119,10 @@ export default {
         'dayType':val.code,
         'Project_Code':this.$route.params.id
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         let eventRank = []
         eventRank = data.Data.waringPiechart
-        console.log(eventRank);
+        // console.log(eventRank);
         let eventNum = []
         this.ringRatio = []
         this.eventRank = []
@@ -136,7 +136,7 @@ export default {
             eventNum.unshift(0)
           }
         }
-        console.log(this.ringRatio);
+        // console.log(this.ringRatio);
         this.eventRankingChart.setOption({
           series:[
             {data:eventNum}
@@ -149,13 +149,13 @@ export default {
     //点击切换预警类型
     tabChange(val,i){
       this.typeIndex = i
-      console.log(i);
+      // console.log(i);
       if(this.typeIndex === 0){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
           'User_Id':window.localStorage.getItem('userId'),
           'Project_Code':this.$route.params.id,
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -165,7 +165,7 @@ export default {
           'Project_Code':this.$route.params.id,
           'Warning_Group':1
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -175,7 +175,7 @@ export default {
           'Project_Code':this.$route.params.id,
           'Warning_Group':2
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -185,7 +185,7 @@ export default {
           'Project_Code':this.$route.params.id,
           'Warning_Group':3
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -195,7 +195,7 @@ export default {
           'Project_Code':this.$route.params.id,
           'Warning_Group':4
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -205,7 +205,7 @@ export default {
           'Project_Code':this.$route.params.id,
           'Warning_Group':4
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -216,7 +216,7 @@ export default {
 
     //表格中查看按钮
     see(val){
-      console.log(val);
+      // console.log(val);
       // return
       // if(+val.Warning_Group === 1){
       //   this.$router.push('/tendency')
@@ -282,7 +282,7 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -294,7 +294,7 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -306,7 +306,7 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -318,7 +318,7 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -330,7 +330,7 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -341,14 +341,14 @@ export default {
           'pageNum':this.pageNum,
           'pageSize':val
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
       }
     },
     handleCurrentChange(val) {
-      console.log(val);
+      // console.log(val);
       this.pageNum = val
       if(this.typeIndex === 1){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -358,7 +358,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -370,7 +370,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -382,7 +382,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -394,7 +394,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -406,7 +406,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -417,7 +417,7 @@ export default {
           'pageNum':val,
           'pageSize':this.pageSize
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           this.waringEventList = data.Data.waringEventList
           this.howMany = data.Data.howMany
         })
@@ -655,10 +655,10 @@ export default {
       'dayType':7,
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       let eventRank = []
       eventRank = data.Data.waringPiechart
-      console.log(eventRank);
+      // console.log(eventRank);
       let eventNum = []
       this.ringRatio = []
       this.eventRank = []

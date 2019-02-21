@@ -65,11 +65,11 @@ export const hideLoading = () => {
         window.localStorage.setItem('insertTime', date*1000000);
         post('/Manage/Login/GetNewToken',{})
           .then((data) => {
-            // console.log(data);
+            console.log(data);
             setCookie('tsl_token');
             // console.log('重新请求token');
             window.localStorage.setItem('insertTime',data.Data.toeknTime)
-            // console.log(window.localStorage.getItem('insertTime'));
+            console.log(window.localStorage.getItem('insertTime'));
           })
       }
 
@@ -96,10 +96,11 @@ export const hideLoading = () => {
         if(!window.localStorage.getItem('userId')){
           logout()
         }else if(+res.data.ErrorCode === 0){
-          if(+res.data.Data.code < 0){
+          if(+res.data.Data.code < 0 && +res.data.Data.code != -4){
             // console.log('aa');
             logout()
           }else if(+res.data.Data.code === 99){
+            console.log('aa');
             router.push('/notfound')
           }
         }

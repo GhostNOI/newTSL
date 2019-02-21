@@ -28,7 +28,10 @@
           <router-link to="/usermanagement">
             <el-dropdown-item>用户管理</el-dropdown-item>
           </router-link>
-          <router-link to="/projectmanagement">
+          <!--<router-link to="/projectmanagement">-->
+            <!--<el-dropdown-item>项目管理</el-dropdown-item>-->
+          <!--</router-link>-->
+          <router-link to="/projectmanage">
             <el-dropdown-item>项目管理</el-dropdown-item>
           </router-link>
           <router-link to="/notification">

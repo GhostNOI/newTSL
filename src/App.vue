@@ -56,30 +56,15 @@
           User_Id: window.localStorage.getItem('userId')
         }).then((data) => {
           // console.log(data);
-          this.sysContent = data.Data.data.noticeTemple[0].Template_Content
-          this.sysMessage = data.Data.data.result[0] ? data.Data.data.result[0].Message : ''
-          this.sysId = data.Data.data.result[0] ? data.Data.data.result[0].Id : ''
+          this.sysContent = data.Data.data.noticeTemple && data.Data.data.noticeTemple.length > 0 ? data.Data.data.noticeTemple[0].Template_Content : ''
+          this.sysMessage = data.Data.data.result && data.Data.data.result.length > 0 ? data.Data.data.result[0].Message : ''
+          this.sysId = data.Data.data.result && data.Data.data.result.length ? data.Data.data.result[0].Id : ''
           if(data.Data.data.result.length > 0){
             this.sysInfo = true
           }
         })
       }
     },90000)
-
-
-
-
-    // this.$http.post('/Manage/Device/index', {User_Id: '1', Project_Code: 'pr5b7135fb814c5ea32d1815a1385001'})
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-
-
-    // const http1 = this.$http.post('/Manage/Device/index', {User_Id: '1', Project_Code: 'pr5b7135fb814c5ea32d1815a1385001'});
-    // const http2 = this.$http.post('/Manage/Device/DeviceDetails', {User_Id: '1', Project_Code: 'pr5b7135fb814c5ea32d1815a1385001'});
-    // this.$http.all(http1, http2).then(data => {
-    //
-    // })
 
   },
   destroyed() {

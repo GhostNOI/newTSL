@@ -528,7 +528,7 @@ export default {
           // 'CPU_Logs_Code':this.CPU_Logs_Code
           'CPU_Logs_Code':this.middleData[this.middleData.length - 1] ? this.middleData[this.middleData.length - 1].CPU_Logs_Code : ''
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           if (!data.Data) {
             this.processChart.setOption({
               yAxis:{data:''},
@@ -546,7 +546,7 @@ export default {
           this.leftButtomData = data.Data.data
           let total = []
           total = data.Data.data
-          console.log(total);
+          // console.log(total);
           let displayProcessName = []
           let displayProcessVal = []
           total.forEach((item,i) => {
@@ -573,7 +573,7 @@ export default {
             'Server_Code':this.$route.params.serverId,
             'dayType':this.days
           }).then((data) =>{
-            console.log(data);
+            // console.log(data);
             let total = []
             let maxAvgMin =[]
             total = data.Data.data.pro.detial
@@ -605,7 +605,7 @@ export default {
         'Project_Code':this.$route.params.id,
         'Service_Code':this.$route.params.serverId
       }).then( (data) => {
-        console.log(data);
+        // console.log(data);
         let runTime = data.Data.data.runTimeOffResult
         // console.log(runTime);
         let runTimeData = []
@@ -619,7 +619,7 @@ export default {
     },
     //中间大图点击事件
     middleClick(params) {
-      console.log(params);
+      // console.log(params);
       console.log(this.middleData[params.dataIndex]);
       this.$http.post('/Manage/Service/ServiceProTop5',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -629,7 +629,7 @@ export default {
       }).then((data) => {
         let total = []
         total = data.Data.data
-        console.log(total);
+        // console.log(total);
         let displayProcessName = []
         let displayProcessVal = []
         total.forEach((item,i) => {
@@ -647,7 +647,7 @@ export default {
 
     //左下角柱状图点击事件
     leftSideClick(params) {
-      console.log(params);
+      // console.log(params);
       console.log(this.leftButtomData);
       this.$http.post('/Manage/Service/ServiceOneProDetial',{
         'User_Id':window.localStorage.getItem('userId'),

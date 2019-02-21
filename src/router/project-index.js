@@ -18,6 +18,7 @@ const NotificationSetting = () => import("../pages/sys-manage/notification-setti
 const OperationLog = () => import("../pages/sys-manage/operation-log/OperationLog.vue")
 const ProjectManagement = () => import("../pages/sys-manage/project-management/ProjectManagement.vue")
 const Notfound = () => import("../pages/notfound/Notfound.vue")
+const ProjectManage = () => import("../pages/sys-manage/project-manage/ProjectManage.vue")
 export default [
   {
     path: '/project-index/:id',
@@ -98,6 +99,10 @@ export default [
       {
         path:'/projectmanagement',
         component:ProjectManagement
+      },
+      {
+        path:'/projectmanage',
+        component:ProjectManage
       },
       {
         path:'/notfound',

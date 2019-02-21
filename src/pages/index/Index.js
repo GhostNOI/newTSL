@@ -1302,7 +1302,7 @@ export default {
           color: '#fff'
         },
         left:'0',
-        subtext: '56,789',
+        subtext: '',
         subtextStyle:{
           color: '#fff',
           fontSize: 14,

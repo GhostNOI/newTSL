@@ -168,7 +168,7 @@ export default {
                   //更新表格数据
                   this.dialogFormVisible = false
                   this.$http.post('/Manage/UserRun/Index',{
-                    'User_Id':1,
+                    'User_Id':window.localStorage.getItem('userId'),
                     'pageSize':this.pageSize,
                     'pageNum':this.pageNum
                   }).then((data) => {
@@ -213,7 +213,7 @@ export default {
                 //更新表格数据
                 this.dialogFormVisible = false
                 this.$http.post('/Manage/UserRun/Index',{
-                  'User_Id':1,
+                  'User_Id':window.localStorage.getItem('userId'),
                   'pageSize':this.pageSize,
                   'pageNum':this.pageNum
                 }).then((data) => {
@@ -250,7 +250,7 @@ export default {
               //更新表格数据
               this.dialogFormVisible = false
               this.$http.post('/Manage/UserRun/Index',{
-                'User_Id':1,
+                'User_Id':window.localStorage.getItem('userId'),
                 'pageSize':this.pageSize,
                 'pageNum':this.pageNum
               }).then((data) => {
