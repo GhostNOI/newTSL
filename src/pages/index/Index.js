@@ -58,7 +58,7 @@ export default {
         let projectList = data.Data.projectDetial
         var map = new AMap.Map('map', {
           zoom:10,//级别
-          mapStyle: 'amap://styles/e179c7d7933b2797d789d1e5656dd244',
+          mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
           center: [projectList[0].Longitude, projectList[0].Latitude],//中心点坐标
           viewMode:'3D',//使用3D视图
           pitch: 50
@@ -167,7 +167,7 @@ export default {
       let _this = this
       let map = new AMap.Map('map', {
         zoom:this.zoom,//级别
-        mapStyle: 'amap://styles/e179c7d7933b2797d789d1e5656dd244',
+        mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
         center: [108, 38],//中心点坐标
         viewMode:'3D',//使用3D视图
         pitch:this.pitch
@@ -438,7 +438,7 @@ export default {
             let projectList = data.Data.data.projectList
             var map = new AMap.Map('map', {
               zoom:10,//级别
-              mapStyle: 'amap://styles/e179c7d7933b2797d789d1e5656dd244',
+              mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
               center: [a.Longitude, a.Latitude],//中心点坐标
               viewMode:'3D',//使用3D视图
               pitch: 50
@@ -727,7 +727,7 @@ export default {
     //生成地图
     let map = new AMap.Map('map', {
       zoom:this.zoom,//级别
-      mapStyle: 'amap://styles/e179c7d7933b2797d789d1e5656dd244',
+      mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
       center: [108, 38],//中心点坐标
       viewMode:'3D',//使用3D视图
       pitch:this.pitch
@@ -848,7 +848,7 @@ export default {
           let projectList = data.Data.data.projectList
           var map = new AMap.Map('map', {
             zoom:10,//级别
-            mapStyle: 'amap://styles/e179c7d7933b2797d789d1e5656dd244',
+            mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
             center: [a.Longitude, a.Latitude],//中心点坐标
             viewMode:'3D',//使用3D视图
             pitch: 50

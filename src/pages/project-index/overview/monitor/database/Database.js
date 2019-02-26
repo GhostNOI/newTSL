@@ -46,7 +46,7 @@ export default {
         'DB_Code':this.$route.params.databaseId
       }).then((data) => {
         // console.log(data);
-        this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total
+        this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total : ''
         this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
         this.slowQueryCount = data.Data.data.slowQueryCount
         this.waringNum = data.Data.data.waringNum
@@ -84,7 +84,8 @@ export default {
         }
         this.mainChart.setOption({
           title:[{
-            subtext: '最近值' + yAxisData[yAxisData.length-1] + '  ' + '最小值' + maxAveMin.Connection_Total_MIN + '  ' + '平均值' + maxAveMin.Connection_Total_AVG + '  ' +'最大值' + maxAveMin.Connection_Total_MAX,
+            // subtext: '最近值' + yAxisData[yAxisData.length-1] + '  ' + '最小值' + maxAveMin.Connection_Total_MIN  + '  ' + '平均值' + maxAveMin.Connection_Total_AVG + '  ' +'最大值' + maxAveMin.Connection_Total_MAX,
+            subtext:`最近值 ${yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''}  最小值 ${maxAveMin.Connection_Total_MIN === null ? '' : maxAveMin.Connection_Total_MIN === null ? '' : maxAveMin.Connection_Total_MIN}  平均值 ${maxAveMin.Connection_Total_AVG === null ? '' : maxAveMin.Connection_Total_AVG}  最大值 ${maxAveMin.Connection_Total_MAX === null ? '' : maxAveMin.Connection_Total_MAX}`
           }],
           xAxis:{
             data:displayTime
@@ -160,47 +161,47 @@ export default {
             yAxisData.push(item.Connection_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Connection_Total_MAX
-          displayAve = maxAveMinVal.Connection_Total_AVG
-          displayMin = maxAveMinVal.Connection_Total_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Connection_Total_MAX === null ? '' : maxAveMinVal.Connection_Total_MAX
+          displayAve = maxAveMinVal.Connection_Total_AVG === null ? '' : maxAveMinVal.Connection_Total_AVG
+          displayMin = maxAveMinVal.Connection_Total_MIN === null ? '' : maxAveMinVal.Connection_Total_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'IO_Thread'){
           total.forEach((item,i) => {
             yAxisData.push(item.IO_Thread)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
 
-          displayMax = maxAveMinVal.IO_Thread_MAX
-          displayAve = maxAveMinVal.IO_Thread_AVG
-          displayMin = maxAveMinVal.IO_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.IO_Thread_MAX === null ? '' : maxAveMinVal.IO_Thread_MAX
+          displayAve = maxAveMinVal.IO_Thread_AVG === null ? '' : maxAveMinVal.IO_Thread_AVG
+          displayMin = maxAveMinVal.IO_Thread_MIN === null ? '' : maxAveMinVal.IO_Thread_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Proc_Numbers'){
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Numbers)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Proc_Numbers_MAX
-          displayAve = maxAveMinVal.Proc_Numbers_AVG
-          displayMin = maxAveMinVal.Proc_Numbers_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Proc_Numbers_MAX === null ? '' : maxAveMinVal.Proc_Numbers_MAX
+          displayAve = maxAveMinVal.Proc_Numbers_AVG === null ? '' : maxAveMinVal.Proc_Numbers_AVG
+          displayMin = maxAveMinVal.Proc_Numbers_MIN === null ? '' : maxAveMinVal.Proc_Numbers_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Copy_Delay'){
           total.forEach((item,i) => {
             yAxisData.push(item.Copy_Delay)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Copy_Delay_MAX
-          displayAve = maxAveMinVal.Copy_Delay_AVG
-          displayMin = maxAveMinVal.Copy_Delay_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Copy_Delay_MAX === null ? '' : maxAveMinVal.Copy_Delay_MAX
+          displayAve = maxAveMinVal.Copy_Delay_AVG === null ? '' : maxAveMinVal.Copy_Delay_AVG
+          displayMin = maxAveMinVal.Copy_Delay_MIN === null ? '' : maxAveMinVal.Copy_Delay_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'SQL_Thread'){
           total.forEach((item,i) => {
             yAxisData.push(item.SQL_Thread)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.SQL_Thread_MAX
-          displayAve = maxAveMinVal.SQL_Thread_AVG
-          displayMin = maxAveMinVal.SQL_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.SQL_Thread_MAX === null ? '' : maxAveMinVal.SQL_Thread_MAX
+          displayAve = maxAveMinVal.SQL_Thread_AVG === null ? '' : maxAveMinVal.SQL_Thread_AVG
+          displayMin = maxAveMinVal.SQL_Thread_MIN === null ? '' : maxAveMinVal.SQL_Thread_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }
 
         let displayYAxisData = []
@@ -260,47 +261,47 @@ export default {
             yAxisData.push(item.Connection_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Connection_Total_MAX
-          displayAve = maxAveMinVal.Connection_Total_AVG
-          displayMin = maxAveMinVal.Connection_Total_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Connection_Total_MAX === null ? '' : maxAveMinVal.Connection_Total_MAX
+          displayAve = maxAveMinVal.Connection_Total_AVG === null ? '' : maxAveMinVal.Connection_Total_AVG
+          displayMin = maxAveMinVal.Connection_Total_MIN === null ? '' : maxAveMinVal.Connection_Total_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'IO_Thread'){
           total.forEach((item,i) => {
             yAxisData.push(item.IO_Thread)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
 
-          displayMax = maxAveMinVal.IO_Thread_MAX
-          displayAve = maxAveMinVal.IO_Thread_AVG
-          displayMin = maxAveMinVal.IO_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.IO_Thread_MAX === null ? '' : maxAveMinVal.IO_Thread_MAX
+          displayAve = maxAveMinVal.IO_Thread_AVG === null ? '' : maxAveMinVal.IO_Thread_AVG
+          displayMin = maxAveMinVal.IO_Thread_MIN === null ? '' : maxAveMinVal.IO_Thread_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Proc_Numbers'){
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Numbers)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Proc_Numbers_MAX
-          displayAve = maxAveMinVal.Proc_Numbers_AVG
-          displayMin = maxAveMinVal.Proc_Numbers_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Proc_Numbers_MAX === null ? '' : maxAveMinVal.Proc_Numbers_MAX
+          displayAve = maxAveMinVal.Proc_Numbers_AVG === null ? '' : maxAveMinVal.Proc_Numbers_AVG
+          displayMin = maxAveMinVal.Proc_Numbers_MIN === null ? '' : maxAveMinVal.Proc_Numbers_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Copy_Delay'){
           total.forEach((item,i) => {
             yAxisData.push(item.Copy_Delay)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.Copy_Delay_MAX
-          displayAve = maxAveMinVal.Copy_Delay_AVG
-          displayMin = maxAveMinVal.Copy_Delay_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.Copy_Delay_MAX === null ? '' : maxAveMinVal.Copy_Delay_MAX
+          displayAve = maxAveMinVal.Copy_Delay_AVG === null ? '' : maxAveMinVal.Copy_Delay_AVG
+          displayMin = maxAveMinVal.Copy_Delay_MIN === null ? '' : maxAveMinVal.Copy_Delay_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'SQL_Thread'){
           total.forEach((item,i) => {
             yAxisData.push(item.SQL_Thread)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal.SQL_Thread_MAX
-          displayAve = maxAveMinVal.SQL_Thread_AVG
-          displayMin = maxAveMinVal.SQL_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1]
+          displayMax = maxAveMinVal.SQL_Thread_MAX === null ? '' : maxAveMinVal.SQL_Thread_MAX
+          displayAve = maxAveMinVal.SQL_Thread_AVG === null ? '' : maxAveMinVal.SQL_Thread_AVG
+          displayMin = maxAveMinVal.SQL_Thread_MIN === null ? '' : maxAveMinVal.SQL_Thread_MIN
+          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }
 
         let displayYAxisData = []
@@ -370,7 +371,7 @@ export default {
     this.mainChart.setOption({
       backgroundColor: 'transparent',
       title: [{
-        subtext: '最近值' + '0.08' + '      ' + '最小值' + '0.04' + '      ' + '平均值' + '0.13' + '      ' +'最大值' + '0.4',
+        subtext: '',
         x: '3%',
         textAlign: 'left'
       }],

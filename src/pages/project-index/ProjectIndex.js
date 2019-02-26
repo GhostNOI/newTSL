@@ -12,7 +12,7 @@ export default {
     this.$http.post('/Manage/User/index', {
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       this.projectList = data.Data.data.projectList ? data.Data.data.projectList : []
       this.$store.commit('changeHeadData', this.projectList);
     })
