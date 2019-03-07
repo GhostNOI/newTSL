@@ -54,17 +54,17 @@
                     <a class="darkBtnPrimary no-border user-management-btn" @click="createNewUser">
                       <strong type="text" >新建</strong>
                     </a>
-                    <a class=" user-management-btn" >
-                      <!-- 站位按钮 -->
-                    </a>
+                    <!--<a class=" user-management-btn" >-->
+                      <!---->
+                    <!--</a>-->
                     <!--弹窗-->
-                    <el-dialog title="新建" :visible.sync="dialogFormVisible" custom-class="user-dialog innerShadow" @closed="quit">
+                    <el-dialog :title="ifCreate" :visible.sync="dialogFormVisible" custom-class="user-dialog innerShadow" @closed="quit">
                       <el-form :model="form">
                         <el-form-item label="姓名" :label-width="formLabelWidth">
                           <el-input v-model="form.name" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="手机号" :label-width="formLabelWidth">
-                          <el-input v-model="form.phone" autocomplete="off" :disabled="ifNewCreate"></el-input>
+                        <el-form-item label="用户名" :label-width="formLabelWidth">
+                          <el-input v-model="form.phone" autocomplete="off" :disabled="ifNewCreate" placeholder="请输入手机号"></el-input>
                         </el-form-item>
                         <el-form-item label="初始密码" :label-width="formLabelWidth" v-if="pwd">
                           <el-input v-model="form.password" disabled value="123456" placeholder="123456"></el-input>
@@ -82,8 +82,15 @@
                         </el-form-item>
                         <el-form-item label="钉钉" :label-width="formLabelWidth">
                           <el-select v-model="form.dingding" placeholder="请选择" @change="changeDingDing">
-                            <el-option label="有" value="1"></el-option>
-                            <el-option label="无" value="0"></el-option>
+                            <!--<el-option label="有" value="1"></el-option>-->
+                            <!--<el-option label="无" value="0"></el-option>-->
+                            <el-option
+                              v-for="(item,i) in isNothing"
+                              :key="i"
+                              :label="item.label"
+                              :value="item.value"
+                            >
+                            </el-option>
                           </el-select>
                         </el-form-item>
                         <el-form-item label="钉钉号" :label-width="formLabelWidth" v-if="isDingDing">
@@ -110,7 +117,7 @@
                   <thead>
                   <tr>
                     <th style="width: 10%">姓名</th>
-                    <td style="width: 15%">手机号</td>
+                    <td style="width: 15%">用户名</td>
                     <td style="width: 10%">角色权限</td>
                     <td style="width: 5%">钉钉</td>
                     <td style="width: 15%">钉钉号</td>

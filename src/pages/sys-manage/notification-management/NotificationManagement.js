@@ -27,7 +27,7 @@ export default {
       form:{
         name:'',
         role:'',
-        project:'',
+        project:[],
         phone:'',
         //钉钉号
         dingding:'',
@@ -38,8 +38,8 @@ export default {
       formLabelWidth:'120px',
       warningGroup:[],
       ifDingding:[
-        {name:'有',value:'1'},
-        {name:'无',value:'0'}
+        {name:'有',value:1},
+        {name:'无',value:0}
       ],
       dingdingIpt:false,
       roleList:[],
@@ -159,7 +159,7 @@ export default {
               'Name' :this.form.name,
               'Notice_Type' :this.form.isDingding,
               'Role_Id' :this.form.role,
-              'Project_Code' :this.form.project,
+              'Project_Code' :this.form.project.join(","),
               'DingDing' :this.form.dingding,
               'Warning_Type':this.eventType.join(",")
             }).then((data) => {
@@ -190,7 +190,7 @@ export default {
             'Name' :this.form.name,
             'Notice_Type' :this.form.isDingding,
             'Role_Id' :this.form.role,
-            'Project_Code' :this.form.project,
+            'Project_Code' :this.form.project.join(","),
             'DingDing' :this.form.dingding,
             'Warning_Type':this.this.eventType.join(",")
           }).then((data) => {
@@ -249,7 +249,7 @@ export default {
               'Notice_Type':this.form.isDingding,
               'Role_Id':this.form.role,
               'Warning_Type':this.eventType.join(","),
-              'Project_Code':this.form.project,
+              'Project_Code':this.form.project.join(","),
               'DingDing':this.form.dingding,
               'Email':this.form.email
             }).then((data) => {
@@ -278,7 +278,7 @@ export default {
             'Notice_Type':this.form.isDingding,
             'Role_Id':this.form.role,
             'Warning_Type':this.eventType.join(","),
-            'Project_Code':this.form.project,
+            'Project_Code':this.form.project.join(","),
             'DingDing':this.form.dingding,
             'Email':this.form.email
           }).then((data) => {
@@ -312,7 +312,7 @@ export default {
     closeDialog() {
       this.form.name = ''
       this.form.phone = ''
-      this.form.isDingding = 0
+      this.form.isDingding = ''
       this.form.role = ''
       this.form.project = ''
       this.form.dingding = ''
@@ -320,15 +320,16 @@ export default {
       this.eventType = []
       this.tips = ''
       this.ifTips = false
+      this.dingdingIpt = false
       this.title = '新建'
     },
 
     //钉钉有无
     changeDingding (val) {
       // console.log(val);
-      if(val == 1){
+      if(+val === 1){
         this.dingdingIpt = true
-      }else if(val == 0){
+      }else if(+val === 0){
         this.dingdingIpt = false
       }
     },
@@ -369,8 +370,13 @@ export default {
     },
     //修改通知人员设定
     changeNotice (val) {
-      this.title = '修改'
       // console.log(val);
+      if(val.DingDing) {
+        this.form.isDingding = 1
+      } else {
+        this.form.isDingding = 0
+      }
+      this.title = '修改'
       this.form.name = val.Name
       this.form.role = val.Role_Name
       this.form.project = val.warningProjectList[0] ? val.warningProjectList[0].Project_Name : ''

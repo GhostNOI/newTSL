@@ -45,7 +45,12 @@ export default {
       tips:'',
       ifTips:false,
       isDingDing:false,
-      ifNewCreate:false
+      ifNewCreate:false,
+      ifCreate:'',
+      isNothing:[
+        {label:'有',value:1},
+        {label:'无',value:0}
+      ]
     }
   },
   methods:{
@@ -109,6 +114,7 @@ export default {
     createNewUser() {
       this.dialogFormVisible = true
       this.ifNewCreate = false
+      this.ifCreate = '新建'
     },
     //新建项目确认
     sureCreate() {
@@ -116,7 +122,7 @@ export default {
         this.ifNewCreate = false
         if(this.form.name === ''){
           this.ifTips = true
-          this.tips = '请输入用户名';
+          this.tips = '请输入姓名';
         }else if(this.form.phone === ''){
           this.ifTips = true
           this.tips = '请输入手机号';
@@ -130,7 +136,10 @@ export default {
           this.ifTips = true
           this.tips = '请输入邮箱'
         }else if(+this.form.dingding === 1){
-          if(!MOBILE.test(this.form.dingdingNumber)){
+          if(this.form.dingdingNumber === ''){
+            this.ifTips = true
+            this.tips = '请输入钉钉号'
+          }else if(!MOBILE.test(this.form.dingdingNumber)){
             this.ifTips = true
             this.tips = '请输入正确的钉钉号'
           }else{
@@ -152,19 +161,19 @@ export default {
                 'dingding':this.form.dingdingNumber
               }).then((data) => {
                 // console.log(data);
-                if(data.Data.code == -7){
+                if(+data.Data.code === -7){
                   this.tips = '该用户已存在';
                   this.ifTips = true
-                }else if(data.Data.code == -4){
+                }else if(+data.Data.code === -4){
                   this.tips = '请重新登录';
                   this.ifTips = true
-                }else if(data.Data.code == -5 || data.Data.code == -6){
+                }else if(+data.Data.code === -5 || +data.Data.code === -6){
                   this.tips = '角色错误';
                   this.ifTips = true
-                }else if(data.Data.code == -8){
+                }else if(+data.Data.code === -8){
                   this.tips = '系统错误';
                   this.ifTips = true
-                }else if (data.Data.code == 0){
+                }else if (+data.Data.code === 0){
                   //更新表格数据
                   this.dialogFormVisible = false
                   this.$http.post('/Manage/UserRun/Index',{
@@ -289,6 +298,13 @@ export default {
     //修改
     modify(item) {
       // console.log(item);
+      if(item.DingDing){
+        this.form.dingding = 1
+        this.isDingDing = true
+      }else{
+        this.form.dingding = 0
+        this.isDingDing = false
+      }
       this.dialogFormVisible = true
       //隐藏掉修改密码
       this.pwd = false
@@ -299,6 +315,7 @@ export default {
       this.updateUserId = item.User_Id
       this.form.permissions = item.Role_Id
       this.ifNewCreate = true
+      this.ifCreate = '修改'
     },
     //退出弹框
     quit(){
@@ -307,6 +324,8 @@ export default {
       this.form.name = ''
       this.form.phone = ''
       this.form.dingdingNumber = ''
+      this.form.dingding = ''
+      this.isDingDing = false
       this.form.email = ''
       this.tips = ''
       this.form.password = ''

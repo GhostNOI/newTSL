@@ -22,7 +22,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4 operation-width3">
+                <div class="col-md-4 operation-width4">
                   <div class="tableFliter">
                     <label class="operation-label">用户名</label>
                     <el-select popper-class="operation-input" v-model="userId" placeholder="全部">

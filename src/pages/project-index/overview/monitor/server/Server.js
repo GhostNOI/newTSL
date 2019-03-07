@@ -283,14 +283,23 @@ export default {
             displayTime.push(time[i])
           }
         }else if(+this.days === 3){
-          for(let i=0;i<time.length;i+=36){
+          for(let i=0;i<time.length;i++){
+            if(i % 36 === 0){
+              displayTime.push(time[i])
+            }else{
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
+
           }
         }else if(+this.days === 7){
-          for(let i=0;i<time.length;i+=72){
+          for(let i=0;i<time.length;i++){
+            if(i % 72 === 0){
+              displayTime.push(time[i])
+            }else{
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
           }
         }
         //改变图表数据
@@ -428,14 +437,24 @@ export default {
             displayTime.push(time[i])
           }
         }else if(+this.days === 3){
-          for(let i=0;i<time.length;i+=36){
+          for(let i=0;i<time.length;i++){
+            if(i % 36 === 0){
+              displayTime.push(time[i])
+            }else {
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
+
           }
         }else if(+this.days === 7){
-          for(let i=0;i<time.length;i+=72){
+          for(let i=0;i<time.length;i++){
+            if(i % 72 === 0){
+              displayTime.push(time[i])
+            }else{
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
+
           }
         }
         //改变图表数据
@@ -458,11 +477,11 @@ export default {
         'Project_Code':this.$route.params.id,
         'Service_Code':this.$route.params.serverId
       }).then((data) => {
-        // console.log(data);
+        console.log(data);
         // console.log(data.Data.data.fourState[0].CPU_Load_Average);
         this.cpuLoadAve = data.Data.data.fourState[0] ? data.Data.data.fourState[0].CPU_Load_Average : ''
-        this.memoryFree = data.Data.data.fourState[0] ? data.Data.data.fourState[0].Memory_Usage : ''
-        this.diskFree = data.Data.data.fourState[0] ? data.Data.data.fourState[0].Disk_Usage_Rate :''
+        this.memoryFree = data.Data.data.fourState[0] ? 100 - Number(data.Data.data.fourState[0].Memory_Usage_Rate) : ''
+        this.diskFree = data.Data.data.fourState[0] ? 100 - Number(data.Data.data.fourState[0].Disk_Usage_Rate) :''
         this.network = data.Data.data.fourState[0] ? data.Data.data.fourState[0].Network_Speed_In :''
         this.warningNum = data.Data.data.waringNum
         this.interrupt = data.Data.data.offFinalResult.length
@@ -753,6 +772,9 @@ export default {
           containLabel: true
         },
         xAxis: {
+          axisLabel:{
+            rotate:90
+          },
           type: 'category',
           boundaryGap: false,
           axisLine: {

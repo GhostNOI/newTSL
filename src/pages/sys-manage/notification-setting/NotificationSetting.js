@@ -30,7 +30,10 @@ export default {
       eventLevel:[],
       noticeType:[],
       selectRole:'',
-      title:'新建'
+      title:'新建',
+      selectRoleType:false,
+      selectEventType:false,
+      selectEventTips:''
     }
   },
   methods:{
@@ -40,29 +43,46 @@ export default {
       //
       // const warningGroup = this.eventType.map(item => this.warningGroup.find(items => items.Warning_Group_Name === item).Warning_Type);
       // console.log(warningGroup.join(','));
-      console.log(this.selectRole);
-      this.$http.post('/Manage/NoticeSeting/Insert',{
-        'User_Id':window.localStorage.getItem('userId'),
-        'Role_Id':this.selectRole,
-        'Warning_Type':this.eventType.join(","),
-        'Warning_Level':this.eventLevel.join(","),
-        'Notice_Type':this.noticeType.join(",")
-      }).then((data) => {
-        // console.log(data);
-        if(data.Data.code == 0){
-          this.$http.post('/Manage/NoticeSeting/Index',{
-            'User_Id':window.localStorage.getItem('userId')
+      // console.log(this.selectRole);
+      if(this.selectRole){
+        if(this.eventType.length === 0){
+          this.selectEventType = true
+          this.selectEventTips = '请选择事件类型'
+        }else if(this.eventLevel.length === 0){
+          this.selectEventType = true
+          this.selectEventTips = '请选择事件等级'
+        }else if(this.noticeType.length === 0){
+          this.selectEventType = true
+          this.selectEventTips = '请选择通知方式'
+        }else {
+          this.$http.post('/Manage/NoticeSeting/Insert',{
+            'User_Id':window.localStorage.getItem('userId'),
+            'Role_Id':this.selectRole,
+            'Warning_Type':this.eventType.join(","),
+            'Warning_Level':this.eventLevel.join(","),
+            'Notice_Type':this.noticeType.join(",")
           }).then((data) => {
             // console.log(data);
-            this.tableData1 = data.Data.data.resultList
+            if(data.Data.code == 0){
+              this.$http.post('/Manage/NoticeSeting/Index',{
+                'User_Id':window.localStorage.getItem('userId')
+              }).then((data) => {
+                // console.log(data);
+                this.tableData1 = data.Data.data.resultList
+              })
+              this.changeNoticeDialog = false
+              this.selectRole = ''
+              this.eventType = []
+              this.eventLevel = []
+              this.noticeType = []
+            }
           })
-          this.changeNoticeDialog = false
-          this.selectRole = ''
-          this.eventType = []
-          this.eventLevel = []
-          this.noticeType = []
         }
-      })
+
+      }else {
+        this.selectRoleType = true
+      }
+
 
 
     },
@@ -91,6 +111,7 @@ export default {
       this.eventType = []
       this.eventLevel = []
       this.noticeType = []
+      this.selectRoleType = false
     },
 
 

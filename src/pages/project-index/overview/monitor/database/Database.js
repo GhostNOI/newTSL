@@ -47,7 +47,8 @@ export default {
       }).then((data) => {
         // console.log(data);
         this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total : ''
-        this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
+        // this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
+        this.lastBackupTime = +data.Data.data.lastBackupTime === -1 ? '' : FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
         this.slowQueryCount = data.Data.data.slowQueryCount
         this.waringNum = data.Data.data.waringNum
         if(+this.waringNum > 0){
@@ -134,10 +135,11 @@ export default {
       this.dialogFormVisible = false
     },
     tap(val,i){
+      console.log(i);
       val = val ? val : {code: this.detialType}
-      i = i ? i : this.databaseOptionIndex
-      this.databaseOptionIndex = i
-      // console.log(val);
+      // i = i ? i : this.databaseOptionIndex
+      this.databaseOptionIndex = (i ? this.databaseOptionIndex : i)
+      console.log(this.databaseOptionIndex);
       this.detialType = val.code
       this.$http.post('/Manage/Database/DatabaseAllIndexDetial',{
         'User_Id':window.localStorage.getItem('userId'),

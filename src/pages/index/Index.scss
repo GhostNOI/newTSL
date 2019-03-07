@@ -17,7 +17,7 @@
 }
 .leftRow {
   height: calc(100% - 54px);
-  width: 380px;
+  width: 22%;
   overflow-y: auto;
   position: absolute;
   background: #000;
@@ -30,7 +30,7 @@
 .rightRow {
   height: calc(100% - 54px);
   overflow-y: auto;
-  width: 380px;
+  width: 22%;
   position: absolute;
   background: #000;
   z-index: 2;

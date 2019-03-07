@@ -32,7 +32,7 @@
               </div>
               <div class="listTitle">
                 <h5>预警事件</h5>
-                <a @click="more">更多</a>
+                <a style="cursor:pointer;" @click="more">更多</a>
               </div>
               <div class="divideLine"></div>
               <div class="eventCase" v-for="(item,i) in waring" :key="i">

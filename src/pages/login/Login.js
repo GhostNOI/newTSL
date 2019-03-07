@@ -22,15 +22,14 @@ export default {
     }
   },
   methods:{
-    phoneBlur () {
-      if(this.phoneNumber == ''){
-        this.flag = true
-      }
-    },
+
     phoneFocus () {
       this.flag = false
       this.flagPhone = false
       this.ifPhone = false
+      this.flagPassword = false
+      this.isReal = false
+
     },
     login () {
       if(this.phoneNumber == ''){

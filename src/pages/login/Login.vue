@@ -9,7 +9,7 @@
           <el-input
             placeholder="手机号"
             v-model="phoneNumber"
-            @blur="phoneBlur"
+
             @focus="phoneFocus"
             clearable>
           </el-input>

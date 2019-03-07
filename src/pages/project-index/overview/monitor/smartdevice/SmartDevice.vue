@@ -65,7 +65,7 @@
                             <el-option
                               v-for="(item,i) in lockVillageData"
                               :key="i"
-                              :label="item.Village_Name",
+                              :label="item.Village_Name"
                               :value="item.Village_Id"
                             >
                             </el-option>
@@ -105,22 +105,27 @@
                             <th style="width: 15%;">设备名称</th>
                             <th style="width: 15%;">所属社区</th>
                             <th style="width: 20%;">MAC地址</th>
-                            <th style="width: 15%;">设备类型</th>
+                            <!--<th style="width: 15%;">设备类型</th>-->
                             <th style="width: 10%;">设备状态</th>
                             <th style="width: 15%;">安装时间</th>
                           </tr>
                           </thead>
                           <tbody>
                           <tr style="height: 50px;" v-for="(item,i) in lockTableData" :key="i">
-                            <td>{{i+1}}</td>
+                            <td>{{(lockCountPage - 1) * lockPageSize + i + 1}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Village_Name}}</td>
                             <td>{{item.MacAddress}}</td>
-                            <td>{{item.Camera_Type}}</td>
+                            <!--<td>{{item.Camera_Type}}</td>-->
                             <td><span @click="checkDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
                             <td>{{item.Insert_Time | transformDate}}</td>
                           </tr>
                           </tbody>
+                          <tfoot v-if="lockNoData">
+                          <tr style="width: 100%; text-align: center;">
+                            <td colspan="6" style="font-size: 16px;">暂无数据</td>
+                          </tr>
+                          </tfoot>
                         </table>
                         <!-- 分页 -->
                         <el-pagination
@@ -200,7 +205,7 @@
                           </thead>
                           <tbody>
                           <tr style="height: 50px;" v-for="(item,i) in cameraTableData" :key="i">
-                            <td>{{i+1}}</td>
+                            <td>{{(cameraPageNum - 1) * cameraPageSize + i + 1}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Village_Name}}</td>
                             <td>{{item.MacAddress}}</td>
@@ -209,6 +214,11 @@
                             <td>{{item.Insert_Time | transformDate}}</td>
                           </tr>
                           </tbody>
+                          <tfoot v-if="cameraNoData">
+                          <tr style="width: 100%; text-align: center;">
+                            <td colspan="6" style="font-size: 16px;">暂无数据</td>
+                          </tr>
+                          </tfoot>
                         </table>
                         <!-- 分页 -->
                         <el-pagination
@@ -283,22 +293,27 @@
                             <th style="width: 15%;">设备名称</th>
                             <th style="width: 15%;">所属社区</th>
                             <th style="width: 20%;">MAC地址</th>
-                            <th style="width: 15%;">设备类型</th>
+
                             <th style="width: 10%;">设备状态</th>
                             <th style="width: 15%;">安装时间</th>
                           </tr>
                           </thead>
                           <tbody>
                           <tr style="height: 50px;" v-for="(item,i) in smokeTableData" :key="i">
-                            <td>{{i+1}}</td>
+                            <td>{{(smokePageNum - 1) * smokePageSize + i + 1}}</td>
                             <td>{{item.Name}}</td>
                             <td>{{item.Village_Name}}</td>
                             <td>{{item.MacAddress}}</td>
-                            <td>{{item.Camera_Type}}</td>
+
                             <td><span @click="checkDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
                             <td>{{item.Insert_Time | transformDate}}</td>
                           </tr>
                           </tbody>
+                          <tfoot v-if="smokeNoData">
+                          <tr style="width: 100%; text-align: center;">
+                            <td colspan="6" style="font-size: 16px;">暂无数据</td>
+                          </tr>
+                          </tfoot>
                         </table>
                         <!-- 分页 -->
                         <el-pagination

@@ -245,7 +245,9 @@
                     <div v-if="ifTips" style="color: red;text-align: center;">{{tips}}</div>
 
                   </div>
-
+                  <div style="text-align: center;" v-if="changeTipShow">
+                    <span style="color: red;">{{changeTip}}</span>
+                  </div>
                   <div slot="footer" class="dialog-footer">
                     <el-button type="confirm" @click="changeEventSure">确 定</el-button>
                     <el-button type="cancel" @click="changeAlertEvent = false">取 消</el-button>

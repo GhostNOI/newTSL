@@ -46,7 +46,7 @@
 .smart-query-label{
   line-height: 34px;
   color: #fff;
-  margin-right: 15px;
+  //margin-right: 15px;
   float: left;
   width: 70px;
 }
@@ -121,4 +121,7 @@ table{
 }
 .notOnLine{
   color: #f5a623;
+}
+.no-data{
+  width: 100%;
 }

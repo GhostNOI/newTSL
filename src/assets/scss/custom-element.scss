@@ -240,6 +240,12 @@
 
 //智能设备
 #smart-device{
+  //下拉框适配
+  .tableFliter{
+    .el-select{
+      width: 58%;
+    }
+  }
   table{
     width: 95%;
     margin: 0 auto;
@@ -774,9 +780,14 @@
     }
   }
   //下拉选择器
+  .tableFliter{
+    .el-input__inner{
+      width: 70%;
+    }
+  }
   .el-select{
     .el-input__inner{
-      width: 260px;
+      width: 100%;
     }
   }
   //radio
@@ -896,7 +907,7 @@
   .left-right-padding{
     .el-input__inner{
       height: 34px;
-      width: 260px;
+      width: 100%;
     }
   }
   .el-cascader__label{

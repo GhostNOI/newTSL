@@ -9,7 +9,7 @@
               <div class="col-md-3 property-width3 left-right-padding">
                 <div class="tableFliter">
                   <label for="projectId" class="property-label">项目ID</label>
-                  <input class="form-control property-ipt" type="text" maxlength="20" id="projectId" placeholder="请输入" v-model="projectId">
+                  <input class="form-control property-ipt" type="text"  id="projectId" placeholder="请输入" v-model="projectId">
                 </div>
               </div>
               <div class="col-md-4 property-width4 left-right-padding">

@@ -34,6 +34,8 @@ export default {
       id:'',
       tips:'',
       ifTips:false,
+      changeTipShow:false,
+      changeTip:''
     }
   },
   methods:{
@@ -142,7 +144,7 @@ export default {
       // console.log(window.localStorage.getItem('userId'));
       axios({
         method:'POST',
-        url:'http://47.96.70.222:9030/api/Manage/WaringLogs/ExportNotes',
+        url:'http://118.31.172.237:9031/api/Manage/WaringLogs/ExportNotes',
         data:params,
         headers:{
           'Authorization':'Bearer' +' '+ getCookie('tsl_token')
@@ -183,36 +185,46 @@ export default {
       this.id = val.Id
     },
     changeEventSure() {
-      this.$http.post('/Manage/WaringLogs/Update',{
-        'User_Id':window.localStorage.getItem('userId'),
-        'Project_Code':this.$route.params.id,
-        'Id':this.id,
-        'Do_User_Id':this.changeUser,
-        'Desc':this.description
-      }).then((data) => {
-        if(+data.Data.code === 1){
-          this.tips = '事件处理完毕，不能修改'
-          this.ifTips = true
-        }
-        if(+data.Data.code === 0){
-          this.changeAlertEvent = false
-          this.$http.post('/Manage/WaringLogs/Index',{
-            'User_Id':window.localStorage.getItem('userId'),
-            'Project_Code':this.$route.params.id,
-            'startTime':this.selectDate[0] ? this.selectDate[0] : '',
-            'endTime':this.selectDate[1] ? this.selectDate[1] : '',
-            'Warning_Type':this.eventType,
-            'Warning_Level':this.eventLevel,
-            'Do_User_Id':this.dealUser,
-            'pageSize':this.pageSize,
-            'pageNum':this.pageNum
-          }).then((data) => {
-            // console.log(data);
-            this.warningLogListCount = data.Data.data.warningLogListCount
-            this.howMany = data.Data.data.howMany
-          })
-        }
-      })
+      if(!this.changeUser){
+        this.changeTipShow = true
+        this.changeTip = '请选择处理人'
+      }else if(!this.description){
+        this.changeTipShow = true
+        this.changeTip = '请输入描述'
+      }else {
+        this.$http.post('/Manage/WaringLogs/Update',{
+          'User_Id':window.localStorage.getItem('userId'),
+          'Project_Code':this.$route.params.id,
+          'Id':this.id,
+          'Do_User_Id':this.changeUser,
+          'Desc':this.description
+        }).then((data) => {
+          console.log(data);
+          if(+data.Data.code === 1){
+            this.tips = '事件处理完毕，不能修改'
+            this.ifTips = true
+          }
+          if(+data.Data.code === 0){
+            this.changeAlertEvent = false
+            this.$http.post('/Manage/WaringLogs/Index',{
+              'User_Id':window.localStorage.getItem('userId'),
+              'Project_Code':this.$route.params.id,
+              'startTime':this.selectDate[0] ? this.selectDate[0] : '',
+              'endTime':this.selectDate[1] ? this.selectDate[1] : '',
+              'Warning_Type':this.eventType,
+              'Warning_Level':this.eventLevel,
+              'Do_User_Id':this.dealUser,
+              'pageSize':this.pageSize,
+              'pageNum':this.pageNum
+            }).then((data) => {
+              // console.log(data);
+              this.warningLogListCount = data.Data.data.warningLogListCount
+              this.howMany = data.Data.data.howMany
+            })
+          }
+        })
+      }
+
     },
     //修改弹窗关闭
     closeChange() {
@@ -222,6 +234,8 @@ export default {
       this.id = ''
       this.tips = ''
       this.ifTips = ''
+      this.changeTipShow = false
+      this.changeTip = ''
     },
     changeDateExport() {
       if(this.selectDateExport[0]){

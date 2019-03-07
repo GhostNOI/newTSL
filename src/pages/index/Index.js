@@ -24,7 +24,7 @@ export default {
       projectAllCount:'',
       projectList:'',
       provinceListResult:'',
-      zoom:4.5,
+      zoom:5,
       //地图角度
       pitch:0,
       iconNormnal2:'',
@@ -35,6 +35,28 @@ export default {
       warningList:[],
       waringMount:[],
       waringNum:null,
+      waringMountOld:[
+        {
+          Level_Id:1,
+          Level_Name:'灾难',
+          num:0
+        },
+        {
+          Level_Id:2,
+          Level_Name:'严重',
+          num:0
+        },
+        {
+          Level_Id:3,
+          Level_Name:'警告',
+          num:0
+        },
+        {
+          Level_Id:4,
+          Level_Name:'信息',
+          num:0
+        }
+      ]
 
     }
   },
@@ -54,7 +76,7 @@ export default {
         Project_Code: this.value
       }).then((data) => {
         this.country = true
-        // console.log(data);
+        console.log(data);
         let projectList = data.Data.projectDetial
         var map = new AMap.Map('map', {
           zoom:10,//级别
@@ -295,7 +317,7 @@ export default {
             'User_Id':window.localStorage.getItem('userId'),
             'Province_Code':a.AreaCode
           }).then((data) => {
-            // console.log(data);
+            console.log(data);
             //项目总数
             _this.projectAllCount = data.Data.data.projectAllCount
             //城市top5
@@ -316,7 +338,36 @@ export default {
             //预警列表
             _this.warningList = data.Data.data.waringMount
             //预警项
-            _this.waringMount = data.Data.data.waringMount
+            let waringMountOld = [
+              {
+                Level_Id:1,
+                Level_Name:'灾难',
+                num:0
+              },
+              {
+                Level_Id:2,
+                Level_Name:'严重',
+                num:0
+              },
+              {
+                Level_Id:3,
+                Level_Name:'警告',
+                num:0
+              },
+              {
+                Level_Id:4,
+                Level_Name:'信息',
+                num:0
+              }
+            ]
+            data.Data.data.waringMount.forEach((newItem,newIndex) => {
+              waringMountOld.forEach((item,i) => {
+                if(+newItem.Level_Id === +item.Level_Id){
+                  waringMountOld[i].num = newItem.num
+                }
+              })
+            })
+            _this.waringMount = waringMountOld
             // this.waringNum = this.waringMount.length
             _this.waringNum = null
             _this.waringMount.forEach((item,i) => {
@@ -560,7 +611,36 @@ export default {
         //预警列表
         this.warningList = data.Data.data.waringMount
         //预警项
-        this.waringMount = data.Data.data.waringMount
+        let waringMountOld = [
+          {
+            Level_Id:1,
+            Level_Name:'灾难',
+            num:0
+          },
+          {
+            Level_Id:2,
+            Level_Name:'严重',
+            num:0
+          },
+          {
+            Level_Id:3,
+            Level_Name:'警告',
+            num:0
+          },
+          {
+            Level_Id:4,
+            Level_Name:'信息',
+            num:0
+          }
+        ]
+        data.Data.data.waringMount.forEach((newItem,newIndex) => {
+          waringMountOld.forEach((item,i) => {
+            if(+newItem.Level_Id === +item.Level_Id){
+              waringMountOld[i].num = newItem.num
+            }
+          })
+        })
+        this.waringMount = waringMountOld
         // this.waringNum = this.waringMount.length
         this.waringNum = null
         this.waringMount.forEach((item,i) => {
@@ -571,7 +651,7 @@ export default {
         let displayCity = []
         let displayNum = []
         cityTop5.forEach((item,i) => {
-          displayCity.unshift(item.Name)
+          displayCity.unshift(item.Province_Name)
           displayNum.unshift(item.num)
           backgroundData.push(cityTop5[0].num)
         })
@@ -767,7 +847,7 @@ export default {
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
       //项目列表
-      // console.log(data);
+      console.log(data);
       this.provinceListResult = data.Data.data.provinceListResult
       // console.log(this.provinceListResult);
 
@@ -844,7 +924,7 @@ export default {
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          // console.log(data);
+          console.log(data);
           let projectList = data.Data.data.projectList
           var map = new AMap.Map('map', {
             zoom:10,//级别
@@ -951,7 +1031,7 @@ export default {
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          // console.log(data);
+          console.log(data);
           //项目总数
           _this.projectAllCount = data.Data.data.projectAllCount
           //城市top5
@@ -972,7 +1052,36 @@ export default {
           //预警列表
           _this.warningList = data.Data.data.waringMount
           //预警项
-          _this.waringMount = data.Data.data.waringMount
+          let waringMountOld = [
+            {
+              Level_Id:1,
+              Level_Name:'灾难',
+              num:0
+            },
+            {
+              Level_Id:2,
+              Level_Name:'严重',
+              num:0
+            },
+            {
+              Level_Id:3,
+              Level_Name:'警告',
+              num:0
+            },
+            {
+              Level_Id:4,
+              Level_Name:'信息',
+              num:0
+            }
+          ]
+          data.Data.data.waringMount.forEach((newItem,newIndex) => {
+            waringMountOld.forEach((item,i) => {
+              if(+newItem.Level_Id === +item.Level_Id){
+                waringMountOld[i].num = newItem.num
+              }
+            })
+          })
+          _this.waringMount = waringMountOld
           // this.waringNum = this.waringMount.length
           _this.waringNum = null
           _this.waringMount.forEach((item,i) => {
@@ -983,7 +1092,7 @@ export default {
           let displayCity = []
           let displayNum = []
           cityTop5.forEach((item,i) => {
-            displayCity.unshift(item.Name)
+            displayCity.unshift(item.Province_Name)
             displayNum.unshift(item.num)
             backgroundData.push(cityTop5[0].num)
           })
@@ -1349,7 +1458,7 @@ export default {
     this.$http.post('/Manage/User/index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      // console.log(data);
+      console.log(data);
       //项目总数
       this.projectAllCount = data.Data.data.projectAllCount
       //城市top5
@@ -1370,7 +1479,36 @@ export default {
       //预警列表
       this.warningList = data.Data.data.waringMount
       //预警项
-      this.waringMount = data.Data.data.waringMount
+      let waringMountOld = [
+        {
+          Level_Id:1,
+          Level_Name:'灾难',
+          num:0
+        },
+        {
+          Level_Id:2,
+          Level_Name:'严重',
+          num:0
+        },
+        {
+          Level_Id:3,
+          Level_Name:'警告',
+          num:0
+        },
+        {
+          Level_Id:4,
+          Level_Name:'信息',
+          num:0
+        }
+      ]
+      data.Data.data.waringMount.forEach((newItem,newIndex) => {
+        waringMountOld.forEach((item,i) => {
+          if(+newItem.Level_Id === +item.Level_Id){
+            waringMountOld[i].num = newItem.num
+          }
+        })
+      })
+      this.waringMount = waringMountOld
       // this.waringNum = this.waringMount.length
       this.waringNum = null
       this.waringMount.forEach((item,i) => {
@@ -1381,7 +1519,7 @@ export default {
       let displayCity = []
       let displayNum = []
       cityTop5.forEach((item,i) => {
-        displayCity.unshift(item.Name)
+        displayCity.unshift(item.Province_Name)
         displayNum.unshift(item.num)
         backgroundData.push(cityTop5[0].num)
       })

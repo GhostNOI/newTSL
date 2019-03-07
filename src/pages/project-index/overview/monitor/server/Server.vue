@@ -30,7 +30,7 @@
               <div class="col-md-3 server-cpu-per">
                 <div class="panel-right">
                   <h5 class="customH5">CPU平均负载 (5min)</h5>
-                  <h3 class="customH3">{{cpuLoadAve}}%</h3>
+                  <h3 class="customH3">{{cpuLoadAve}}</h3>
                 </div>
               </div>
               <div class="col-md-3 server-memory-per">

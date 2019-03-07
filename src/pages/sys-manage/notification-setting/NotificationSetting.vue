@@ -104,7 +104,10 @@
                           </div>
 
                         </div>
-
+                        <div style="text-align: center;">
+                          <span style="color: red;" v-if="selectRoleType">请选择人员类型</span>
+                          <span style="color: red;" v-if="selectEventType">{{selectEventTips}}</span>
+                        </div>
                         <div slot="footer" class="dialog-footer">
                           <el-button type="confirm" @click="handleOk">确 定</el-button>
                           <el-button type="cancel" @click="changeNoticeDialog = false">取 消</el-button>
@@ -114,55 +117,47 @@
                   </div>
 
                 </el-tab-pane>
-                <el-tab-pane label="通知模板设定" name="second">
+                <!--<el-tab-pane label="通知模板设定" name="second">-->
 
-                  <div class="col-md-12 notification-width12" style="padding: 20px 0 0 0">
-                    <div class="table-responsive">
-                      <table class="table darkTable notification-setting-table" style="width: 100%;">
-                        <thead>
-                        <tr>
-                          <td style="width: 20%;padding-left: 5px;padding-right: 5px;">通知方式</td>
-                          <td style="width: 70%;padding-left: 5px;padding-right: 5px;">通知模版</td>
-                          <td style="width: 10%;padding-left: 5px;padding-right: 5px;">操作</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(item,i) in tableData2" :key="i">
-                          <td style="padding-left: 5px;padding-right: 5px;">{{item.Notice_type_Name}}</td>
-                          <td style="padding-left: 5px;padding-right: 5px;">{{item.Template_Content}}</td>
-                          <td style="padding-left: 5px;padding-right: 5px;"><span class="enabled" @click="changeTemplate(item)">修改</span></td>
-                        </tr>
+                  <!--<div class="col-md-12 notification-width12" style="padding: 20px 0 0 0">-->
+                    <!--<div class="table-responsive">-->
+                      <!--<table class="table darkTable notification-setting-table" style="width: 100%;">-->
+                        <!--<thead>-->
                         <!--<tr>-->
-                          <!--<td>平台弹窗</td>-->
-                          <!--<td>My SQL is down</td>-->
-                          <!--<td><a class="enabled changeModal">修改</a></td>-->
+                          <!--<td style="width: 20%;padding-left: 5px;padding-right: 5px;">通知方式</td>-->
+                          <!--<td style="width: 70%;padding-left: 5px;padding-right: 5px;">通知模版</td>-->
+                          <!--<td style="width: 10%;padding-left: 5px;padding-right: 5px;">操作</td>-->
                         <!--</tr>-->
-                        </tbody>
-                      </table>
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr v-for="(item,i) in tableData2" :key="i">-->
+                          <!--<td style="padding-left: 5px;padding-right: 5px;">{{item.Notice_type_Name}}</td>-->
+                          <!--<td style="padding-left: 5px;padding-right: 5px;">{{item.Template_Content}}</td>-->
+                          <!--<td style="padding-left: 5px;padding-right: 5px;"><span class="enabled" @click="changeTemplate(item)">修改</span></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                      <!--</table>-->
+                      <!--<el-dialog title="修改" :visible.sync="templateChange" custom-class="editor innerShadow" @closed="noticeTemplate">-->
 
-                      <!-- 弹框 -->
-                      <el-dialog title="修改" :visible.sync="templateChange" custom-class="editor innerShadow" @closed="noticeTemplate">
-
-                        <div>
-                          <div class="noticeTemType cus-height">
-                            <label class="noticeLabel">通知方式</label>
-                            <input type="text" class="ipt" v-model="noticeTemplateType" >
-                          </div>
-                          <div>
-                            <label class="noticeLabel" style="float: left;">通知模板</label>
-                            <textarea class="ipt" cols="50" rows="10" style="resize: none;" v-model="noticeTemplateTem"></textarea>
-                          </div>
-                        </div>
-                        <div slot="footer" class="dialog-footer">
-                          <el-button type="confirm" @click="confirmTemplate">确 定</el-button>
-                          <el-button type="cancel" @click="templateChange = false">取 消</el-button>
-                        </div>
-                      </el-dialog>
-
-                    </div>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="催办时间设定" name="third">
+                        <!--<div>-->
+                          <!--<div class="noticeTemType cus-height">-->
+                            <!--<label class="noticeLabel">通知方式</label>-->
+                            <!--<input type="text" class="ipt" v-model="noticeTemplateType" >-->
+                          <!--</div>-->
+                          <!--<div>-->
+                            <!--<label class="noticeLabel" style="float: left;">通知模板</label>-->
+                            <!--<textarea class="ipt" cols="50" rows="10" style="resize: none;" v-model="noticeTemplateTem"></textarea>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div slot="footer" class="dialog-footer">-->
+                          <!--<el-button type="confirm" @click="confirmTemplate">确 定</el-button>-->
+                          <!--<el-button type="cancel" @click="templateChange = false">取 消</el-button>-->
+                        <!--</div>-->
+                      <!--</el-dialog>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</el-tab-pane>-->
+                <el-tab-pane label="处理时间设置" name="third">
                   <div class="panel-body" style="min-height: 700px">
                     <div class="col-md-12 notification-width12" style="padding: 20px 0 0 0">
                       <table class="table darkTable notification-setting-table" style="width: 100%;">

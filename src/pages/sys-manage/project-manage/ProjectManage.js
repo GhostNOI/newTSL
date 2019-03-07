@@ -56,9 +56,10 @@ export default {
     },
     //修改项目管理员或者运维人员
     changeManage (val) {
+      console.log(val);
       this.projectCode = val.Project_Code
       this.projectNames = val.Project_Name
-      this.manageSelect = val.ProjectManagerUser[0].User_Id
+      this.manageSelect = val.ProjectManagerUser[0] ? val.ProjectManagerUser[0].User_Id : ''
       // this.manageSelect = val.ProjectManagerUser[0].Name ? val.ProjectManagerUser[0].Name : ''
       if(val.ProjectOPSUser.length){
         this.opsSelect = val.ProjectOPSUser.map(item => {

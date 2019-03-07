@@ -20,6 +20,7 @@ export default {
       lockType:'',
       lockName:'',
       lockMAC:'',
+      lockNoData:false,
 
 
       //监控设备
@@ -35,6 +36,7 @@ export default {
       cameraVillage:'',
       cameraName:'',
       cameraIP:'',
+      cameraNoData:false,
 
 
       //烟感设备
@@ -48,6 +50,7 @@ export default {
       smokeVillage:'',
       smokeName:'',
       smokeMAC:'',
+      smokeNoData:false,
       //设备状态
       typeData:[
         {isOnline:1,name:'在线'},
@@ -93,6 +96,11 @@ export default {
         // console.log(data);
         this.lockTableData = data.Data.data
         this.lockHowMany = data.Data.howMany
+        if(this.lockTableData.length === 0){
+          this.lockNoData = true
+        } else {
+          this.lockNoData = false
+        }
       })
     },
     lockReset() {
@@ -108,6 +116,11 @@ export default {
         // console.log(data);
         this.lockTableData = data.Data.data
         this.lockHowMany = data.Data.howMany
+        if(this.lockTableData.length === 0){
+          this.lockNoData = true
+        }else {
+          this.lockNoData = false
+        }
       })
     },
     //监控设备
@@ -123,6 +136,11 @@ export default {
         // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
+        if(this.cameraTableData.length === 0){
+          this.cameraNoData = true
+        }else {
+          this.cameraNoData = false
+        }
       })
     },
     cameraReset() {
@@ -137,6 +155,11 @@ export default {
         // console.log(data);
         this.cameraTableData = data.Data.data
         this.cameraHowMany = data.Data.howMany
+        if(this.cameraTableData.length === 0){
+          this.cameraNoData = true
+        }else {
+          this.cameraNoData = false
+        }
       })
     },
     //烟感设备
@@ -152,6 +175,11 @@ export default {
         // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
+        if(this.smokeTableData.length === 0){
+          this.smokeNoData = true
+        }else {
+          this.smokeNoData = false
+        }
       })
     },
     smokeReset() {
@@ -166,6 +194,11 @@ export default {
         // console.log(data);
         this.smokeTableData = data.Data.data
         this.smokeHowMany = data.Data.howMany
+        if(this.smokeTableData.length === 0){
+          this.smokeNoData = true
+        }else {
+          this.smokeNoData = false
+        }
       })
     },
     handleClick(tab, event) {
@@ -192,6 +225,7 @@ export default {
       //页码切换
       // console.log(val);
       this.lockPageNum = val
+      this.lockCountPage = val
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -201,6 +235,7 @@ export default {
       }).then((data) => {
         // console.log(data);
         this.lockTableData = data.Data.data
+        this.lockHowMany = data.Data.howMany
       })
     },
 
@@ -333,9 +368,9 @@ export default {
       let cameraOnline = Number(data.Data.data.camera.cameraOnlineNum)
       let smokeOnline = Number(data.Data.data.smoke.smokeOnlineNum)
       this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / this.deviceTotal * 100).toFixed(2)
-      this.lockPercent = Number(lockOnline / this.lock * 100).toFixed(2)
-      this.cameraPercent = Number(cameraOnline / this.camera * 100).toFixed(2)
-      this.smokePercent = Number(smokeOnline / this.smoke *100).toFixed(2)
+      this.lockPercent = Number((lockOnline / this.lock * 100).toFixed(2))
+      this.cameraPercent = Number((cameraOnline / this.camera * 100).toFixed(2))
+      this.smokePercent = Number((smokeOnline / this.smoke *100).toFixed(2))
       this.waringNum = data.Data.data.waringNum
       if(this.warningNum > 0){
         this.ifWarning = true
@@ -351,9 +386,14 @@ export default {
       'DeviceType':'lock',
     }).then((data) => {
       // console.log(data);
-      this.lockTableData = data.Data.data
-      this.lockHowMany = data.Data.howMany
-      // console.log(this.pageTotalLock);
+      this.lockTableData = data.Data.data;
+      this.lockHowMany = data.Data.howMany;
+      this.lockVillageData = data.Data.village_Date;
+      if(this.lockTableData.length === 0){
+        this.lockNoData = true
+      }else {
+        this.lockNoData = false
+      }
     })
     //监控设备
     this.$http.post('/Manage/Device/DeviceDetails',{
@@ -365,6 +405,11 @@ export default {
       this.cameraTableData = data.Data.data
       this.cameraHowMany = data.Data.howMany
       this.cameraVillageData = data.Data.village_Date
+      if(this.cameraTableData.length === 0){
+        this.cameraNoData = true
+      }else {
+        this.cameraNoData = false
+      }
     })
     //烟感设备
     this.$http.post('/Manage/Device/DeviceDetails',{
@@ -376,6 +421,11 @@ export default {
       this.smokeTableData = data.Data.data
       this.smokeHowMany = data.Data.howMany
       this.smokeVillageData = data.Data.village_Date
+      if(this.smokeTableData.length === 0){
+        this.smokeNoData = true
+      }else {
+        this.smokeNoData = false
+      }
     })
 
   }
