@@ -379,7 +379,9 @@ export default {
       this.title = '修改'
       this.form.name = val.Name
       this.form.role = val.Role_Name
-      this.form.project = val.warningProjectList[0] ? val.warningProjectList[0].Project_Name : ''
+      this.form.project = val.warningProjectList.map(item => {
+        return item.Project_Code
+      })
       this.form.phone = val.Phone
       this.form.dingding = val.DingDing
       this.form.email = val.Email
