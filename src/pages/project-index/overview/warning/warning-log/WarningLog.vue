@@ -173,7 +173,7 @@
                       <td style="width: 15%;padding-left: 5px;">发生时间</td>
                       <td style="width: 8%">事件类型</td>
                       <td style="width: 8%">预警等级</td>
-                      <td style="width: 10%">预警主题</td>
+                      <td style="width: 10%">预警主体</td>
                       <td style="width: 17%">事件</td>
                       <td style="width: 10%">耗时</td>
                       <td style="width: 10%">处理人</td>

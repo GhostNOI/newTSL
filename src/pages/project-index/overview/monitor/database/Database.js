@@ -214,14 +214,23 @@ export default {
             displayTime.push(time[i])
           }
         }else if(+this.days === 3){
-          for(let i=0;i<time.length;i+=36){
+          for(let i=0;i<time.length;i++){
+            if(i % 36 === 0){
+              displayTime.push(time[i])
+            }else {
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
+
           }
         }if(+this.days === 7){
-          for(let i=0;i<time.length;i+=72){
+          for(let i=0;i<time.length;i++){
+            if(i % 72 === 0){
+              displayTime.push(time[i])
+            }else {
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
           }
         }
         this.mainChart.setOption({
@@ -314,14 +323,23 @@ export default {
             displayTime.push(time[i])
           }
         }else if(+this.days === 3){
-          for(let i=0;i<time.length;i+=36){
+          for(let i=0;i<time.length;i++){
+            if(i % 36 === 0){
+              displayTime.push(time[i])
+            }else {
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
             displayTime.push(time[i])
           }
         }if(+this.days === 7){
-          for(let i=0;i<time.length;i+=72){
+          for(let i=0;i<time.length;i++){
+            if(i % 72 === 0){
+              displayTime.push(time[i])
+            }else {
+              displayTime.push('')
+            }
             displayYAxisData.push(yAxisData[i])
-            displayTime.push(time[i])
           }
         }
         this.mainChart.setOption({
@@ -393,6 +411,9 @@ export default {
         containLabel: true
       },
       xAxis: {
+        axisLabel:{
+          rotate:90
+        },
         type: 'category',
         boundaryGap: false,
         axisLine: {

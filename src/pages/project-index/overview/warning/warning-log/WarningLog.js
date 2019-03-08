@@ -51,7 +51,7 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id
       }).then((data) => {
-        // console.log(data);
+        console.log(data);
         this.warningLevel = data.Data.data.warningLevel
         this.warningGroup = data.Data.data.warningGroup
         this.userList = data.Data.data.userList

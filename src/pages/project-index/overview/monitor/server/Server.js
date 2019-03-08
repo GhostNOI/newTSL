@@ -309,7 +309,10 @@ export default {
             data:displayTime
           },
           series:[
-            {data:displayYAxisData}
+            {
+              name:val.name,
+              data:displayYAxisData
+            }
           ]
         })
       })

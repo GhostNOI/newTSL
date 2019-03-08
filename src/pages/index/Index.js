@@ -102,7 +102,7 @@ export default {
             })
             marker2.content = `
               <div style="height: 30px;color: #fff;">
-                <span style="height: 30px;float:left;">${projectList[i].Area_Name}</span><span style="float: right;">运行正常</span>
+                <span style="height: 30px;float:left;">${projectList[i].Project_Name}</span><span style="float: right;">运行正常</span>
               </div>
             `;
             marker2.on('mouseover', markerOverProvince);
@@ -139,7 +139,7 @@ export default {
             marker2.content=`
             <div class="out">
               <div style="height: 30px;">
-                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Area_Name}</span></span>
+                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
                 <span style="float:right;color:#fa541c;font-size:28px;float:right">${warningNumber}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
@@ -512,7 +512,7 @@ export default {
                 })
                 marker2.content = `
               <div style="height: 30px;color: #fff;">
-                <span style="height: 30px;float:left;">${projectList[i].Area_Name}</span><span style="float: right;">运行正常</span>
+                <span style="height: 30px;float:left;">${projectList[i].Project_Name}</span><span style="float: right;">运行正常</span>
               </div>
             `;
                 marker2.on('mouseover', markerOverProvince);
@@ -549,7 +549,7 @@ export default {
                 marker2.content =`
             <div class="out">
               <div style="height: 30px;">
-                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Area_Name}</span></span>
+                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
                 <span style="float:right;color:#fa541c;font-size:28px;float:right">${warningNumber}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
@@ -950,7 +950,7 @@ export default {
               })
               marker2.content = `
               <div style="height: 30px;color: #fff;">
-                <span style="height: 30px;float:left;">${projectList[i].Area_Name}</span><span style="float: right;">运行正常</span>
+                <span style="height: 30px;float:left;">${projectList[i].Project_Name}</span><span style="float: right;">运行正常</span>
               </div>
             `;
               marker2.on('mouseover', markerOverProvince);
@@ -985,7 +985,7 @@ export default {
               marker2.content=`
             <div class="out">
               <div style="height: 30px;">
-                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Area_Name}</span></span>
+                </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
                 <span style="float:right;color:#fa541c;font-size:28px;float:right">${a.warningNum}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
@@ -1384,7 +1384,7 @@ export default {
       },
       series: [
         {
-          name: '占用百分比',
+          name: '数量',
           type: 'bar',
           barWidth: 10,
           barGap:'-100%',
@@ -1415,6 +1415,7 @@ export default {
         subtextStyle:{
           color: '#fff',
           fontSize: 14,
+          right:'0',
           align: 'right'
         }
       },
