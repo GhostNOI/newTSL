@@ -99,8 +99,8 @@
                     <td style="width: 15%">部署时间</td>
                     <td style="width: 15%">监控时间</td>
                     <td style="width: 10%">设备总数</td>
-                    <td style="width: 10%">监控项</td>
-                    <td style="width: 10%">预警项</td>
+                    <!--<td style="width: 10%">监控项</td>-->
+                    <td style="width: 10%">预警规则</td>
                   </tr>
                   </thead>
                   <tbody>
@@ -111,8 +111,8 @@
                     <td style="word-wrap:break-word;word-break:break-all;">{{item.Insert_Time | dateFilter}}</td>
                     <td style="word-wrap:break-word;word-break:break-all;">{{item.Update_Time | dateFilter}}</td>
                     <td style="word-wrap:break-word;word-break:break-all;"><a class="enabled" @click="toSmartDevice(item)">{{item.Device_Num}}</a></td>
-                    <td style="word-wrap:break-word;word-break:break-all;">{{item.Monitor_Num}}</td>
-                    <td style="word-wrap:break-word;word-break:break-all;"><a class="enabled" @click="toWarningtrigger">{{item.Warring_Num}}</a></td>
+                    <!--<td style="word-wrap:break-word;word-break:break-all;">{{item.Monitor_Num}}</td>-->
+                    <td style="word-wrap:break-word;word-break:break-all;"><a class="enabled" @click="toWarningtrigger(item)">{{item.Warring_Num}}</a></td>
                   </tr>
                   <!--<tr>-->
                     <!--<th>62442</th>-->

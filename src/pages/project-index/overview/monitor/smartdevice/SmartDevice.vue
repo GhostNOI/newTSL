@@ -210,7 +210,7 @@
                             <td>{{item.Village_Name}}</td>
                             <td>{{item.MacAddress}}</td>
                             <td>{{item.Camera_Type | deviceType}}</td>
-                            <td><span @click="checkDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
+                            <td><span @click="checkCameraDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
                             <td>{{item.Insert_Time | transformDate}}</td>
                           </tr>
                           </tbody>
@@ -340,15 +340,15 @@
               <div>
                 <span class="model-item">设备名称</span>　<span class="model-item1">{{deviceName}}</span>
               </div>
-              <div>
-                <span class="model-item">安装位置</span>　<span class="model-item1">{{installLocation}}</span>
-              </div>
+              <!--<div>-->
+                <!--<span class="model-item">安装位置</span>　<span class="model-item1">{{installLocation}}</span>-->
+              <!--</div>-->
               <div>
                 <span class="model-item">MAC地址</span>　<span class="model-item1">{{MACAddress}}</span>
               </div>
-              <div>
-                <span class="model-item">设备类型</span>　<span class="model-item1">{{deviceType}}</span>
-              </div>
+              <!--<div>-->
+                <!--<span class="model-item">设备类型</span>　<span class="model-item1">{{deviceType}}</span>-->
+              <!--</div>-->
               <div>
                 <span class="model-item">当前状态</span>　<span class="model-item1">{{status | isOnline(status)}}</span>
               </div>
@@ -362,6 +362,34 @@
             </div>
           </el-dialog>
 
+          <!-- 监控弹框 -->
+          <el-dialog title="设备详情" :visible.sync="cameraDetail" custom-class="editor innerShadow">
+
+            <div>
+              <div>
+                <span class="model-item">设备名称</span>　<span class="model-item1">{{cameraNameDetail}}</span>
+              </div>
+              <!--<div>-->
+              <!--<span class="model-item">安装位置</span>　<span class="model-item1">{{installLocation}}</span>-->
+              <!--</div>-->
+              <div>
+                <span class="model-item">I P 地址</span>　<span class="model-item1">{{IPAddressDetail}}</span>
+              </div>
+              <!--<div>-->
+              <!--<span class="model-item">设备类型</span>　<span class="model-item1">{{deviceType}}</span>-->
+              <!--</div>-->
+              <div>
+                <span class="model-item">当前状态</span>　<span class="model-item1">{{status | isOnline(status)}}</span>
+              </div>
+              <div>
+                <span class="model-item">安装时间</span>　<span class="model-item1">{{installTime | transformDate}}</span>
+              </div>
+            </div>
+
+            <div slot="footer" class="dialog-footer">
+              <el-button type="cancel" @click="cameraDetail = false">确定</el-button>
+            </div>
+          </el-dialog>
         </div>
         <!-- /. PAGE INNER  -->
       </div>

@@ -32,7 +32,7 @@ export default {
         //钉钉号
         dingding:'',
         //有无钉钉
-        isDingding:'',
+        isDingding:null,
         email:''
       },
       formLabelWidth:'120px',
@@ -367,18 +367,20 @@ export default {
       this.dialogFormVisible = true
       this.title = '新建'
       this.isCreate = true
+      this.form.isDingding = 0
     },
     //修改通知人员设定
     changeNotice (val) {
       // console.log(val);
       if(val.DingDing) {
         this.form.isDingding = 1
+        this.dingdingIpt = true
       } else {
         this.form.isDingding = 0
       }
       this.title = '修改'
       this.form.name = val.Name
-      this.form.role = val.Role_Name
+      this.form.role = val.Role_Id
       this.form.project = val.warningProjectList.map(item => {
         return item.Project_Code
       })
@@ -388,11 +390,9 @@ export default {
       this.noticeId = val.Id
       // this.eventType = val.warningGroupList
       this.dialogFormVisible = true
-      this.title = '修改'
       val.warningGroupList.forEach((item,i) => {
         this.eventType.push(item.Warning_Group)
       })
-      // console.log(this.warningGroup);
       this.isCreate = false
     },
 

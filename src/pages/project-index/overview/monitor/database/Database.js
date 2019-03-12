@@ -36,6 +36,7 @@ export default {
       waringNum:null,
       ifWarning:false,
       timer: null,
+      concurrency:''
     }
   },
   methods: {
@@ -45,8 +46,9 @@ export default {
         'Project_Code':this.$route.params.id,
         'DB_Code':this.$route.params.databaseId
       }).then((data) => {
-        // console.log(data);
+        console.log(data);
         this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total : ''
+        this.concurrency = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Proc_Numbers : ''
         // this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
         this.lastBackupTime = +data.Data.data.lastBackupTime === -1 ? '' : FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
         this.slowQueryCount = data.Data.data.slowQueryCount
@@ -135,11 +137,12 @@ export default {
       this.dialogFormVisible = false
     },
     tap(val,i){
-      console.log(i);
+      // console.log(i);
       val = val ? val : {code: this.detialType}
-      // i = i ? i : this.databaseOptionIndex
-      this.databaseOptionIndex = (i ? this.databaseOptionIndex : i)
-      console.log(this.databaseOptionIndex);
+      i = undefined ? this.databaseOptionIndex : i
+      this.databaseOptionIndex = i
+      // this.databaseOptionIndex = (i ? this.databaseOptionIndex : i)
+      // console.log(this.databaseOptionIndex);
       this.detialType = val.code
       this.$http.post('/Manage/Database/DatabaseAllIndexDetial',{
         'User_Id':window.localStorage.getItem('userId'),

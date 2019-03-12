@@ -24,13 +24,11 @@ export default {
   },
   methods:{
     //跳转到预警触发
-    toWarningtrigger() {
+    toWarningtrigger(val) {
+      console.log(val);
       this.$router.push({
         path: '/warningtrigger',
-        query: {
-          id: 123,
-          name: 'aaa'
-        }
+        query: val
       })
     },
     //跳转到智能设备

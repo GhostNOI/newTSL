@@ -101,7 +101,7 @@ export const hideLoading = () => {
           if(+res.data.Data.code === -1){
             logout()
           }else if(+res.data.Data.code === 99){
-            console.log('aa');
+            // console.log('aa');
             router.push('/notfound')
           }
         }

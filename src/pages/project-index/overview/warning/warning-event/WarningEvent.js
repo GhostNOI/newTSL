@@ -203,7 +203,7 @@ export default {
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
           'User_Id':window.localStorage.getItem('userId'),
           'Project_Code':this.$route.params.id,
-          'Warning_Group':4
+          'Warning_Group':5
         }).then((data) => {
           // console.log(data);
           this.waringEventList = data.Data.waringEventList
@@ -254,13 +254,13 @@ export default {
           this.deviceType = val.Source_Type_Name
           this.deviceStatus = val.CameraMsg[0].IsOnline_Name
         }else if(val.LockMsg.length > 0){
-          this.deviceName = val.CameraMsg[0].Name
+          this.deviceName = val.LockMsg[0].Name
           this.deviceType = val.Source_Type_Name
-          this.deviceStatus = val.CameraMsg[0].IsOnline_Name
+          this.deviceStatus = val.LockMsg[0].IsOnline_Name
         }else if(val.SmokeMsg.length > 0){
-          this.deviceName = val.CameraMsg[0].Name
+          this.deviceName = val.SmokeMsg[0].Name
           this.deviceType = val.Source_Type_Name
-          this.deviceStatus = val.CameraMsg[0].IsOnline_Name
+          this.deviceStatus = val.SmokeMsg[0].IsOnline_Name
         }
         this.deviceShow = true
       } else{
@@ -428,7 +428,7 @@ export default {
   mounted () {
     //面包屑
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    console.log(headerObj, 'headerObj');
+    // console.log(headerObj, 'headerObj');
     this.$store.commit('changeHeadTitle', [
       {
         url: `/project-index/${this.$route.params.id}`,

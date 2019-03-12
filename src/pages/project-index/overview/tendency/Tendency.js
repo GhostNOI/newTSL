@@ -104,7 +104,8 @@ export default {
           'User_Id':window.localStorage.getItem('userId'),
           'Project_Code':this.$route.params.id,
           'Service_Code':total[total.length-1] ? total[total.length-1].Server_Code : '',
-          'CPU_Logs_Code':total[total.length-1] ? total[total.length-1].CPU_Logs_Code : ''
+          'CPU_Logs_Code':total[total.length-1] ? total[total.length-1].CPU_Logs_Code : '',
+          'Insert_Time':total[total.length-1] ? total[total.length-1].Insert_Time : ''
         }).then((data) => {
           // console.log(data);
           if(data.ErrorCode == 0 && data.Data.code == 0){
@@ -185,9 +186,10 @@ export default {
       //进程占用top5
       this.$http.post('/Manage/Service/ServiceProTop5',{
         'User_Id':window.localStorage.getItem('userId'),
-        'Project_Code':this.middleData[params.dataIndex].Project_Code,
-        'Service_Code':this.middleData[params.dataIndex].Server_Code,
-        'CPU_Logs_Code':this.middleData[params.dataIndex].CPU_Logs_Code
+        'Project_Code':this.middleData[4 - params.dataIndex].Project_Code,
+        'Service_Code':this.middleData[4 - params.dataIndex].Server_Code,
+        'CPU_Logs_Code':this.middleData[4 - params.dataIndex].CPU_Logs_Code,
+        'Insert_Time':this.middleData[4 - params.dataIndex].Insert_Time
       }).then((data) => {
         // console.log(data);
         let total = []

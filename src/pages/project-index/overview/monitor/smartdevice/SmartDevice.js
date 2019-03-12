@@ -37,6 +37,9 @@ export default {
       cameraName:'',
       cameraIP:'',
       cameraNoData:false,
+      cameraNameDetail:'',
+      IPAddressDetail:'',
+
 
 
       //烟感设备
@@ -77,7 +80,8 @@ export default {
       MACAddress:'',
       deviceType:'',
       status:'',
-      installTime:''
+      installTime:'',
+      cameraDetail:false
     }
   },
   methods:{
@@ -307,10 +311,10 @@ export default {
       })
     },
     //点击弹出弹框
+    //通行
     checkDetail(val) {
       // console.log(val);
       this.deviceDetail = true
-
       this.deviceName = val.Name
       this.MACAddress = val.MacAddress
       this.deviceType = val.Camera_Type
@@ -318,6 +322,15 @@ export default {
       this.installTime = val.Insert_Time
 
 
+    },
+    //监控
+    checkCameraDetail (val) {
+      // console.log(val);
+      this.cameraDetail = true
+      this.cameraNameDetail = val.Name
+      // this.IPAddressDetail = val.
+      this.status = val.IsOnline
+      this.installTime = val.Insert_Time
     },
     toWarningEvent() {
       this.$router.push(`/project-index/${this.$route.params.id}/warningevent/`)
@@ -367,10 +380,23 @@ export default {
       let lockOnline = Number(data.Data.data.lock.lockOnlineNum)
       let cameraOnline = Number(data.Data.data.camera.cameraOnlineNum)
       let smokeOnline = Number(data.Data.data.smoke.smokeOnlineNum)
-      this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / this.deviceTotal * 100).toFixed(2)
-      this.lockPercent = Number((lockOnline / this.lock * 100).toFixed(2))
-      this.cameraPercent = Number((cameraOnline / this.camera * 100).toFixed(2))
-      this.smokePercent = Number((smokeOnline / this.smoke *100).toFixed(2))
+      //设备数量会出现为0的情况
+      let l = this.lock === 0 ? 1 : this.lock
+      let c = this.camera === 0 ? 1 : this.camera
+      let s = this.smoke === 0 ? 1 : this.camera
+      let d = this.deviceTotal === 0 ? 1 :this.deviceTotal
+
+      // this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / this.deviceTotal * 100).toFixed(2)
+      // this.lockPercent = Number((lockOnline / this.lock * 100).toFixed(2))
+      // this.cameraPercent = Number((cameraOnline / this.camera * 100).toFixed(2))
+      // this.smokePercent = Number((smokeOnline / this.smoke *100).toFixed(2))
+
+      this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / d * 100).toFixed(2)
+      this.lockPercent = Number((lockOnline / l * 100).toFixed(2))
+      this.cameraPercent = Number((cameraOnline / c * 100).toFixed(2))
+      this.smokePercent = Number((smokeOnline / s *100).toFixed(2))
+
+
       this.waringNum = data.Data.data.waringNum
       if(this.warningNum > 0){
         this.ifWarning = true

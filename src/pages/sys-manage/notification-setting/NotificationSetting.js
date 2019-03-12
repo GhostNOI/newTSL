@@ -112,6 +112,7 @@ export default {
       this.eventLevel = []
       this.noticeType = []
       this.selectRoleType = false
+      this.selectEventType = false
     },
 
 

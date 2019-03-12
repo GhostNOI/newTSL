@@ -20,7 +20,7 @@
             <el-dropdown-item>资产配置</el-dropdown-item>
           </router-link>
           <router-link to="/warningtrigger">
-            <el-dropdown-item>预警触发</el-dropdown-item>
+            <el-dropdown-item>预警规则</el-dropdown-item>
           </router-link>
           <router-link to="/rolemanagement">
             <el-dropdown-item>角色管理</el-dropdown-item>

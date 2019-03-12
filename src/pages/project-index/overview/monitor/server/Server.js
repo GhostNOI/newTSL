@@ -138,9 +138,10 @@ export default {
     },
     //点击切换指标
     tap(val,i){
-      this.serverOptionIndex = i
-      val = val ? val : {code: this.serverType, type: this.type};
 
+      val = val ? val : {code: this.serverType, type: this.type};
+      i = undefined ? this.serverOptionIndex : i
+      this.serverOptionIndex = i
       //服务器指标
       this.serverType = val.code
       //服务器指标类型
@@ -480,11 +481,11 @@ export default {
         'Project_Code':this.$route.params.id,
         'Service_Code':this.$route.params.serverId
       }).then((data) => {
-        console.log(data);
+        // console.log(data);
         // console.log(data.Data.data.fourState[0].CPU_Load_Average);
         this.cpuLoadAve = data.Data.data.fourState[0] ? data.Data.data.fourState[0].CPU_Load_Average : ''
-        this.memoryFree = data.Data.data.fourState[0] ? 100 - Number(data.Data.data.fourState[0].Memory_Usage_Rate) : ''
-        this.diskFree = data.Data.data.fourState[0] ? 100 - Number(data.Data.data.fourState[0].Disk_Usage_Rate) :''
+        this.memoryFree = data.Data.data.fourState[0] ? (100 - Number(data.Data.data.fourState[0].Memory_Usage_Rate)).toFixed(2) : ''
+        this.diskFree = data.Data.data.fourState[0] ? (100 - Number(data.Data.data.fourState[0].Disk_Usage_Rate)).toFixed(2) :''
         this.network = data.Data.data.fourState[0] ? data.Data.data.fourState[0].Network_Speed_In :''
         this.warningNum = data.Data.data.waringNum
         this.interrupt = data.Data.data.offFinalResult.length
@@ -550,16 +551,17 @@ export default {
         })
 
         //中间大图点击事件
-        this.cpuChart.on('click', (params) => {
-          this.middleClick(params)
-        })
+        // this.cpuChart.on('click', (params) => {
+        //   this.middleClick(params)
+        // })
         //进程占用top5进入页面默认展示
         this.$http.post('/Manage/Service/ServiceProTop5',{
           'User_Id':window.localStorage.getItem('userId'),
           'Project_Code':this.$route.params.id,
           'Service_Code':this.$route.params.serverId,
           // 'CPU_Logs_Code':this.CPU_Logs_Code
-          'CPU_Logs_Code':this.middleData[this.middleData.length - 1] ? this.middleData[this.middleData.length - 1].CPU_Logs_Code : ''
+          'CPU_Logs_Code':this.middleData[this.middleData.length - 1] ? this.middleData[this.middleData.length - 1].CPU_Logs_Code : '',
+          'Insert_Time':this.middleData[this.middleData.length - 1] ? this.middleData[this.middleData.length - 1].Insert_Time : ''
         }).then((data) => {
           // console.log(data);
           if (!data.Data) {
@@ -608,7 +610,7 @@ export default {
           }).then((data) =>{
             // console.log(data);
             let total = []
-            let maxAvgMin =[]
+            let maxAvgMin = null
             total = data.Data.data.pro.detial
             maxAvgMin = data.Data.data.pro.maxAvgMin
             let time = []
@@ -624,7 +626,9 @@ export default {
               displayTime.push(time[i])
             }
             this.processLineChart.setOption({
-              title:{subtext: '最近值' + processVal[processVal.length-1] + '      ' + '最小值' + maxAvgMin.CPU_Rate_MIN + '      ' + '平均值' + maxAvgMin.CPU_Rate_AVG + '      ' +'最大值' + maxAvgMin.CPU_Rate_MAX,},
+              title:{
+                subtext:`最近值${processVal.length > 0 ? processVal[processVal.length-1] : ''} 最小值${maxAvgMin.CPU_Rate_MIN == null ? '' : maxAvgMin.CPU_Rate_MIN} 平均值${maxAvgMin.CPU_Rate_AVG == null ? '' : maxAvgMin.CPU_Rate_AVG} 最大值${maxAvgMin.CPU_Rate_MAX == null ? '' : maxAvgMin.CPU_Rate_MAX}`
+              },
               xAxis:{data:displayTime},
               series:[{data:displayProcessVal}]
             })
@@ -653,16 +657,18 @@ export default {
     //中间大图点击事件
     middleClick(params) {
       // console.log(params);
-      console.log(this.middleData[params.dataIndex]);
+      // console.log(this.middleData[params.dataIndex]);
       this.$http.post('/Manage/Service/ServiceProTop5',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'Service_Code':this.$route.params.serverId,
-        'CPU_Logs_Code':this.middleData[params.dataIndex].CPU_Logs_Code
+        'CPU_Logs_Code':this.middleData[params.dataIndex].CPU_Logs_Code,
+        'Insert_Time':this.middleData[params.dataIndex].Insert_Time
       }).then((data) => {
         let total = []
         total = data.Data.data
         // console.log(total);
+        this.leftButtomData = data.Data.data
         let displayProcessName = []
         let displayProcessVal = []
         total.forEach((item,i) => {
@@ -681,18 +687,18 @@ export default {
     //左下角柱状图点击事件
     leftSideClick(params) {
       // console.log(params);
-      console.log(this.leftButtomData);
+      // console.log(this.leftButtomData);
       this.$http.post('/Manage/Service/ServiceOneProDetial',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
-        'CPU_Logs_Code':this.leftButtomData.reverse()[params.dataIndex].CPU_Logs_Code,
-        'Proc_Name':this.leftButtomData.reverse()[params.dataIndex].Proc_Name,
+        'CPU_Logs_Code':this.leftButtomData[4 - params.dataIndex].CPU_Logs_Code,
+        'Proc_Name':this.leftButtomData[4 - params.dataIndex].Proc_Name,
         'Server_Code':this.$route.params.serverId,
         'dayType':this.days
       }).then((data) =>{
-        // console.log(data);
+        console.log(data);
         let total = []
-        let maxAvgMin =[]
+        let maxAvgMin = null
         total = data.Data.data.pro.detial
         maxAvgMin = data.Data.data.pro.maxAvgMin
         let time = []
@@ -708,7 +714,10 @@ export default {
           displayTime.push(time[i])
         }
         this.processLineChart.setOption({
-          title:{subtext: '最近值' + processVal[processVal.length-1] + '      ' + '最小值' + maxAvgMin.CPU_Rate_MIN + '      ' + '平均值' + maxAvgMin.CPU_Rate_AVG + '      ' +'最大值' + maxAvgMin.CPU_Rate_MAX,},
+          title:{
+            // subtext: '最近值' + processVal[processVal.length-1] + '      ' + '最小值' + maxAvgMin.CPU_Rate_MIN + '      ' + '平均值' + maxAvgMin.CPU_Rate_AVG + '      ' +'最大值' + maxAvgMin.CPU_Rate_MAX,
+            subtext:`最近值${processVal.length > 0 ? processVal[processVal.length-1] : ''} 最小值${maxAvgMin.CPU_Rate_MIN == null ? '' : maxAvgMin.CPU_Rate_MIN} 平均值${maxAvgMin.CPU_Rate_AVG == null ? '' : maxAvgMin.CPU_Rate_AVG} 最大值${maxAvgMin.CPU_Rate_MAX == null ? '' : maxAvgMin.CPU_Rate_MAX}`
+          },
           xAxis:{data:displayTime},
           series:[{data:displayProcessVal}]
         })
@@ -957,7 +966,13 @@ export default {
           }
         ]
       })
-
+    //点击大图和点击左下角的点击事件
+    this.cpuChart.on('click', (params) => {
+      this.middleClick(params)
+    })
+    this.processChart.on('click', (params) => {
+      this.leftSideClick(params)
+    })
     //进程占用曲线
       this.processLineChart = echarts.init(document.getElementById('processLineChart'),"dark")
       this.processLineChart.setOption({

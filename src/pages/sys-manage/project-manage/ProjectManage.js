@@ -40,6 +40,7 @@ export default {
         console.log(data);
         this.tableData = data.Data.data.projectRunList
         this.howMany = data.Data.data.howMany
+        console.log(this.tableData);
       })
     },
     resetForm() {

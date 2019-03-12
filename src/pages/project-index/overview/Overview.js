@@ -708,13 +708,20 @@ export default {
         let cpuDetail = []
         //数组保存时间轴
         let cpuDate = []
-        cpuData.forEach((value) =>{
+        let dateIndex = null
+        //cpuData中有的服务器的detial字段没有值，通过dateIndex变量找有数据的服务器的索引
+        cpuData.forEach((value,i) =>{
           cpuDetail.push(value.detial)
+          if(value.detial.length > 0){
+            dateIndex = i
+          }
         })
+        // console.log(cpuData);
         // console.log(cpuDetail);
         //时间坐标轴数据
         let cpuTime = []
-        cpuTime = cpuDetail[0] ? cpuDetail[0] : [];
+
+        cpuTime = cpuDetail[dateIndex] ? cpuDetail[dateIndex] : [];
         // console.log(cpuTime);
         let displayTime = []
         cpuTime.forEach((item,i) => {

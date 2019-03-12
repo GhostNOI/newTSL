@@ -6,7 +6,7 @@
             <div class="panel panel-primary no-border innerShadow2">
               <div class="panel-body">
                 <div class="warning-query">
-                  <div class="col-md-4 warning-width4">
+                  <div class=" warning-width4">
                     <div class="tableFliter">
                       <label class="warning-trigger-label">项目所在地</label>
                       <el-cascader
@@ -23,7 +23,7 @@
                       ></el-cascader>
                     </div>
                   </div>
-                  <div class="col-md-4 warning-width4">
+                  <div class=" warning-width4">
                     <div class="tableFliter">
                       <label  class="warning-trigger-label">项目名称</label>
                       <el-select v-model="projectCode"  placeholder="请选择">
@@ -37,7 +37,7 @@
                       </el-select>
                     </div>
                   </div>
-                  <div class="col-md-1 warning-width2" >
+                  <div class=" warning-width2" >
                     <div class="ctrlBtnPanel" style="padding: 0px;height: 38px;">
                       <a class="darkBtnPrimary no-border warning-query-btn" @click="query" style="cursor: pointer;margin-right: 30px;">
                         <strong>查询</strong>
@@ -61,15 +61,17 @@
                      <th style="width: 35%;">触发器</th>
                      <th style="width: 15%;">触发等级</th>
                      <!--<th>采集间隔</th>-->
-                     <th style="width: 5%;">操作</th>
+                     <!--<th style="width: 5%;">操作</th>-->
+                     <th style="width: 5%;"></th>
+
                    </tr>
                    </thead>
                    <tbody v-for="(item, i) in tableData1" :key="i">
                    <tr>
                      <td class="warning-table-open" @click="changeSelect(item)"><i class="iconfont">{{item.checked ? '-' : '+'}}</i></td>
                      <td>{{item.name | toChinese}}</td>
-                     <td>{{item.warningNameMount}}</td>
-                     <td>{{item.RuleMount}}</td>
+                     <td>{{item.warningNameMount}}项</td>
+                     <td>{{item.RuleMount}}项</td>
                      <td></td>
                      <td></td>
                      <td></td>
@@ -91,7 +93,7 @@
                        </el-select>
                      </td>
                      <!--<td></td>-->
-                     <td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem)">{{innerItem.changed ? '保存' : '修改'}}</td>
+                     <!--<td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem)">{{innerItem.changed ? '保存' : '修改'}}</td>-->
                    </tr>
                    </tbody>
                  </table>

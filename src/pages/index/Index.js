@@ -77,6 +77,40 @@ export default {
       }).then((data) => {
         this.country = true
         console.log(data);
+        //更改首页echarts和右侧预警
+        //预警数量
+        let waringMountOld = [
+          {
+            Level_Id:1,
+            Level_Name:'灾难',
+            num:0
+          },
+          {
+            Level_Id:2,
+            Level_Name:'严重',
+            num:0
+          },
+          {
+            Level_Id:3,
+            Level_Name:'警告',
+            num:0
+          },
+          {
+            Level_Id:4,
+            Level_Name:'信息',
+            num:0
+          }
+        ]
+        data.Data.waringMount.forEach((newItem,newIndex) => {
+          waringMountOld.forEach((item,i) => {
+            if(+newItem.Level_Id === +item.Level_Id){
+              waringMountOld[i].num = newItem.num
+            }
+          })
+        })
+        this.waringMount = waringMountOld
+        this.warningNum = data.Data.warningNum
+        this.warningDetail = data.Data.indexWaringDetial
         let projectList = data.Data.projectDetial
         var map = new AMap.Map('map', {
           zoom:10,//级别
@@ -428,7 +462,7 @@ export default {
               projectNum.push(item.num)
             })
             _this.projectClassChart.setOption({
-              yAxis:{data:projectName},
+              xAxis:{data:projectName},
               series:[{data:projectNum}]
             })
 
@@ -702,7 +736,7 @@ export default {
           projectNum.push(item.num)
         })
         this.projectClassChart.setOption({
-          yAxis:{data:projectName},
+          xAxis:{data:projectName},
           series:[{data:projectNum}]
         })
 
@@ -1142,7 +1176,7 @@ export default {
             projectNum.push(item.num)
           })
           _this.projectClassChart.setOption({
-            yAxis:{data:projectName},
+            xAxis:{data:projectName},
             series:[{data:projectNum}]
           })
 
@@ -1363,17 +1397,8 @@ export default {
         containLabel: true
       },
       xAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01],
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          length: 0
-        }
-      },
-      yAxis: {
         type: 'category',
+        boundaryGap: [0, 0.01],
         axisLine: {
           show: false
         },
@@ -1382,6 +1407,16 @@ export default {
         },
         data: []
       },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          length: 0
+        },
+
+      },
       series: [
         {
           name: '数量',
@@ -1389,7 +1424,7 @@ export default {
           barWidth: 10,
           barGap:'-100%',
           itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: 'rgb(138, 76, 220)'
             },{
@@ -1571,7 +1606,7 @@ export default {
         projectNum.push(item.num)
       })
       this.projectClassChart.setOption({
-        yAxis:{data:projectName},
+        xAxis:{data:projectName},
         series:[{data:projectNum}]
       })
 

@@ -73,7 +73,7 @@ export default {
         let formatTime = [];
         let number = []
         time.forEach((item,i)=>{
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+          formatTime.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           number.push(item.num)
         })
         // console.log(formatTime,number);
@@ -110,7 +110,7 @@ export default {
         let formatTime = [];
         let number = []
         time.forEach((item,i)=>{
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+          formatTime.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           number.push(item.num)
         })
         // console.log(formatTime,number);
@@ -268,7 +268,7 @@ export default {
     let formatDate = null
     if(this.$route.query.Warning_Time){
       formatDate = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD')
-      this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'HH:mm')
+      this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
       this.displayTime2 = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
       // console.log(formatDate);
     }
@@ -291,7 +291,7 @@ export default {
         let formatTime = [];
         let number = []
         time.forEach((item,i)=>{
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+          formatTime.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           number.push(item.num)
         })
         // console.log(formatTime,number);

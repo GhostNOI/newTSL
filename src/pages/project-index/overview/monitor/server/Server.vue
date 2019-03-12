@@ -108,7 +108,7 @@
           </div>
         </div>
 
-        <div class="row chart" v-show="processVisible" v-if="ifNoData">
+        <div class="row chart" v-show="processVisible" >
           <div class="col-md-6 process-ranking">
             <div class="panel panel-primary no-border innerShadow2">
               <div class="panel-body" style="padding: 10px 10px">

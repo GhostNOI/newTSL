@@ -8,7 +8,7 @@
             <div class="panel panel-primary no-border innerShadow2">
               <div class="panel-body">
                 <div class="tableFliter" style="overflow:hidden;">
-                  <div class="data-pick-fixed" style="width: 25%;float: left;">
+                  <div class="data-pick-fixed" style="width: 27%;float: left;">
                     <span class="title">时间</span>
                     <input type="radio" v-model="dayType" class="date-pick-radio" id="one" value="1" name="data-pick"><label class="date-pick-label" for="one">近1天</label>
                     <input type="radio" v-model="dayType" class="date-pick-radio" id="seven" value="7" name="data-pick"><label class="date-pick-label" for="seven">近7天</label>
@@ -47,16 +47,16 @@
                       <th style="width: 10%;">URI</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="width: 100%;">
                     <tr v-for="(item,i) in tableData1" :key="i" style="height: 50px;">
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.Insert_Time | transformDate}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.ClientIp}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.ErrorCode}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.Host}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.Post}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.RequestId}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.Response}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;">{{item.URI}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 10%;">{{item.Insert_Time | transformDate}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.ClientIp}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 5%">{{item.ErrorCode}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.Host}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 20%">{{item.Post}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.RequestId}}</td>
+                      <td style="width: 25%;"><span class="response">{{item.Response}}</span></td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 10%;">{{item.URI}}</td>
                     </tr>
                     </tbody>
                   </table>

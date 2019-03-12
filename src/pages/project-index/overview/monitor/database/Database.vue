@@ -19,7 +19,7 @@
               <div class="col-md-2 borderRightDivide width-float">
                 <div class="panel-right">
                   <h5 class="customH5" style="margin-bottom: -10px">并发量</h5>
-                  <h3 class="customH3">60</h3>
+                  <h3 class="customH3">{{concurrency}}</h3>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide width-float">

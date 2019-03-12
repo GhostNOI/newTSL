@@ -166,10 +166,11 @@ export default {
       },
       {
         url:'',
-        title:'预警触发'
+        title:'预警规则'
       }
     ])
-
+    console.log(this.$route.query);
+    console.log(this.$route);
     // console.log(this.$route.query, 'id');
 //选择项目所在地的省市区的三级联动
     this.$http.post('/Manage/User/ThreeLevelLinkage',{
@@ -179,13 +180,16 @@ export default {
       this.optionArea = data.Data.threeLevelLinkage
       //console.log(this.optionArea);
     })
-
+    this.projectCode = this.$route.query === {} ? '' : this.$route.query.Project_Code
     //表格数据
+    console.log(this.projectCode);
     this.$http.post('/Manage/WarningSeting/Index',{
       'User_Id':window.localStorage.getItem('userId'),
       'Project_Code':this.projectCode
     }).then((data) => {
       // console.log(data);
+      this.tableData1 = data.Data.data.result
+      this.waringLevel = data.Data.data.warning_Level
     })
   },
   filters : {

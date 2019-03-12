@@ -80,3 +80,10 @@ table{
     padding-right: 5px;
   }
 }
+.response{
+  width: 400px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  white-space: nowrap
+}

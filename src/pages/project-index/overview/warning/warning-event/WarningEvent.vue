@@ -179,16 +179,16 @@
               <el-dialog title="设备详情" :visible.sync="deviceShow" custom-class="editor innerShadow">
                 <div>
                   <div>
-                    <span class="device">设备名称</span>：
-                    <span class="device">{{deviceName}}</span>
+                    <span class="device" style="color: #fff;">设备名称</span>：
+                    <span class="device" style="color: #fff;">{{deviceName}}</span>
                   </div>
                   <div>
-                    <span class="device">设备型号</span>：
-                    <span class="device">{{deviceType}}</span>
+                    <span class="device" style="color: #fff;">设备型号</span>：
+                    <span class="device" style="color: #fff;">{{deviceType}}</span>
                   </div>
                   <div>
-                    <span class="device">设备状态</span>：
-                    <span class="device">{{deviceStatus}}</span>
+                    <span class="device" style="color: #fff;">设备状态</span>：
+                    <span class="device" style="color: #fff;">{{deviceStatus}}</span>
                   </div>
 
                 </div>
@@ -201,12 +201,12 @@
               <el-dialog title="安全详情" :visible.sync="security" custom-class="editor innerShadow">
                 <div>
                   <div>
-                    <span class="device">安全信息</span>：
-                    <span class="device">{{securityMsg}}</span>
+                    <span class="device" style="color: #fff;">安全信息</span>：
+                    <span class="device" style="color: #fff;">{{securityMsg}}</span>
                   </div>
                   <div>
-                    <span class="device">安全操作时间</span>：
-                    <span class="device">{{securityTime | transformDate}}</span>
+                    <span class="device" style="color: #fff;">安全操作时间</span>：
+                    <span class="device" style="color: #fff;">{{securityTime | transformDate}}</span>
                   </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
