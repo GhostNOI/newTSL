@@ -131,7 +131,7 @@
                         <el-pagination
                           @size-change="handleSizeChangeLock"
                           @current-change="handleCurrentChangeLock"
-                          :current-page="currentPageLock"
+                          :current-page.sync="currentPageLock"
                           :page-sizes="[10, 20, 50]"
                           :page-size="10"
                           layout="total, sizes, prev, pager, next, jumper"
@@ -224,7 +224,7 @@
                         <el-pagination
                           @size-change="handleSizeChangeCamera"
                           @current-change="handleCurrentChangeCamera"
-                          :current-page="currentPageCamera"
+                          :current-page.sync="currentPageCamera"
                           :page-sizes="[10, 20, 50]"
                           :page-size="10"
                           layout="total, sizes, prev, pager, next, jumper"
@@ -319,7 +319,7 @@
                         <el-pagination
                           @size-change="handleSizeChangeSmoke"
                           @current-change="handleCurrentChangeSmoke"
-                          :current-page="currentPageSmoke"
+                          :current-page.sync="currentPageSmoke"
                           :page-sizes="[10, 20, 50]"
                           :page-size="10"
                           layout="total, sizes, prev, pager, next, jumper"

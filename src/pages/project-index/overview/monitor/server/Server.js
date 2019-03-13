@@ -598,17 +598,20 @@ export default {
           this.processChart.on('click', (params) => {
             this.leftSideClick(params)
           })
-
+          console.log(total);
           //进程占用折线图
           this.$http.post('/Manage/Service/ServiceOneProDetial',{
             'User_Id':window.localStorage.getItem('userId'),
             'Project_Code':this.$route.params.id,
-            'CPU_Logs_Code':total[total.length-1].CPU_Logs_Code,
-            'Proc_Name':total[total.length-1].Proc_Name,
+            'CPU_Logs_Code':total.length > 0 ? total[total.length-1].CPU_Logs_Code : '',
+            'Proc_Name':total.length > 0 ? total[total.length-1].Proc_Name : '',
             'Server_Code':this.$route.params.serverId,
             'dayType':this.days
           }).then((data) =>{
-            // console.log(data);
+            console.log(data);
+            if(+data.ErrorCode === -91){
+              return
+            }
             let total = []
             let maxAvgMin = null
             total = data.Data.data.pro.detial
@@ -696,7 +699,7 @@ export default {
         'Server_Code':this.$route.params.serverId,
         'dayType':this.days
       }).then((data) =>{
-        console.log(data);
+        // console.log(data);
         let total = []
         let maxAvgMin = null
         total = data.Data.data.pro.detial
@@ -918,7 +921,7 @@ export default {
         xAxis: {
           type: 'value',
           boundaryGap: [0, 0.01],
-          max: 100,
+
           axisLine: {
             show: false
           },

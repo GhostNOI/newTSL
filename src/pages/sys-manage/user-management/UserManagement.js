@@ -336,6 +336,9 @@ export default {
     //启用禁用
     changeStatus(val) {
       // console.log(val);
+      if(val.Role_Id == 252){
+        return
+      }
       let userStatus = ''
       if(val.Status == 0){
         userStatus = 1

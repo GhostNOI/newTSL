@@ -88,6 +88,8 @@ export default {
     //查询按钮
     //通行设备
     lockQuery() {
+      this.lockCountPage = 1
+      this.currentPageLock = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -95,7 +97,8 @@ export default {
         'Village_Id':this.lockVillage,
         'IsOnline':this.lockType,
         'Name':this.lockName,
-        'MacAddress':this.lockMAC
+        'MacAddress':this.lockMAC,
+        'pageNum': 1,
       }).then((data) => {
         // console.log(data);
         this.lockTableData = data.Data.data
@@ -112,6 +115,8 @@ export default {
       this.lockName = ''
       this.lockMAC = ''
       this.lockType = ''
+      this.lockCountPage = 1
+      this.currentPageLock = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -129,13 +134,16 @@ export default {
     },
     //监控设备
     cameraQuery () {
+      this.cameraPageNum = 1
+      this.currentPageCamera = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'DeviceType':'camera',
         'Village_Id':this.cameraVillage,
         'IsOnline':this.cameraType,
-        'Name':this.cameraName
+        'Name':this.cameraName,
+        'pageNum': 1,
       }).then((data) => {
         // console.log(data);
         this.cameraTableData = data.Data.data
@@ -151,6 +159,8 @@ export default {
       this.cameraVillage = ''
       this.cameraType = ''
       this.cameraName = ''
+      this.cameraPageNum = 1
+      this.currentPageCamera = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -168,13 +178,16 @@ export default {
     },
     //烟感设备
     smokeQuery() {
+      this.smokePageNum = 1
+      this.currentPageSmoke = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'DeviceType':'smoke',
         'Village_Id':this.smokeVillage,
         'IsOnline':this.smokeType,
-        'Name':this.smokeName
+        'Name':this.smokeName,
+        'pageNum': 1,
       }).then((data) => {
         // console.log(data);
         this.smokeTableData = data.Data.data
@@ -190,6 +203,8 @@ export default {
       this.smokeVillage = ''
       this.smokeType = ''
       this.smokeName = ''
+      this.smokePageNum = 1
+      this.currentPageSmoke = 1
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -219,7 +234,11 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'lock',
         'pageSize': val,
-        'pageNum': this.lockPageNum
+        'pageNum': this.lockPageNum,
+        'Village_Id':this.lockVillage,
+        'IsOnline':this.lockType,
+        'Name':this.lockName,
+        'MacAddress':this.lockMAC
       }).then((data) => {
         // console.log(data);
         this.lockTableData = data.Data.data
@@ -235,7 +254,11 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'lock',
         'pageNum':val,
-        'pageSize':this.lockPageSize
+        'pageSize':this.lockPageSize,
+        'Village_Id':this.lockVillage,
+        'IsOnline':this.lockType,
+        'Name':this.lockName,
+        'MacAddress':this.lockMAC
       }).then((data) => {
         // console.log(data);
         this.lockTableData = data.Data.data
@@ -253,6 +276,9 @@ export default {
         'DeviceType':'camera',
         'pageNum':this.cameraPageNum,
         'pageSize':val,
+        'Village_Id':this.cameraVillage,
+        'IsOnline':this.cameraType,
+        'Name':this.cameraName
       }).then((data) => {
         // console.log(data);
         this.cameraTableData = data.Data.data
@@ -267,7 +293,10 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'camera',
         'pageNum':val,
-        'pageSize': this.cameraPageSize
+        'pageSize': this.cameraPageSize,
+        'Village_Id':this.cameraVillage,
+        'IsOnline':this.cameraType,
+        'Name':this.cameraName
       }).then((data) => {
         // console.log(data);
         this.cameraTableData = data.Data.data
@@ -288,7 +317,10 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'smoke',
         'pageNum':this.smokePageNum,
-        'pageSize':val
+        'pageSize':val,
+        'Village_Id':this.smokeVillage,
+        'IsOnline':this.smokeType,
+        'Name':this.smokeName
       }).then((data) => {
         // console.log(data);
         this.smokeTableData = data.Data.data
@@ -303,7 +335,10 @@ export default {
         'Project_Code':this.$route.params.id,
         'DeviceType':'smoke',
         'pageNum':val,
-        'pageSize':this.smokePageSize
+        'pageSize':this.smokePageSize,
+        'Village_Id':this.smokeVillage,
+        'IsOnline':this.smokeType,
+        'Name':this.smokeName
       }).then((data) => {
         // console.log(data);
         this.smokeTableData = data.Data.data

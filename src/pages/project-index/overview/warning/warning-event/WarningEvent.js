@@ -11,6 +11,7 @@ export default {
       ringRatio:[],
       //表格数据预警事件排名
       eventRank:[],
+      sNumber:[],
       peiChartsDate:[
         {name:'今日',code:'1'},
         {name:'本周',code:'7'},
@@ -655,8 +656,11 @@ export default {
       'dayType':7,
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      // console.log(data);
+      console.log(data);
       let eventRank = []
+      for(let i = 0; i < data.Data.waringPiechart.length; i++) {
+        this.sNumber.push(i)
+      }
       eventRank = data.Data.waringPiechart
       // console.log(eventRank);
       let eventNum = []

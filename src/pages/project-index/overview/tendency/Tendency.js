@@ -592,7 +592,6 @@ export default {
       xAxis: {
         type: 'value',
         boundaryGap: [0, 0.01],
-        max: 100,
         axisLine: {
           show: false
         },

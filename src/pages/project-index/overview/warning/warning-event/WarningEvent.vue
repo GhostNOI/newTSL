@@ -46,21 +46,24 @@
                     <tr>
                       <td style="padding-bottom: 8px;">排名</td>
                     </tr>
-                    <tr>
-                      <td class="warning-event-rank"><span class="warning-event-num" style="background: #E74C3C;">1</span></td>
+                    <tr v-for="(item,i) in sNumber" :key="i">
+                      <td class="warning-event-rank"><span class="warning-event-num" :class="[{f: item === 0},{b: item ===1},{c: item ===2},{d: item ===3},{e: item ===4}]">{{item + 1}}</span></td>
                     </tr>
-                    <tr>
-                      <td class="warning-event-rank"><span class="warning-event-num" style="background: #D35400;">2</span></td>
-                    </tr>
-                    <tr>
-                      <td class="warning-event-rank"><span class="warning-event-num" style="background: #F39C12;">3</span></td>
-                    </tr>
-                    <tr>
-                      <td class="warning-event-rank"><span class="warning-event-num" style="background: #2980B9;">4</span></td>
-                    </tr>
-                    <tr>
-                      <td class="warning-event-rank"><span class="warning-event-num" style="background: #2980B9;">5</span></td>
-                    </tr>
+                    <!--<tr>-->
+                      <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #E74C3C;">1</span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                      <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #D35400;">2</span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                      <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #F39C12;">3</span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                      <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #2980B9;">4</span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                      <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #2980B9;">5</span></td>-->
+                    <!--</tr>-->
                   </table>
                 </div>
                 <div class="col-md-5 ranking" style="padding: 0">
