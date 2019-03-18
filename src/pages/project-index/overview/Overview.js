@@ -536,7 +536,7 @@ export default {
         User_Id:window.localStorage.getItem('userId'),
         Project_Code: Project_Code
       }).then((data) => {
-        // console.log(data);
+        console.log(data);
         // console.log(data.Data);
         //设备数量以及平台部署位置
         //预警赋值

@@ -8,7 +8,7 @@ export default {
     return{
       tableData1:[],
       mainChart:'',
-      dayType:'',
+      dayType:1,
       datePick:[],
       howMany:null,
       currentPage:1,
@@ -16,7 +16,7 @@ export default {
       pageNum:'',
       displayTime:'',
       displayTime2:'',
-      noData:false
+      noData:false,
     }
   },
   methods:{

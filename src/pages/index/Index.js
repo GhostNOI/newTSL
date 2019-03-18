@@ -56,7 +56,10 @@ export default {
           Level_Name:'信息',
           num:0
         }
-      ]
+      ],
+      projectManage:true,
+      ifOps:true,
+      deviceTotalNumber:null
 
     }
   },
@@ -113,7 +116,7 @@ export default {
         this.warningDetail = data.Data.indexWaringDetial
         let projectList = data.Data.projectDetial
         var map = new AMap.Map('map', {
-          zoom:10,//级别
+          zoom:17,//级别
           mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
           center: [projectList[0].Longitude, projectList[0].Latitude],//中心点坐标
           viewMode:'3D',//使用3D视图
@@ -364,6 +367,7 @@ export default {
             projectClass = data.Data.data.projectClass
             //设备总数
             let deviceTotal = []
+            _this.deviceTotalNumber = data.Data.data.deviceAllCount.total
             deviceTotal = data.Data.data.deviceAllCount
             // console.log(deviceTotal);
             //预警详情
@@ -522,7 +526,7 @@ export default {
             // console.log(data);
             let projectList = data.Data.data.projectList
             var map = new AMap.Map('map', {
-              zoom:10,//级别
+              zoom:17,//级别
               mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
               center: [a.Longitude, a.Latitude],//中心点坐标
               viewMode:'3D',//使用3D视图
@@ -636,6 +640,7 @@ export default {
         let projectClass = []
         projectClass = data.Data.data.projectClass
         //设备总数
+        this.deviceTotalNumber = data.Data.data.deviceAllCount.total
         let deviceTotal = []
         deviceTotal = data.Data.data.deviceAllCount
         // console.log(deviceTotal);
@@ -829,6 +834,16 @@ export default {
       _this.date = FormatDate((new Date()).getTime(),'HH : mm : ss')
     },1000)
 
+    //权限判断
+    if(+window.localStorage.getItem('roleId') === 253){
+      this.projectManage = false
+    }else if(+window.localStorage.getItem('roleId') === 254){
+      this.projectManage = false
+      this.ifOps = false
+    }else{
+      this.projectManage = true
+      this.ifOps = true
+    }
 
     this.$http.post('/Manage/User/ThreeLevelLinkage',{
       User_Id:window.localStorage.getItem('userId')
@@ -881,7 +896,7 @@ export default {
       'User_Id':window.localStorage.getItem('userId')
     }).then((data) => {
       //项目列表
-      console.log(data);
+      // console.log(data);
       this.provinceListResult = data.Data.data.provinceListResult
       // console.log(this.provinceListResult);
 
@@ -961,7 +976,7 @@ export default {
           console.log(data);
           let projectList = data.Data.data.projectList
           var map = new AMap.Map('map', {
-            zoom:10,//级别
+            zoom:17,//级别
             mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
             center: [a.Longitude, a.Latitude],//中心点坐标
             viewMode:'3D',//使用3D视图
@@ -1077,6 +1092,7 @@ export default {
           let projectClass = []
           projectClass = data.Data.data.projectClass
           //设备总数
+          _this.deviceTotalNumber = data.Data.data.deviceAllCount.total
           let deviceTotal = []
           deviceTotal = data.Data.data.deviceAllCount
           // console.log(deviceTotal);
@@ -1440,17 +1456,20 @@ export default {
     this.deviceNumChart = echarts.init(document.getElementById('deviceNumChart'),'dark')
     this.deviceNumChart.setOption({
       backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b}: {d}%"
+      },
       title: {
-        text: '设备总数',
+        text: '',
         textStyle:{
           color: '#fff'
         },
         left:'0',
         subtext: '',
         subtextStyle:{
-          color: '#fff',
-          fontSize: 14,
-          right:'0',
+          color: '#red',
+          fontSize: 20,
           align: 'right'
         }
       },
@@ -1461,20 +1480,7 @@ export default {
         top: 60,
         bottom: 20,
         itemGap: 30,
-        data: [
-          // {
-          //   name: '摄像头',
-          //   icon: 'circle',
-          // },
-          // {
-          //   name: '门禁',
-          //   icon: 'circle',
-          // },
-          // {
-          //   name: '其他',
-          //   icon: 'circle',
-          // }
-        ],
+        data: [],
         textStyle: {
           fontWeight: 800
         },
@@ -1506,6 +1512,7 @@ export default {
       let projectClass = []
       projectClass = data.Data.data.projectClass
       //设备总数
+      this.deviceTotalNumber = data.Data.data.deviceAllCount.total
       let deviceTotal = []
       deviceTotal = data.Data.data.deviceAllCount
       // console.log(deviceTotal);

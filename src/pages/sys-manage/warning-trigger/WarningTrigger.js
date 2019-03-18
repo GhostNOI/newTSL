@@ -64,6 +64,8 @@ export default {
       waringLevel:[],
       waringLevelChange:'',
       areaCode:[],
+      projectName:'',
+      defaultIpt:true
     }
   },
   methods:{
@@ -128,8 +130,10 @@ export default {
       }).then((data) => {
         if(+data.ErrorCode === -91){
           return ;
+        }else if(data.Data.data.result.length > 0){
+          this.defaultIpt = false
         }
-        // console.log(data);
+        console.log(data);
         this.tableData1 = data.Data.data.result
         this.waringLevel = data.Data.data.warning_Level
         // console.log(this.waringLevel);
@@ -153,6 +157,14 @@ export default {
       // console.log(val);
       // console.log(item);
       this.waringLevelChange = val
+    },
+    //切换项目之后更改项目名称
+    getName(val){
+      let name = {}
+      name = this.projectOption.find(item => {
+        return item.Project_Code === val
+      })
+      this.projectName = name.Project_Name
     }
   },
   mounted () {
@@ -169,9 +181,9 @@ export default {
         title:'预警规则'
       }
     ])
-    console.log(this.$route.query);
-    console.log(this.$route);
-    // console.log(this.$route.query, 'id');
+    if(this.$route.query){
+      this.projectName = this.$route.query.Project_Name
+    }
 //选择项目所在地的省市区的三级联动
     this.$http.post('/Manage/User/ThreeLevelLinkage',{
       User_Id:window.localStorage.getItem('userId')
@@ -182,14 +194,21 @@ export default {
     })
     this.projectCode = this.$route.query === {} ? '' : this.$route.query.Project_Code
     //表格数据
-    console.log(this.projectCode);
+    // console.log(this.projectCode);
     this.$http.post('/Manage/WarningSeting/Index',{
       'User_Id':window.localStorage.getItem('userId'),
       'Project_Code':this.projectCode
     }).then((data) => {
-      // console.log(data);
+      console.log(data);
+      if(+data.ErrorCode === -91){
+        this.defaultIpt = true
+        return
+      }else if(data.Data.data.result.length > 0){
+        this.defaultIpt = false
+      }
       this.tableData1 = data.Data.data.result
       this.waringLevel = data.Data.data.warning_Level
+      this.projectCode = ''
     })
   },
   filters : {

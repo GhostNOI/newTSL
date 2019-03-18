@@ -11,7 +11,7 @@ export default {
       tableData1: [],
       mainChart: null,
       //选择时间类型
-      dayType: '',
+      dayType: 1,
       datePick: [],
       howMany: null,
       currentPage: 1,

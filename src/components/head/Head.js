@@ -18,7 +18,9 @@ export default {
         label: '京城大厦'
       }],
         value: '',
-      optionArea:[]
+      optionArea:[],
+      projectManage:true,
+      ifOps:true
       }
   },
   computed: {
@@ -27,6 +29,15 @@ export default {
     }
   },
   mounted() {
+    if(+window.localStorage.getItem('roleId') === 253){
+      this.projectManage = false
+    }else if(+window.localStorage.getItem('roleId') === 254){
+      this.projectManage = false
+      this.ifOps = false
+    }else{
+      this.projectManage = true
+      this.ifOps = true
+    }
     // console.log(this.$store.state.header.headTitle, 'this.$store');
     let _this = this;
     setInterval(function () {

@@ -201,7 +201,7 @@ export default {
         }).then((data) => {
           console.log(data);
           if(+data.Data.code === 1){
-            this.tips = '事件处理完毕，不能修改'
+            this.tips = '状态不是为处理中，无法更新'
             this.ifTips = true
           }
           if(+data.Data.code === 0){

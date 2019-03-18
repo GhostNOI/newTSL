@@ -152,7 +152,7 @@
                         <div>
                           <el-form :model="form">
                             <el-form-item label="通知接收人" :label-width="formLabelWidth">
-                              <el-input v-model="form.name" autocomplete="off" maxlength="50"></el-input>
+                              <el-input v-model="form.name" autocomplete="off" maxlength="10"></el-input>
                             </el-form-item>
                             <el-form-item label="人员类型" :label-width="formLabelWidth">
                               <el-select v-model="form.role">

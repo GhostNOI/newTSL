@@ -161,7 +161,8 @@ export default {
               'Role_Id' :this.form.role,
               'Project_Code' :this.form.project.join(","),
               'DingDing' :this.form.dingding,
-              'Warning_Type':this.eventType.join(",")
+              'Warning_Type':this.eventType.join(","),
+              'Email':this.form.email
             }).then((data) => {
               // console.log(data);
               if(+data.ErrorCode === -91){
@@ -192,7 +193,8 @@ export default {
             'Role_Id' :this.form.role,
             'Project_Code' :this.form.project.join(","),
             'DingDing' :this.form.dingding,
-            'Warning_Type':this.this.eventType.join(",")
+            'Warning_Type':this.this.eventType.join(","),
+            'Email':this.form.email
           }).then((data) => {
             // console.log(data);
             if(data.Data.code == 0){

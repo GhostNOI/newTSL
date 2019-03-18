@@ -9,7 +9,8 @@
 
       <el-row class="tac custom-element-nav" >
         <el-col :span="12">
-          <router-link to="/index"><a class="active-menu" id="pro-index"><i class="el-icon-info"></i>首页</a>
+          <!--a的类名active-menu-->
+          <router-link to="/index"><a class="indexEntry" id="pro-index"><i class="el-icon-info"></i>首页</a>
           </router-link>
           <el-menu
             unique-opened
@@ -31,7 +32,7 @@
                   <el-submenu :index="item.Project_Code + '-1-1'">
                     <template slot="title">服务器</template>
                     <router-link :to="'/project-index/' + item.Project_Code + '/server/' + serverItem.Server_Code" v-for="(serverItem, serverIndex) in item.serverList" :key="serverIndex">
-                      <el-menu-item :index="item.Project_Code + '-1-1-1'">{{serverItem.Name}}</el-menu-item>
+                      <el-menu-item :index="item.Project_Code + '-1-1-1'" :title="serverItem.Name">{{serverItem.Name}}</el-menu-item>
                     </router-link>
                     <!--<router-link :to="'/project-index/' + item.Project_Code +'/tendency'">-->
                       <!--<el-menu-item :index="item.Project_Code + '-1-1-2'">走势图</el-menu-item>-->
@@ -45,7 +46,7 @@
                   <el-submenu :index="item.Project_Code + '-1-3'">
                     <template slot="title">数据库</template>
                     <router-link :to="'/project-index/' + item.Project_Code + '/database/' + dataBaseItem.DB_Code" v-for="(dataBaseItem, dataBaseIndex) in item.databaseList" :key="dataBaseIndex">
-                      <el-menu-item :index="item.Project_Code + '-1-3-1'">{{dataBaseItem.DB_Name}}</el-menu-item>
+                      <el-menu-item :index="item.Project_Code + '-1-3-1'" :title="dataBaseItem.DB_Name">{{dataBaseItem.DB_Name}}</el-menu-item>
                     </router-link>
                   </el-submenu>
 
@@ -82,7 +83,7 @@
       </el-row>
     </div>
 
-    <div id="right-side" v-if="projectList.length > 0">
+    <div id="right-side" >
       <v-head></v-head>
       <router-view></router-view>
     </div>

@@ -60,7 +60,7 @@
                         </div>
                         <div class="tableFliter smart-width">
                           <label  class="smart-query-label">所属社区</label>
-                          <el-select v-model="lockVillage"  placeholder="请选择">
+                          <el-select v-model="lockVillage"  placeholder="请选择" filterable>
                             <el-option value="">全部</el-option>
                             <el-option
                               v-for="(item,i) in lockVillageData"
@@ -197,7 +197,7 @@
                             <th style="width: 10%;">序号</th>
                             <th style="width: 15%;">设备名称</th>
                             <th style="width: 15%;">所属社区</th>
-                            <th style="width: 20%;">MAC地址</th>
+                            <th style="width: 20%;">IP地址</th>
                             <th style="width: 15%;">设备类型</th>
                             <th style="width: 10%;">设备状态</th>
                             <th style="width: 15%;">安装时间</th>

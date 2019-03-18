@@ -105,7 +105,6 @@
 
                         </div>
                         <div style="text-align: center;">
-                          <span style="color: red;" v-if="selectRoleType">请选择人员类型</span>
                           <span style="color: red;" v-if="selectEventType">{{selectEventTips}}</span>
                         </div>
                         <div slot="footer" class="dialog-footer">

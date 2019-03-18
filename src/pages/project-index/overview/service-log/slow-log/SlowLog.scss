@@ -79,3 +79,10 @@ table{
     padding-right: 5px;
   }
 }
+.text-over{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width: 600px;
+  display: -webkit-box;
+}

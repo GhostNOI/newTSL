@@ -31,7 +31,6 @@ export default {
       noticeType:[],
       selectRole:'',
       title:'新建',
-      selectRoleType:false,
       selectEventType:false,
       selectEventTips:''
     }
@@ -80,7 +79,8 @@ export default {
         }
 
       }else {
-        this.selectRoleType = true
+        this.selectEventType = true
+        this.selectEventTips = '请选择人员类型'
       }
 
 
@@ -111,7 +111,6 @@ export default {
       this.eventType = []
       this.eventLevel = []
       this.noticeType = []
-      this.selectRoleType = false
       this.selectEventType = false
     },
 

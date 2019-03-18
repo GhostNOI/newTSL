@@ -47,7 +47,7 @@
                       <td style="padding-bottom: 8px;">排名</td>
                     </tr>
                     <tr v-for="(item,i) in sNumber" :key="i">
-                      <td class="warning-event-rank"><span class="warning-event-num" :class="[{f: item === 0},{b: item ===1},{c: item ===2},{d: item ===3},{e: item ===4}]">{{item + 1}}</span></td>
+                      <td class="warning-event-rank"><span class="warning-event-num" :class="[{ff: item === 0},{bb: item ===1},{cc: item ===2},{dd: item ===3},{ee: item ===4}]">{{item + 1}}</span></td>
                     </tr>
                     <!--<tr>-->
                       <!--<td class="warning-event-rank"><span class="warning-event-num" style="background: #E74C3C;">1</span></td>-->

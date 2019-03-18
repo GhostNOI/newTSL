@@ -56,12 +56,15 @@
           User_Id: window.localStorage.getItem('userId')
         }).then((data) => {
           // console.log(data);
-          if(data.Data.data.length > 0){
+          if(data.Data.data){
             this.sysContent = data.Data.data.noticeTemple && data.Data.data.noticeTemple.length > 0 ? data.Data.data.noticeTemple[0].Template_Content : ''
             this.sysMessage = data.Data.data.result && data.Data.data.result.length > 0 ? data.Data.data.result[0].Message : ''
             this.sysId = data.Data.data.result && data.Data.data.result.length ? data.Data.data.result[0].Id : ''
             if(data.Data.data.result.length > 0){
               this.sysInfo = true
+            }
+            if(window.localStorage.getItem('userId') === null){
+              this.sysInfo = false
             }
           }
         })

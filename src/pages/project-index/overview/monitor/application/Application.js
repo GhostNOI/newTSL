@@ -22,7 +22,6 @@ export default {
     this.timer = setInterval(() => {
       this.getData()
     },300000)
-
   },
   destroyed() {
     if (this.timer) {

@@ -562,6 +562,10 @@ export default {
         bottom: 0,
         containLabel: false
       },
+      tooltip:{
+        trigger:'item',
+        formatter:'数量：{c}'
+      },
       xAxis: {
         type: 'value',
         axisLine: {

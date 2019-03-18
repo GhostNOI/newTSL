@@ -16,28 +16,28 @@
           <img src="../../assets/img/navSetting.png" style="width: 25px;height: 25px;margin-top: 5px;cursor: pointer;">
         </p>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/property">
+          <router-link to="/property" v-if="ifOps">
             <el-dropdown-item>资产配置</el-dropdown-item>
           </router-link>
-          <router-link to="/warningtrigger">
+          <router-link to="/warningtrigger" v-if="ifOps">
             <el-dropdown-item>预警规则</el-dropdown-item>
           </router-link>
-          <router-link to="/rolemanagement">
-            <el-dropdown-item>角色管理</el-dropdown-item>
-          </router-link>
-          <router-link to="/usermanagement">
+          <!--<router-link to="/rolemanagement">-->
+            <!--<el-dropdown-item>角色管理</el-dropdown-item>-->
+          <!--</router-link>-->
+          <router-link to="/usermanagement" v-if="ifOps">
             <el-dropdown-item>用户管理</el-dropdown-item>
           </router-link>
           <!--<router-link to="/projectmanagement">-->
             <!--<el-dropdown-item>项目管理</el-dropdown-item>-->
           <!--</router-link>-->
-          <router-link to="/projectmanage">
+          <router-link to="/projectmanage" v-if="ifOps">
             <el-dropdown-item>项目管理</el-dropdown-item>
           </router-link>
           <router-link to="/notification">
             <el-dropdown-item>通知管理</el-dropdown-item>
           </router-link>
-          <router-link to="/notificationsetting">
+          <router-link to="/notificationsetting" v-if="projectManage">
             <el-dropdown-item>通知设置</el-dropdown-item>
           </router-link>
           <router-link to="/operationlog">

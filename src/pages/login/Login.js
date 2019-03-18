@@ -51,6 +51,7 @@ export default {
           }else if(data.Data.code === 0){
             let token = data.Data.data.token
             setCookie(token);
+            window.localStorage.setItem('roleId',data.Data.data.roleMsg[0].Role_Id)
             window.localStorage.setItem('userId',data.Data.data.User_Id)
             window.localStorage.setItem('insertTime',data.Data.data.toeknTime)
             this.$router.push({path:'/index'})

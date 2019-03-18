@@ -26,7 +26,7 @@
                   <div class=" warning-width4">
                     <div class="tableFliter">
                       <label  class="warning-trigger-label">项目名称</label>
-                      <el-select v-model="projectCode"  placeholder="请选择">
+                      <el-select v-model="projectCode"  placeholder="请选择" @change="getName">
                         <el-option
                           v-for="(item,i) in projectOption"
                           :key="i"
@@ -52,6 +52,7 @@
 
                 <!-- 显示表格 -->
                 <div class="col-md-12 warning-table-wrap">
+                  <div style="color: #fff;">项目名称：{{projectName}}</div>
                  <table style="width: 100%">
                    <thead class="warning-table-head">
                    <tr>
@@ -97,6 +98,10 @@
                    </tr>
                    </tbody>
                  </table>
+
+                  <div class="default-tip" v-if="defaultIpt">
+                    请选择项目并搜索
+                  </div>
 
 
 

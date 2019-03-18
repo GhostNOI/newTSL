@@ -68,7 +68,7 @@
                       <!--</button>-->
                       <!-- 服务器指标按钮 -->
                       <button v-for="(item,i) in btnArr" type="button" @click="tap(item,i)" class="button-tiny btnLight" :class="{active:i==serverOptionIndex}">
-                        <strong>{{item.name}}</strong>
+                        <strong style="font-weight: 500;">{{item.name}}</strong>
                       </button>
                     </div>
                   </div>

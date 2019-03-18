@@ -20,19 +20,31 @@
             <img src="../../assets/img/navSetting.png" style="width: 25px;height: 25px;margin-top: 5px;cursor: pointer;">
           </p>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="/property"><el-dropdown-item>资产配置</el-dropdown-item></router-link>
-            <router-link to="/warningtrigger"><el-dropdown-item>预警规则</el-dropdown-item></router-link>
-            <router-link to="/rolemanagement"><el-dropdown-item>角色管理</el-dropdown-item></router-link>
-            <router-link to="/usermanagement"><el-dropdown-item>用户管理</el-dropdown-item></router-link>
+            <router-link to="/property" v-if="ifOps">
+              <el-dropdown-item>资产配置</el-dropdown-item>
+            </router-link>
+            <router-link to="/warningtrigger" v-if="ifOps">
+              <el-dropdown-item>预警规则</el-dropdown-item>
+            </router-link>
+            <!--<router-link to="/rolemanagement"><el-dropdown-item>角色管理</el-dropdown-item></router-link>-->
+            <router-link to="/usermanagement" v-if="ifOps">
+              <el-dropdown-item>用户管理</el-dropdown-item>
+            </router-link>
             <!--<router-link to="/projectmanagement">-->
               <!--<el-dropdown-item>项目管理</el-dropdown-item>-->
             <!--</router-link>-->
-            <router-link to="/projectmanage">
+            <router-link to="/projectmanage" v-if="ifOps">
               <el-dropdown-item>项目管理</el-dropdown-item>
             </router-link>
-            <router-link to="/notification"><el-dropdown-item>通知管理</el-dropdown-item></router-link>
-            <router-link to="/notificationsetting"><el-dropdown-item>通知设置</el-dropdown-item></router-link>
-            <router-link to="/operationlog"><el-dropdown-item>操作日志</el-dropdown-item></router-link>
+            <router-link to="/notification">
+              <el-dropdown-item>通知管理</el-dropdown-item>
+            </router-link>
+            <router-link to="/notificationsetting" v-if="projectManage">
+              <el-dropdown-item>通知设置</el-dropdown-item>
+            </router-link>
+            <router-link to="/operationlog">
+              <el-dropdown-item>操作日志</el-dropdown-item>
+            </router-link>
             <!--<el-dropdown-item style="border-top: 1px solid #5b5d7f"><a @click="logout" style="display: inline-block;width: 100%;height: 100%;">注销</a></el-dropdown-item>-->
           </el-dropdown-menu>
         </el-dropdown>
@@ -78,6 +90,10 @@
         <div id="projectClassChart" style="width: 100%; height: 200px"></div>
       </div>
       <div class="eventCase" style="border-bottom-width: 0">
+        <div style="overflow: hidden;">
+          <p style="float:left; font-size: 18px; color: #fff; font-weight: 700;">设备总数</p>
+          <span style="float:right; font-size: 24px; color: #fff; font-weight: 900; margin-right: 10px;">{{deviceTotalNumber}}</span>
+        </div>
         <div id="deviceNumChart" style="width: 100%; height: 200px"></div>
       </div>
     </div>
