@@ -53,10 +53,14 @@ export default {
         'User_Id': window.localStorage.getItem('userId')
       }).then((data) => {
         // console.log(data);
-        removeCookie('tsl_token')
-        window.localStorage.removeItem('userId')
-        window.localStorage.removeItem('insertTime')
-        this.$router.push('/login')
+        if(+data.Data.code === 0){
+          removeCookie('tsl_token')
+          window.localStorage.removeItem('userId')
+          window.localStorage.removeItem('insertTime')
+          this.$router.push('/login')
+        }else {
+          window.alert('系统繁忙，请稍后再试')
+        }
       })
     }
 

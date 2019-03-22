@@ -62,7 +62,7 @@
                      <th style="width: 35%;">触发器</th>
                      <th style="width: 15%;">触发等级</th>
                      <!--<th>采集间隔</th>-->
-                     <!--<th style="width: 5%;">操作</th>-->
+                     <th style="width: 5%;">操作</th>
                      <th style="width: 5%;"></th>
 
                    </tr>
@@ -94,7 +94,7 @@
                        </el-select>
                      </td>
                      <!--<td></td>-->
-                     <!--<td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem)">{{innerItem.changed ? '保存' : '修改'}}</td>-->
+                     <td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem)">{{innerItem.changed ? '保存' : '修改'}}</td>
                    </tr>
                    </tbody>
                  </table>

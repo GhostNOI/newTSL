@@ -7,7 +7,8 @@
               <div class="col-md-3 borderRightDivide application-btn">
                 <div class="serverPanel" style="text-align: center">
                   <!--图片-->
-                  <button class="button button-primary button-rounded serverBtn"><div style="display: flex;justify-content: center;align-items: center;"><i class="fas fa-4x fa-cube"></i></div></button>
+                  <!--<button class="button button-primary button-rounded serverBtn"><div style="display: flex;justify-content: center;align-items: center;"><i class="fas fa-4x fa-cube"></i></div></button>-->
+                  <img src="../../../../../assets/img/applactionicon.png">
                   <span class="serverBadge" style="float: none" v-if="ifWaring">{{warningNum}}</span>
                 </div>
               </div>

@@ -6,37 +6,42 @@
             <div class="panel panel-primary text-center no-border innerShadow2">
               <div class="col-md-3 borderRightDivide smart-btn">
                 <div class="serverPanel" style="text-align: center">
-                  <button class="button button-primary button-rounded serverBtn"><i class="fas fa-4x fa-lock"></i></button>
+                  <!--<button class="button button-primary button-rounded serverBtn"><i class="fas fa-4x fa-lock"></i></button>-->
+                  <img src="../../../../../assets/img/smartdeviceicon.png">
                   <span class="badge1 serverBadge" style="float: none;cursor: pointer;" v-if="ifWarning" @click="toWarningEvent">{{warningNum}}</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right" >
-                  <h5 class="customH5">设备总数 (项)</h5>
-                  <h3 class="customH3">{{deviceTotal}}<span class="onlineRateTag normalText">在线{{deviceTotalPercent}}%</span></h3>
+                  <h5 class="customH5" style="padding-top: 14px;">设备总数 (项)</h5>
+                  <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{deviceTotal}}</h3>
+                  <span class="onlineRateTag normalText">在线{{deviceTotalPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5">智能门禁 (项)</h5>
-                  <h3 class="customH3">{{lock}}<span class="onlineRateTag normalText">在线{{lockPercent}}%</span></h3>
+                  <h5 class="customH5" style="padding-top: 14px;">智能门禁 (项)</h5>
+                  <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{lock}}</h3>
+                  <span class="onlineRateTag normalText">在线{{lockPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5">摄像头 (项)</h5>
-                  <h3 class="customH3">{{camera}}<span class="onlineRateTag normalText">在线{{cameraPercent}}%</span></h3>
+                  <h5 class="customH5" style="padding-top: 14px;">摄像头 (项)</h5>
+                  <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{camera}}</h3>
+                  <span class="onlineRateTag normalText">在线{{cameraPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5">烟感 (项)</h5>
-                  <h3 class="customH3">{{smoke}}<span class="onlineRateTag normalText">在线{{smokePercent}}%</span></h3>
+                  <h5 class="customH5" style="padding-top: 14px;">烟感 (项)</h5>
+                  <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{smoke}}</h3>
+                  <span class="onlineRateTag normalText">在线{{smokePercent}}%</span>
                 </div>
               </div>
               <div class="col-md-1 smart-right">
                 <div class="panel-right">
-                  <embed src="http://47.96.70.222:8080/image/angleRight.svg" width="20" height="131" type="image/svg+xml"/>
+                  <!--<embed src="http://47.96.70.222:8080/image/angleRight.svg" width="20" height="131" type="image/svg+xml"/>-->
                 </div>
               </div>
             </div>
@@ -118,7 +123,7 @@
                             <td>{{item.MacAddress}}</td>
                             <!--<td>{{item.Camera_Type}}</td>-->
                             <td><span @click="checkDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
-                            <td>{{item.Insert_Time | transformDate}}</td>
+                            <td>{{item.InstalledTime | transformDate}}</td>
                           </tr>
                           </tbody>
                           <tfoot v-if="lockNoData">
@@ -155,7 +160,7 @@
                         </div>
                         <div class="tableFliter smart-width">
                           <label  class="smart-query-label">所属社区</label>
-                          <el-select v-model="cameraVillage"  placeholder="请选择">
+                          <el-select v-model="cameraVillage"  placeholder="请选择" filterable>
                             <el-option value="">全部</el-option>
                             <el-option
                               v-for="(item,i) in cameraVillageData"
@@ -211,7 +216,7 @@
                             <td>{{item.MacAddress}}</td>
                             <td>{{item.Camera_Type | deviceType}}</td>
                             <td><span @click="checkCameraDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
-                            <td>{{item.Insert_Time | transformDate}}</td>
+                            <td>{{item.InstalledTime | transformDate}}</td>
                           </tr>
                           </tbody>
                           <tfoot v-if="cameraNoData">
@@ -248,7 +253,7 @@
                         </div>
                         <div class="tableFliter smart-width">
                           <label  class="smart-query-label">所属社区</label>
-                          <el-select v-model="smokeVillage" id="community" placeholder="请选择">
+                          <el-select v-model="smokeVillage" id="community" placeholder="请选择"  filterable>
                             <el-option value="">全部</el-option>
                             <el-option
                               v-for="(item,i) in smokeVillageData"
@@ -306,7 +311,7 @@
                             <td>{{item.MacAddress}}</td>
 
                             <td><span @click="checkDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
-                            <td>{{item.Insert_Time | transformDate}}</td>
+                            <td>{{item.InstalledTime | transformDate}}</td>
                           </tr>
                           </tbody>
                           <tfoot v-if="smokeNoData">

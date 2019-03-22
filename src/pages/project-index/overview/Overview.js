@@ -27,7 +27,7 @@ export default {
       deviceType:'',
       deviceName:'',
       projectRuleMount:'',
-
+      showTip:false
     }
   },
   destroyed() {
@@ -291,120 +291,8 @@ export default {
         top: '10%',
         right: '4%'
       },
-      series:[
-        // {
-        //   name:'linux1',
-        //   type:'line',
-        //   smooth: true,
-        //   itemStyle:{
-        //     color: 'rgb(154, 84, 245)'
-        //   },
-        //   lineStyle: {
-        //     width: 3,
-        //     color: 'rgb(154, 84, 245)'
-        //   },
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-        //       offset: 0,
-        //       color: 'rgba(154, 84, 245, 0.8)'
-        //     },{
-        //       offset: 1,
-        //       color: 'rgba(154, 84, 245, 0)'
-        //     }])
-        //   },
-        //   data:[0.08, 0.25, 0.1, 0.11, 0.05, 0.07, 0.08]
-        // },
-        // {
-        //   name:'linux2',
-        //   type:'line',
-        //   smooth: true,
-        //   itemStyle:{
-        //     color: 'rgb(70, 129, 255)'
-        //   },
-        //   lineStyle: {
-        //     width: 3,
-        //     color: 'rgb(70, 129, 255)'
-        //   },
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-        //       offset: 0,
-        //       color: 'rgba(70, 129, 255, 0.8)'
-        //     }, {
-        //       offset: 1,
-        //       color: 'rgba(70, 129, 255, 0)'
-        //     }])
-        //   },
-        //   data:[0.12, 0.09, 0.21, 0.03, 0.12, 0.20, 0.14]
-        // },
-        // {
-        //   name:'linux3',
-        //   type:'line',
-        //   smooth: true,
-        //   itemStyle:{
-        //     color: 'rgb(11, 185, 255)'
-        //   },
-        //   lineStyle: {
-        //     width: 3,
-        //     color: 'rgb(11, 185, 255)'
-        //   },
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-        //       offset: 0,
-        //       color: 'rgba(11, 185, 255, 0.8)'
-        //     }, {
-        //       offset: 1,
-        //       color: 'rgba(11, 185, 255, 0)'
-        //     }])
-        //   },
-        //   data:[0.19, 0.01, 0.11, 0.23, 0.03, 0.13, 0.08]
-        // },
-        // {
-        //   name:'linux4',
-        //   type:'line',
-        //   smooth: true,
-        //   itemStyle:{
-        //     color: 'rgb(70, 255, 185)'
-        //   },
-        //   lineStyle: {
-        //     width: 3,
-        //     color: 'rgb(70, 255, 185)'
-        //   },
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-        //       offset: 0,
-        //       color: 'rgba(70, 255, 185, 0.8)'
-        //     }, {
-        //       offset: 1,
-        //       color: 'rgba(70, 255, 185, 0)'
-        //     }])
-        //   },
-        //   data:[0.02, 0.12, 0.07, 0.13, 0.02, 0.18, 0.04]
-        // },
-        // {
-        //   name: 'linux5',
-        //   type: 'line',
-        //   smooth: true,
-        //   itemStyle: {
-        //     color: 'rgb(246, 235, 105)'
-        //   },
-        //   lineStyle: {
-        //     width: 3,
-        //     color: 'rgb(246, 235, 105)'
-        //   },
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-        //       offset: 0,
-        //       color: 'rgba(246, 235, 105, 0.8)'
-        //     }, {
-        //       offset: 1,
-        //       color: 'rgba(246, 235, 105, 0)'
-        //     }])
-        //   },
-        //   data: [0.06, 0.24, 0.11, 0.23, 0.06, 0.13, 0.10]
-        // }
-      ]
+      series:[]
     })
-
 
     //设备在线率
     this.deviceOnlineChart = echarts.init(document.getElementById('deviceOnlineChart'),'dark')
@@ -536,8 +424,7 @@ export default {
         User_Id:window.localStorage.getItem('userId'),
         Project_Code: Project_Code
       }).then((data) => {
-        console.log(data);
-        // console.log(data.Data);
+        // console.log(data);
         //设备数量以及平台部署位置
         //预警赋值
         this.waring = data.Data.data.waringEventList
@@ -577,20 +464,6 @@ export default {
           yAxisHardrive.push(disk[i].Server_Name)
           diskRate.push(disk[i].Disk_Usage_Rate)
         }
-        // for(let j = 0; j<disk.length;j++){
-        //   diskData.push(100)
-        // }
-        // let diskSeries = [
-        //   {
-        //     name: 'background',
-        //     type: 'bar',
-        //     barWidth: 10,
-        //     itemStyle: {
-        //       color: ['#1D223D'],
-        //     },
-        //     data: diskData
-        //   }
-        // ]
         let diskSeries = []
         for(let k in hardrive){
           diskSeries.push(
@@ -612,11 +485,57 @@ export default {
           )
         }
         this.hardriveChart.setOption({
-          yAxis:{
-            data:yAxisHardrive
+          backgroundColor:'transparent',
+          title:{
+            subtext:'磁盘占用率',
+            subtextStyle:{
+              color: '#fff'
+            },
+            left:'3%',
+          },
+          tooltip:{
+            trigger: 'axis',
+            showContent: false,
+            axisPointer : {
+              type : 'none'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '14%',
+            top: 40,
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            max: 100,
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            },
+            axisLabel: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
+          },
+          yAxis: {
+            type: 'category',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            },
+            data: yAxisHardrive
           },
           series:diskSeries
-        })
+        },true)
 //设备在线率数据
         this.deviceOnlineChart.setOption({
           series:[
@@ -695,12 +614,64 @@ export default {
         }
 
         this.memoryChart.setOption({
+          backgroundColor: 'transparent',
+          title:{
+            subtext:'内存占用率',
+            subtextStyle:{
+              color: '#fff'
+            },
+            left:'3%'
+          },
+          tooltip:{
+            trigger: 'axis',
+            // showContent:false,
+            axisPointer: {
+              type: 'shadow',
+            },
+            formatter: "{b}"
+          },
+          grid:{
+            left: '3%',
+            right: '14%',
+            top: 40,
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis:{
+            type: 'value',
+            boundaryGap: [0,0.01],
+            max: 100,
+            axisLine:{
+              show: false
+            },
+            axisTick:{
+              length: 0
+            },
+            axisLabel:{
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
+          },
           yAxis:{
+            type: 'category',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            },
+            axisLabel:{
+              //名称过长截取
+              formatter: function (name) {
+                return (name.length > 7 ? (name.slice(0,7)+"...") : name );
+              },
+            },
             data:memoryDeviceName
           },
           series:memorySeries
-        })
-
+        },true)
 
 //CPU平均负载
         //修改xAxis中的data,这里data是时间
@@ -773,10 +744,56 @@ export default {
         //cpuSeriesData的结果打印
         // console.log(cpuSeriesData);
         this.cpuChart.setOption({
-          xAxis:{data:displayTime},
-          legend:{data:serverName},
+          backgroundColor: 'transparent',
+          title: {
+            subtext: 'CPU平均负载',
+            subtextStyle:{
+              color: '#fff'
+            },
+            left:'3%'
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985'
+              }
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '10%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            },
+            data: displayTime
+          },
+          yAxis: {
+            type: 'value',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            }
+          },
+          legend: {
+            data:serverName ,
+            top: '10%',
+            right: '4%'
+          },
           series:cpuSeriesData
-        })
+        },true)
 // 数据库连接数
 //       console.log(database);
         //需要替换的数据有xAxis中的data和series，series中的数据是通过push放进去的数组的元素
@@ -822,9 +839,52 @@ export default {
         // 替换数据
         // console.log(databaseData);
         this.databaseLinkChart.setOption({
-          xAxis:{data:databaseTime},
+          backgroundColor: 'transparent',
+          color: ['#37A2DA'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985'
+              }
+            }
+          },
+          title: {
+            subtext: '数据库连接数',
+            subtextStyle:{
+              color: '#fff'
+            },
+            left:'3%'
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            },
+            data: databaseTime
+          },
+          yAxis: {
+            type: 'value',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              length: 0
+            }
+          },
           series:databaseData
-        })
+        },true)
       })
 
 

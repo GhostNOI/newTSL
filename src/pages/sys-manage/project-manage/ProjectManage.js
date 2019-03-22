@@ -75,7 +75,8 @@ export default {
         this.$http.post('/Manage/ProjectUser/Insert',{
           'User_Id':window.localStorage.getItem('userId'),
           'Related_User_Id':this.manageSelect,
-          'Project_Code':this.projectCode
+          'Project_Code':this.projectCode,
+          'OPS_User_Id':this.opsSelect.join(',')
         }).then((data) => {
           console.log(data);
           if(data.Data.code == -1){
@@ -102,7 +103,7 @@ export default {
       }else{
         this.$http.post('/Manage/ProjectUser/Insert',{
           'User_Id':window.localStorage.getItem('userId'),
-          'Related_User_Id':this.opsSelect.join(','),
+          'OPS_User_Id':this.opsSelect.join(','),
           'Project_Code':this.projectCode
         }).then((data) => {
           // console.log(data);
@@ -204,7 +205,7 @@ export default {
     }).then((data) => {
       if(+data.Data.isAdmin === 1){
         this.manageUser = true
-        this.opsUser = false
+        this.opsUser = true
       }else if(+data.Data.isAdmin === 2){
         this.manageUser = false
         this.opsUser = true

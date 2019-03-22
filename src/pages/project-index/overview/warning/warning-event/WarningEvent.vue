@@ -216,6 +216,16 @@
                   <el-button type="cancel" @click="security = false">取 消</el-button>
                 </div>
               </el-dialog>
+              <!-- 弹框3服务器离线时间 -->
+              <div id="serverOffline">
+                <el-dialog :visible.sync="serverOffline" custom-class="editor innerShadow">
+                  <div>
+                    <ul>
+                      <li v-for="(item,i) in offOnline" :key="i" style="color: #fff;font-size: 14px;">中断时间 {{item.offTime | transformDate}} 持续时间 {{item.continuedTime | formatSec}}</li>
+                    </ul>
+                  </div>
+                </el-dialog>
+              </div>
 
 
             </div>

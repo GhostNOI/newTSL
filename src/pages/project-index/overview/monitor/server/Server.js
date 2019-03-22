@@ -91,7 +91,9 @@ export default {
       interrupt:null,
       interruptdetail:[],
       //无数据隐藏进程图
-      ifNoData:true
+      ifNoData:true,
+      serverName:'',
+      serverStatus:''
     }
   },
   filters: {
@@ -138,9 +140,10 @@ export default {
     },
     //点击切换指标
     tap(val,i){
-      console.log(val);
+      // console.log(val);
+      this.serverOptionIndex = i
       val = val ? val : {code: this.serverType, type: this.type};
-      i = 'undefined' ? this.serverOptionIndex : i
+      i = i== 'undefined' ? this.serverOptionIndex : i
       this.serverOptionIndex = i
       //服务器指标
       this.serverType = val.code
@@ -189,93 +192,244 @@ export default {
         let time = []
         //判断服务器指标
         if(this.serverType === 'CPU_Load_Average'){
-          console.log(data.Data.data.detial);
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU平均负载: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           //CPU_Logs_Code字段用于进程top5传参，只有cpu类型有
           this.CPU_Logs_Code = data.Data.data.detial.length > 0 ? data.Data.data.detial[0].CPU_Logs_Code : ''
           total.forEach((item,i) => {
             yAxisData.push(item.CPU_Load_Average)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          console.log('aa');
-          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
-          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
-          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
+          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
+          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
+          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Maxproc'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU运行的进程数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           this.CPU_Logs_Code = data.Data.data.detial.length > 0 ? data.Data.data.detial[0].CPU_Logs_Code : ''
           total.forEach((item,i) => {
             yAxisData.push(item.Maxproc)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
-          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
-          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
+          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
+          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
+          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Proc_Total'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU进程总数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           this.CPU_Logs_Code = data.Data.data.detial.length > 0 ? data.Data.data.detial[0].CPU_Logs_Code : ''
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Maxproc_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_MAX
-          displayAve = maxAveMinVal[0].Maxproc_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_AVG
-          displayMin = maxAveMinVal[0].Maxproc_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_MIN
+          displayMax = maxAveMinVal[0].Maxproc_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_MAX
+          displayAve = maxAveMinVal[0].Maxproc_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_AVG
+          displayMin = maxAveMinVal[0].Maxproc_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'IO_Waiting_Time'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU-IO等待时间: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           this.CPU_Logs_Code = data.Data.data.detial.length > 0 ? data.Data.data.detial[0].CPU_Logs_Code : ''
           total.forEach((item,i) => {
             yAxisData.push(item.IO_Waiting_Time)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].IO_Waiting_Time_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_MAX
-          displayAve = maxAveMinVal[0].IO_Waiting_Time_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_AVG
-          displayMin = maxAveMinVal[0].IO_Waiting_Time_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_MIN
+          displayMax = maxAveMinVal[0].IO_Waiting_Time_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_MAX
+          displayAve = maxAveMinVal[0].IO_Waiting_Time_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_AVG
+          displayMin = maxAveMinVal[0].IO_Waiting_Time_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Memory_Usage_Rate'){
           // console.log('Memory_Usage');
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "可用内存百分比: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Memory_Usage_Rate)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Memory_Usage_Rate_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_MAX
-          displayAve = maxAveMinVal[0].Memory_Usage_Rate_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_AVG
-          displayMin = maxAveMinVal[0].Memory_Usage_Rate_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_MIN
+          displayMax = maxAveMinVal[0].Memory_Usage_Rate_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_MAX
+          displayAve = maxAveMinVal[0].Memory_Usage_Rate_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_AVG
+          displayMin = maxAveMinVal[0].Memory_Usage_Rate_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Disk_Usage_Rate'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "可用磁盘空间百分比: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Disk_Usage_Rate)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Disk_Usage_Rate_Over_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MAX
-          displayAve = maxAveMinVal[0].Disk_Usage_Rate_Over_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_AVG
-          displayMin = maxAveMinVal[0].Disk_Usage_Rate_Over_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MIN
+          displayMax = maxAveMinVal[0].Disk_Usage_Rate_Over_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MAX
+          displayAve = maxAveMinVal[0].Disk_Usage_Rate_Over_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_AVG
+          displayMin = maxAveMinVal[0].Disk_Usage_Rate_Over_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Network_Speed_In'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "流入流量: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Network_Speed_In)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Network_Speed_In_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_MAX
-          displayAve = maxAveMinVal[0].Network_Speed_In_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_AVG
-          displayMin = maxAveMinVal[0].Network_Speed_In_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_MIN
+          displayMax = maxAveMinVal[0].Network_Speed_In_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_MAX
+          displayAve = maxAveMinVal[0].Network_Speed_In_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_AVG
+          displayMin = maxAveMinVal[0].Network_Speed_In_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Network_Speed_Out'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "流出流量: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Network_Speed_Out)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Network_Speed_Out_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_MIN
-          displayAve = maxAveMinVal[0].Network_Speed_Out_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_Out_AVG
-          displayMin = maxAveMinVal[0].Network_Speed_Out_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_Out_MIN
+          displayMax = maxAveMinVal[0].Network_Speed_Out_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_MIN
+          displayAve = maxAveMinVal[0].Network_Speed_Out_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_Out_AVG
+          displayMin = maxAveMinVal[0].Network_Speed_Out_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_Out_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'TCP_Link_Total'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "TCP连接数: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.TCP_Link_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].TCP_Link_Total_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_MAX
-          displayAve = maxAveMinVal[0].TCP_Link_Total_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_AVG
-          displayMin = maxAveMinVal[0].TCP_Link_Total_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_MIN
+          displayMax = maxAveMinVal[0].TCP_Link_Total_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_MAX
+          displayAve = maxAveMinVal[0].TCP_Link_Total_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_AVG
+          displayMin = maxAveMinVal[0].TCP_Link_Total_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }
         let displayYAxisData = []
@@ -359,84 +513,237 @@ export default {
         let time = []
         //判断服务器指标
         if(this.serverType === 'CPU_Load_Average'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU平均负载: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.CPU_Load_Average)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
-          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
-          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
+          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
+          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
+          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Maxproc'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU运行的进程总数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Maxproc)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
-          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
-          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
+          displayMax = maxAveMinVal[0].CPU_Load_Average_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MAX
+          displayAve = maxAveMinVal[0].CPU_Load_Average_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_AVG
+          displayMin = maxAveMinVal[0].CPU_Load_Average_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].CPU_Load_Average_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Proc_Total'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "CPU进程总数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Maxproc_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_MAX
-          displayAve = maxAveMinVal[0].Maxproc_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_AVG
-          displayMin = maxAveMinVal[0].Maxproc_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Maxproc_MIN
+          displayMax = maxAveMinVal[0].Maxproc_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_MAX
+          displayAve = maxAveMinVal[0].Maxproc_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_AVG
+          displayMin = maxAveMinVal[0].Maxproc_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Maxproc_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'IO_Waiting_Time'){
+          this.cpuChart.setOption({
+            yAxis:{
+              tooltip: {
+                formatter: "CPU-IO等待时间: {c}%",
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'cross',
+                  label: {
+                    backgroundColor: '#6a7985'
+                  }
+                }
+              },
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.IO_Waiting_Time)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].IO_Waiting_Time_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_MAX
-          displayAve = maxAveMinVal[0].IO_Waiting_Time_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_AVG
-          displayMin = maxAveMinVal[0].IO_Waiting_Time_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].IO_Waiting_Time_MIN
+          displayMax = maxAveMinVal[0].IO_Waiting_Time_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_MAX
+          displayAve = maxAveMinVal[0].IO_Waiting_Time_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_AVG
+          displayMin = maxAveMinVal[0].IO_Waiting_Time_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].IO_Waiting_Time_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Memory_Usage_Rate'){
+          this.cpuChart.setOption({
+            yAxis:{
+              tooltip: {
+                formatter: "可用内存百分比: {c}%",
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'cross',
+                  label: {
+                    backgroundColor: '#6a7985'
+                  }
+                }
+              },
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Memory_Usage_Rate)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
-          displayMax = maxAveMinVal[0].Memory_Usage_Rate_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_MAX
-          displayAve = maxAveMinVal[0].Memory_Usage_Rate_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_AVG
-          displayMin = maxAveMinVal[0].Memory_Usage_Rate_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Memory_Usage_Rate_MIN
+          displayMax = maxAveMinVal[0].Memory_Usage_Rate_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_MAX
+          displayAve = maxAveMinVal[0].Memory_Usage_Rate_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_AVG
+          displayMin = maxAveMinVal[0].Memory_Usage_Rate_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Memory_Usage_Rate_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.serverType === 'Disk_Usage_Rate'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "可用磁盘空间百分比: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}%'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Disk_Usage_Rate)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-            displayMax = maxAveMinVal[0].Disk_Usage_Rate_Over_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MAX
-            displayAve = maxAveMinVal[0].Disk_Usage_Rate_Over_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_AVG
-            displayMin = maxAveMinVal[0].Disk_Usage_Rate_Over_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MIN
+            displayMax = maxAveMinVal[0].Disk_Usage_Rate_Over_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MAX
+            displayAve = maxAveMinVal[0].Disk_Usage_Rate_Over_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_AVG
+            displayMin = maxAveMinVal[0].Disk_Usage_Rate_Over_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Disk_Usage_Rate_Over_MIN
             displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
           })
         }else if(this.serverType === 'Network_Speed_In'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "流入流量: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Network_Speed_In)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-            displayMax = maxAveMinVal[0].Network_Speed_In_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_MAX
-            displayAve = maxAveMinVal[0].Network_Speed_In_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_AVG
-            displayMin = maxAveMinVal[0].Network_Speed_In_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_In_MIN
+            displayMax = maxAveMinVal[0].Network_Speed_In_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_MAX
+            displayAve = maxAveMinVal[0].Network_Speed_In_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_AVG
+            displayMin = maxAveMinVal[0].Network_Speed_In_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_In_MIN
             displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
           })
         }else if(this.serverType === 'Network_Speed_Out'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "流出流量: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.Network_Speed_Out)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-            displayMax = maxAveMinVal[0].Network_Speed_Out_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_Out_MAX
-            displayAve = maxAveMinVal[0].Network_Speed_Out_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_Out_AVG
-            displayMin = maxAveMinVal[0].Network_Speed_Out_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].Network_Speed_Out_MIN
+            displayMax = maxAveMinVal[0].Network_Speed_Out_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_Out_MAX
+            displayAve = maxAveMinVal[0].Network_Speed_Out_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_Out_AVG
+            displayMin = maxAveMinVal[0].Network_Speed_Out_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].Network_Speed_Out_MIN
             displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
           })
         }else if(this.serverType === 'TCP_Link_Total'){
+          this.cpuChart.setOption({
+            tooltip: {
+              formatter: "TCP连接数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
+            yAxis:{
+              axisLabel:{
+                formatter:'{value}'
+              }
+            }
+          })
           total.forEach((item,i) => {
             yAxisData.push(item.TCP_Link_Total)
             time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-            displayMax = maxAveMinVal[0].TCP_Link_Total_MAX === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_MAX
-            displayAve = maxAveMinVal[0].TCP_Link_Total_AVG === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_AVG
-            displayMin = maxAveMinVal[0].TCP_Link_Total_MIN === 'null' || 'undefined' ? '' : maxAveMinVal[0].TCP_Link_Total_MIN
+            displayMax = maxAveMinVal[0].TCP_Link_Total_MAX === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_MAX
+            displayAve = maxAveMinVal[0].TCP_Link_Total_AVG === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_AVG
+            displayMin = maxAveMinVal[0].TCP_Link_Total_MIN === ('null' || 'undefined') ? '' : maxAveMinVal[0].TCP_Link_Total_MIN
             displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
           })
         }
@@ -503,7 +810,7 @@ export default {
         this.network = data.Data.data.fourState[0] ? Number(data.Data.data.fourState[0].Network_Speed_In).toLocaleString() :''
         this.warningNum = data.Data.data.waringNum
         this.interrupt = data.Data.data.offFinalResult.length
-        this.interruptdetail = data.Data.data.offFinalResult
+        this.interruptdetail = data.Data.data.offFinalResult.slice(0,10)
         if(+this.warningNum > 0){
           // console.log(this.warningNum);
           this.ifWarning = true
@@ -547,14 +854,14 @@ export default {
           displayCpuLoadAverage.push(cpuLoadAverage[i])
           displayTime.push(time[i])
         }
-
+        // console.log(maxAveMin);
         //三个变量需要重新赋值
         let option = {
           log:['aa','bb'],
           backgroundColor: 'transparent',
           title:[
             {
-              subtext:`最近值 ${cpuLoadAverage[cpuLoadAverage.length-1] ? cpuLoadAverage[cpuLoadAverage.length-1] : ''}  最小值 ${maxAveMin[0].CPU_Load_Average_MIN === 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_MIN}  平均值 ${maxAveMin[0].CPU_Load_Average_AVG === 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_AVG}  最大值${maxAveMin[0].CPU_Load_Average_MAX === 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_MAX}`,
+              subtext:`最近值 ${cpuLoadAverage[cpuLoadAverage.length-1] ? cpuLoadAverage[cpuLoadAverage.length-1] : ''}  最小值 ${maxAveMin[0].CPU_Load_Average_MIN == 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_MIN}  平均值 ${maxAveMin[0].CPU_Load_Average_AVG == 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_AVG}  最大值${maxAveMin[0].CPU_Load_Average_MAX == 'null' || 'undefined' ? '' : maxAveMin[0].CPU_Load_Average_MAX}`,
               x: '3%',
               textAlign: 'left'
             },
@@ -675,7 +982,7 @@ export default {
           this.processChart.on('click', (params) => {
             this.leftSideClick(params)
           })
-          console.log(total);
+          // console.log(total);
           //进程占用折线图
           this.$http.post('/Manage/Service/ServiceOneProDetial',{
             'User_Id':window.localStorage.getItem('userId'),
@@ -685,7 +992,7 @@ export default {
             'Server_Code':this.$route.params.serverId,
             'dayType':this.days
           }).then((data) =>{
-            console.log(data);
+            // console.log(data);
             if(+data.ErrorCode === -91){
               return
             }
@@ -723,11 +1030,15 @@ export default {
         'Service_Code':this.$route.params.serverId
       }).then( (data) => {
         // console.log(data);
+        this.serverStatus = data.Data.data.offOnService
         let runTime = data.Data.data.runTimeOffResult
         // console.log(runTime);
         let runTimeData = []
         runTimeData.push(runTime.continuousTime,runTime.addUpTime)
         this.runTimeChart.setOption({
+          yAxis:{
+            data:["累计运行："+data.Data.data.runTimeOffResult.continuousTimeStr,"连续运行："+data.Data.data.runTimeOffResult.addUpTimeStr]
+          },
           series:[
             {data:runTimeData}
           ]
@@ -832,6 +1143,7 @@ export default {
         title: serverListObj.Name
       }
     ])
+    this.serverName = serverListObj.Name
     // console.log(this.CPU_Logs_Code);
 
     let _this = this
@@ -949,18 +1261,18 @@ export default {
           axisTick: {
             length: 0
           },
-          data: ['连续运行 (h)','累计运行 (h)']
+          data: []
         },
         series: [
           {
             name: '占用百分比',
             type: 'bar',
             barWidth: 10,
-            label: {
-              show: true,
-              position: 'right',
-              formatter: '{@[0]}'
-            },
+            // label: {
+            //   show: true,
+            //   position: 'right',
+            //   formatter: '{@[0]}'
+            // },
             itemStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
                 offset: 0,

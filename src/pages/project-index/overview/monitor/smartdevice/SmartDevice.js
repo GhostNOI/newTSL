@@ -354,18 +354,16 @@ export default {
       this.MACAddress = val.MacAddress
       this.deviceType = val.Camera_Type
       this.status = val.IsOnline
-      this.installTime = val.Insert_Time
-
-
+      this.installTime = val.InstalledTime
     },
     //监控
     checkCameraDetail (val) {
       // console.log(val);
       this.cameraDetail = true
       this.cameraNameDetail = val.Name
-      // this.IPAddressDetail = val.
+      this.IPAddressDetail = val.MacAddress
       this.status = val.IsOnline
-      this.installTime = val.Insert_Time
+      this.installTime = val.InstalledTime
     },
     toWarningEvent() {
       this.$router.push(`/project-index/${this.$route.params.id}/warningevent/`)
@@ -416,10 +414,10 @@ export default {
       let cameraOnline = Number(data.Data.data.camera.cameraOnlineNum)
       let smokeOnline = Number(data.Data.data.smoke.smokeOnlineNum)
       //设备数量会出现为0的情况
-      let l = this.lock === 0 ? 1 : this.lock
-      let c = this.camera === 0 ? 1 : this.camera
-      let s = this.smoke === 0 ? 1 : this.camera
-      let d = this.deviceTotal === 0 ? 1 :this.deviceTotal
+      let l = this.lock === 0 ? 1 : this.lock;
+      let c = this.camera === 0 ? 1 : this.camera;
+      let s = this.smoke === 0 ? 1 : this.smoke;
+      let d = this.deviceTotal === 0 ? 1 :this.deviceTotal;
 
       // this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / this.deviceTotal * 100).toFixed(2)
       // this.lockPercent = Number((lockOnline / this.lock * 100).toFixed(2))

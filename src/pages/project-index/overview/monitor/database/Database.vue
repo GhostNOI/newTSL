@@ -6,7 +6,8 @@
             <div class="panel panel-primary text-center no-border innerShadow2">
               <div class="col-md-2 borderRightDivide width-float">
                 <div class="serverPanel" style="text-align: center">
-                  <button class="button button-primary button-rounded serverBtn"><div style="display: flex;justify-content: center;align-items: center;"><i class="fas fa-4x fa-database"></i></div></button>
+                  <!--<button class="button button-primary button-rounded serverBtn"><div style="display: flex;justify-content: center;align-items: center;"><i class="fas fa-4x fa-database"></i></div></button>-->
+                  <img src="../../../../../assets/img/databaseicon.png">
                   <span class="serverBadge" style="float: none;cursor: pointer;" @click="toWarningEvent" v-if="ifWarning">4</span>
                 </div>
               </div>

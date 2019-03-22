@@ -126,5 +126,14 @@
 .showCase:hover .server-break{
   display: block;
 }
-
-
+.offOn{
+  float: right;
+  overflow: hidden;
+  width: 50px;
+}
+.online{
+  color: #3be585;
+}
+.offline{
+  color: #f5a623;
+}

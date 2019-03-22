@@ -16,7 +16,6 @@
           <br/>
           <span v-if="flagPhone" style="color: red;display: inline-block;">请输入手机号</span>
           <span v-if="ifPhone" style="color: red;display: inline-block">请输入正确的手机号</span>
-          <span v-if="isReal" style="color: red;display: inline-block">该用户不存在</span>
         </div>
         <div class="form-input">
           <el-input
@@ -25,6 +24,7 @@
             type="password"
             clearable>
           </el-input>
+          <span v-if="isReal" style="color: red;display: inline-block">{{errorTip}}</span>
           <span v-if="flagPassword" style="color: red;">请输入密码</span>
         </div>
         <div class="login-btn-wrap">

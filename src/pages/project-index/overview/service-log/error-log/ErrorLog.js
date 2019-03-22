@@ -54,6 +54,7 @@ export default {
     },
     //查询
     query(){
+      this.currentPage = 1
       this.noData = true
       this.$http.post('/Manage/ErrorLog/Index',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -89,6 +90,7 @@ export default {
     },
     //重置
     resetForm() {
+      this.currentPage = 1
       this.datePick = []
       this.dayType = ''
       this.$http.post('/Manage/ErrorLog/Index',{
@@ -216,13 +218,13 @@ export default {
                 padding: 4,
                 backgroundColor: '#000',
                 align: 'left',
-                formatter: '2018-11-30 {c} \n 25次'
+                // formatter: '2018-11-30 {c} \n 25次'
               },
-              data:[{
-                name: '预警事件',
-                value: '09:15',
-                coord: ['09:15', '7']
-              }]
+              // data:[{
+              //   name: '预警事件',
+              //   value: '09:15',
+              //   coord: ['09:15', '7']
+              // }]
             },
             markLine: {
               symbol: 'none',
@@ -300,21 +302,21 @@ export default {
             data:formatTime
           },
           series:[{
-            markPoint:{
-              data:[{
-                name: '预警事件',
-                coord: [this.displayTime, this.$route.query.LogMount]
-              }],
-              label:{
-                formatter: `${this.displayTime2} \n ${this.$route.query.LogMount}次`
-              },
-            },
-            markLine:{
-              data: [{
-                name: '预警事件',
-                xAxis: this.displayTime
-              }]
-            },
+            // markPoint:{
+            //   data:[{
+            //     name: '预警事件',
+            //     coord: [this.displayTime, this.$route.query.LogMount]
+            //   }],
+            //   label:{
+            //     formatter: `${this.displayTime2} \n ${this.$route.query.LogMount}次`
+            //   },
+            // },
+            // markLine:{
+            //   data: [{
+            //     name: '预警事件',
+            //     xAxis: this.displayTime
+            //   }]
+            // },
             data:number
           }]
         })

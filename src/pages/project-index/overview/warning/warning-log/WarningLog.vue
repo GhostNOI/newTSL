@@ -80,9 +80,12 @@
                 </div>
                 <div class="export-record">
                   <div class="ctrlBtnPanel">
-                    <a class="darkBtnPrimary no-border warning-btn" style="cursor: pointer;"  @click="dialogFormVisible = true">
+                    <a class="darkBtnPrimary no-border warning-btn" style="cursor: pointer;"  @click="downloadDetail">
                       <strong>导出记录</strong>
                     </a>
+                    <!--<a class="darkBtnPrimary no-border warning-btn" style="cursor: pointer;"  @click="dialogFormVisible = true">-->
+                      <!--<strong>导出记录</strong>-->
+                    <!--</a>-->
                     <!--弹框-->
                     <el-dialog title="导出记录" :visible.sync="dialogFormVisible" custom-class="editor innerShadow" @closed="closedExoprt">
                       <div>
@@ -191,7 +194,7 @@
                       <td>{{item.timeConsuming | formatSec}}</td>
                       <td>{{item.Name}}</td>
                       <td>{{item.Desc}}</td>
-                      <td><span class="enabled" @click="changeEvent(item)">修改</span></td>
+                      <td><span class="enabled" @click="changeEvent(item)">{{+item.State === 6 ? '修改' : '添加'}}</span></td>
                     </tr>
                     <!--<tr class="subTd">-->
                       <!--<td>2018-10-13&nbsp;&nbsp;&nbsp;09&nbsp;:&nbsp;00&nbsp;:&nbsp;43</td>-->

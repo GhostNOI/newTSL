@@ -83,7 +83,7 @@
       </el-row>
     </div>
 
-    <div id="right-side" >
+    <div id="right-side" v-if="projectList.length > 0">
       <v-head></v-head>
       <router-view></router-view>
     </div>

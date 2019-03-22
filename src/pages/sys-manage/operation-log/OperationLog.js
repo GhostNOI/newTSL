@@ -14,14 +14,17 @@ export default {
       currentPage:1,
       pageNum:'',
       pageSize:10,
+      operate:''
     }
   },
   methods:{
     //查询
     query(){
+      this.currentPage = 1
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
+        'Api_Desc':this.operate,
         'startTime':this.value[0] ? this.value[0] : '',
         'endTime':this.value[1] ? this.value[1] : '',
         'pageSize':this.pageSize
@@ -34,8 +37,10 @@ export default {
     },
     //重置
     resetForm() {
-      this.value = []
-      this.userId = ''
+      this.currentPage = 1;
+      this.value = [];
+      this.userId = '';
+      this.operate = '';
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
@@ -53,8 +58,11 @@ export default {
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
+        'Api_Desc':this.operate,
         // 'startTime':'',
         // 'endTime':''
+        'startTime':this.value[0] ? this.value[0] : '',
+        'endTime':this.value[1] ? this.value[1] : '',
         'pageNum':val,
         'pageSize':this.pageSize
       }).then((data) => {
@@ -70,8 +78,11 @@ export default {
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
+        'Api_Desc':this.operate,
         // 'startTime':'',
         // 'endTime':''
+        'startTime':this.value[0] ? this.value[0] : '',
+        'endTime':this.value[1] ? this.value[1] : '',
         'pageNum':this.pageNum,
         'pageSize':val
       }).then((data) => {
@@ -102,7 +113,7 @@ export default {
     this.$http.post('/Manage/OperateLogs/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      // console.log(data);
+      console.log(data);
       this.userList = data.Data.data.userList
       this.tableData = data.Data.data.operateLogsList
       this.howMany = data.Data.data.howMany

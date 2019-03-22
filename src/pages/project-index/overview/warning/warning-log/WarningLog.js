@@ -177,11 +177,12 @@ export default {
     },
     //修改预警事件
     changeEvent(val) {
+      // console.log(val);
       this.changeAlertEvent = true
       // console.log(val);
       this.alertEvent = val.Message
       this.description = val.Desc
-      this.changeUser = val.Name
+      this.changeUser = val.Do_User_Id
       this.id = val.Id
     },
     changeEventSure() {
@@ -192,6 +193,8 @@ export default {
         this.changeTipShow = true
         this.changeTip = '请输入描述'
       }else {
+        console.log(this.changeUser);
+        // return;
         this.$http.post('/Manage/WaringLogs/Update',{
           'User_Id':window.localStorage.getItem('userId'),
           'Project_Code':this.$route.params.id,
@@ -224,7 +227,6 @@ export default {
           }
         })
       }
-
     },
     //修改弹窗关闭
     closeChange() {
@@ -241,6 +243,30 @@ export default {
       if(this.selectDateExport[0]){
         this.dayType = ''
       }
+    },
+    //导出记录，点击按钮直接导出记录
+    downloadDetail(){
+      let params = new URLSearchParams()
+      params.append('User_Id',window.localStorage.getItem('userId'))
+      params.append('Project_Code',this.$route.params.id)
+      params.append('startTime',this.selectDate[0] ? this.selectDate[0] : '')
+      params.append('endTime',this.selectDate[1] ? this.selectDate[1] : '')
+      params.append('Warning_Type',this.eventType)
+      params.append('Warning_Level',this.eventLevel)
+      params.append('Do_User_Id',this.dealUser)
+      axios({
+        method:'POST',
+        url:'http://118.31.172.237:9031/api/Manage/WaringLogs/ExportNotes',
+        data:params,
+        headers:{
+          'Authorization':'Bearer' +' '+ getCookie('tsl_token')
+        },
+        responseType:'blob'
+      }).then(response => {
+        // console.log(response);
+        this.download(response.data)
+        this.dialogFormVisible = false
+      })
     }
   },
   mounted () {

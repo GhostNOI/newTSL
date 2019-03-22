@@ -112,7 +112,7 @@ export default {
                 padding: 4,
                 backgroundColor: '#000',
                 align: 'left',
-                formatter: '2018-11-30 {c} \n 25次'
+                // formatter: '2018-11-30 {c} \n 25次'
               },
               data:[{
                 name: '预警事件',
@@ -247,7 +247,7 @@ export default {
         'pageSize':this.pageSize,
         'pageNum':val
       }).then((data) => {
-        this.tableData1  = data.Data.data.allSlowErrorDetial
+        this.tableData1  = data.Data.data.allSlowErrorDetial;
         this.howMany = data.Data.data.howMany
       })
     },
@@ -269,6 +269,7 @@ export default {
       })
     },
     query(){
+      this.currentPage = 1;
       if(this.datePick.length > 0){
         this.dayType = ''
       }else{
@@ -291,16 +292,16 @@ export default {
         }else{
           this.noData = false
         }
-        this.tableData1  = data.Data.data.allSlowErrorDetial
-        this.howMany = data.Data.data.howMany
-        let times = data.Data.data.allSlowErrorTimeMount
+        this.tableData1  = data.Data.data.allSlowErrorDetial;
+        this.howMany = data.Data.data.howMany;
+        let times = data.Data.data.allSlowErrorTimeMount;
         // console.log(times);
         let formatTime = [];
-        let number = []
+        let number = [];
         times.forEach((item,i) => {
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
           number.push(item.num)
-        })
+        });
         this.mainChart.setOption({
           xAxis:{
             data:formatTime
@@ -314,8 +315,9 @@ export default {
     },
     //重置
     resetForm() {
-      this.dayType = ''
-      this.datePick = []
+      this.currentPage = 1;
+      this.dayType = '';
+      this.datePick = [];
       this.$http.post('/Manage/ErrorLog/Slow',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -326,16 +328,16 @@ export default {
         }else{
           this.noData = false
         }
-        this.tableData1  = data.Data.data.allSlowErrorDetial
-        this.howMany = data.Data.data.howMany
-        let times = data.Data.data.allSlowErrorTimeMount
+        this.tableData1  = data.Data.data.allSlowErrorDetial;
+        this.howMany = data.Data.data.howMany;
+        let times = data.Data.data.allSlowErrorTimeMount;
         // console.log(times);
         let formatTime = [];
         let number = []
         times.forEach((item,i) => {
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
           number.push(item.num)
-        })
+        });
         this.mainChart.setOption({
           xAxis:{
             data:formatTime

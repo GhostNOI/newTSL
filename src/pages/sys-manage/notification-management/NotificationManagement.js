@@ -75,6 +75,7 @@ export default {
     //查询按钮
     query() {
       // console.log(this.value);
+      this.currentPage = 1
       this.$http.post('/Manage/NoticeHistoryLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.receiver,
@@ -91,6 +92,7 @@ export default {
     },
     //重置
     resetForm() {
+      this.currentPage = 1
       this.receiver = ''
       this.notificationClass = ''
       this.notificationType = ''
@@ -170,7 +172,10 @@ export default {
                 this.ifTips = true
                 return ;
               }
-              if(data.Data.code == 0){
+              if(+data.Data.code === -7){
+                this.tips = '手机号已被使用'
+                this.ifTips = true
+              }else if(+data.Data.code === 0){
                 this.dialogFormVisible = false
                 this.$http.post('/Manage/NoticeOtherSeting/Index',{
                   'User_Id':window.localStorage.getItem('userId'),
@@ -219,7 +224,7 @@ export default {
           this.tips = '请选择人员类型'
           this.ifTips = true
           return ;
-        }else if(this.form.project === ''){
+        }else if(this.form.project === []){
           this.tips = '请选择项目'
           this.ifTips = true
           return ;
@@ -256,7 +261,10 @@ export default {
               'Email':this.form.email
             }).then((data) => {
               // console.log(data);
-              if(data.Data.code == 0){
+              if(+data.Data.code === -7){
+                this.tips = '手机号已被使用'
+                this.ifTips = true
+              }else if(+data.Data.code === 0){
                 // this.dingdingIpt = false
                 this.dialogFormVisible = false
                 this.$http.post('/Manage/NoticeOtherSeting/Index',{
@@ -312,17 +320,17 @@ export default {
     // },
     //关闭弹框
     closeDialog() {
-      this.form.name = ''
-      this.form.phone = ''
-      this.form.isDingding = ''
-      this.form.role = ''
-      this.form.project = ''
-      this.form.dingding = ''
-      this.form.email = ''
-      this.eventType = []
-      this.tips = ''
-      this.ifTips = false
-      this.dingdingIpt = false
+      this.form.name = '';
+      this.form.phone = '';
+      this.form.isDingding = '';
+      this.form.role = '';
+      this.form.project = [];
+      this.form.dingding = '';
+      this.form.email = '';
+      this.eventType = [];
+      this.tips = '';
+      this.ifTips = false;
+      this.dingdingIpt = false;
       this.title = '新建'
     },
 

@@ -127,7 +127,7 @@
                       <el-pagination
                         @size-change="manageSizeChange"
                         @current-change="manageCurrentChange"
-                        :current-page="currentPage"
+                        :current-page.sync="currentPage"
                         :page-sizes="[10, 20, 30]"
                         :page-size="10"
                         layout="total, sizes, prev, pager, next, jumper"
@@ -148,7 +148,6 @@
                       </div>
 
                       <el-dialog :title="title" :visible.sync="dialogFormVisible" custom-class="editor innerShadow" @closed="closeDialog">
-
                         <div>
                           <el-form :model="form">
                             <el-form-item label="通知接收人" :label-width="formLabelWidth">
@@ -268,7 +267,7 @@
                         <el-pagination
                           @size-change="setSizeChange"
                           @current-change="setCurrentChange"
-                          :current-page="setCurrentPage"
+                          :current-page.sync="setCurrentPage"
                           :page-sizes="[10, 20, 30]"
                           :page-size="10"
                           layout="total, sizes, prev, pager, next, jumper"

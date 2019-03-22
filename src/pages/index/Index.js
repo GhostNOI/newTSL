@@ -79,7 +79,7 @@ export default {
         Project_Code: this.value
       }).then((data) => {
         this.country = true
-        console.log(data);
+        // console.log(data);
         //更改首页echarts和右侧预警
         //预警数量
         let waringMountOld = [
@@ -462,7 +462,7 @@ export default {
             let projectName = []
             let projectNum = []
             projectClass.forEach((item,i) => {
-              projectName.push(item.PLatfrom_Type_Name)
+              projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
               projectNum.push(item.num)
             })
             _this.projectClassChart.setOption({
@@ -737,7 +737,7 @@ export default {
         let projectName = []
         let projectNum = []
         projectClass.forEach((item,i) => {
-          projectName.push(item.PLatfrom_Type_Name)
+          projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
           projectNum.push(item.num)
         })
         this.projectClassChart.setOption({
@@ -820,11 +820,15 @@ export default {
         'User_Id':window.localStorage.getItem('userId')
       }).then((data) => {
         // console.log(data);
+        if(+data.Data.code === 0){
+          removeCookie('tsl_token')
+          window.localStorage.removeItem('userId')
+          window.localStorage.removeItem('insertTime')
+          this.$router.push('/login')
+        }else {
+          window.alert('系统繁忙，请稍后再试')
+        }
       })
-      removeCookie('tsl_token')
-      window.localStorage.removeItem('userId')
-      window.localStorage.removeItem('insertTime')
-      this.$router.push('/login')
     }
   },
   mounted () {
@@ -1188,7 +1192,7 @@ export default {
           let projectName = []
           let projectNum = []
           projectClass.forEach((item,i) => {
-            projectName.push(item.PLatfrom_Type_Name)
+            projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
             projectNum.push(item.num)
           })
           _this.projectClassChart.setOption({
@@ -1500,7 +1504,7 @@ export default {
     this.$http.post('/Manage/User/index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       //项目总数
       this.projectAllCount = data.Data.data.projectAllCount
       //城市top5
@@ -1609,7 +1613,7 @@ export default {
       let projectName = []
       let projectNum = []
       projectClass.forEach((item,i) => {
-        projectName.push(item.PLatfrom_Type_Name)
+        projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
         projectNum.push(item.num)
       })
       this.projectClassChart.setOption({

@@ -584,7 +584,7 @@
   }
   //select选择器
   .el-input__inner{
-    width: 260px;
+    width: 200px;
   }
 
   .el-pagination{
@@ -710,7 +710,7 @@
 //弹框
 .el-popover{
   color: #fff;
-  background: transparent;
+  background: #100f16;
   height: 20px;
   border: 1px solid #383b5d;
   -moz-box-shadow:0px 0px 30px 5px rgb(40,49,82) inset;
@@ -1433,4 +1433,18 @@ input{
       }
     }
   }
+}
+//预警事件服务器离线弹框
+#serverOffline{
+  .el-dialog{
+    background: #242531;
+    border: 1px solid #5c5e80;
+    .el-dialog__headerbtn{
+      display: none;
+    }
+    .el-dialog__body{
+      padding: 10px 20px;
+    }
+  }
+
 }

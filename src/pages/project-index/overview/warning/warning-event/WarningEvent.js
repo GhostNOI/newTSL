@@ -1,5 +1,5 @@
 import echarts from 'echarts'
-import {transformDate,eventType} from "../../../../../common/filters";
+import {transformDate,eventType,formatSec,formatSecMin} from "../../../../../common/filters";
 
 export default {
   name: "WraningEvent",
@@ -49,6 +49,8 @@ export default {
       pageSize:10,
       pageNum:1,
       delive:'1',
+      serverOffline:false,
+      offOnline:[]
     }
   },
 
@@ -67,7 +69,7 @@ export default {
           if(data.Data.waringEventList[0].lastTime === ''){
             this.delive = `已催办给${data.Data.waringEventList[0].other_Name}`
           }else{
-            this.delive = `倒计时${waringEventList[0].lastTime}秒`
+            this.delive = `倒计时${data.Data.waringEventList[0].lastTime}`
           }
         }
       })
@@ -122,6 +124,11 @@ export default {
       }).then((data) => {
         // console.log(data);
         let eventRank = []
+        let num = []
+        for(let i = 0; i < data.Data.waringPiechart.length; i++) {
+          num.push(i)
+        }
+        this.sNumber = num
         eventRank = data.Data.waringPiechart
         // console.log(eventRank);
         let eventNum = []
@@ -218,7 +225,6 @@ export default {
     //表格中查看按钮
     see(val){
       // console.log(val);
-      // return
       // if(+val.Warning_Group === 1){
       //   this.$router.push('/tendency')
       // }else if(+val.Warning_Group === 2){
@@ -230,25 +236,30 @@ export default {
       // }else if(+val.Warning_Group ===5){
       //   //弹出弹窗2
       // }
-      if(val.Warning_Group == '1'){
+      if(+val.Warning_Group === 1){
         //服务器跳转到走势图
-        this.$router.push({
-          path: `/project-index/${this.$route.params.id}/tendency`,
-          query:val
-        })
-      }else if(val.Warning_Group == '2'){
+        if(+val.Rule_Id === 1){
+          this.offOnline = val.offFinalResult.slice(0,10)
+          this.serverOffline = true
+        }else {
+          this.$router.push({
+            path: `/project-index/${this.$route.params.id}/tendency`,
+            query:val
+          })
+        }
+      }else if(+val.Warning_Group === 2){
         //数据库，跳转到慢日志
         this.$router.push({
           path:`/project-index/${this.$route.params.id}/slowlog`,
           query:val
         })
-      }else if(val.Warning_Group == '3'){
+      }else if(+val.Warning_Group === 3){
         //应用服务，跳转到错误日志
         this.$router.push({
           path:`/project-index/${this.$route.params.id}/errorLog`,
           query:val
         })
-      }else if(val.Warning_Group == '4'){
+      }else if(+val.Warning_Group === 4){
         //智能设备，打开弹框
         if(val.CameraMsg.length > 0){
           this.deviceName = val.CameraMsg[0].Name
@@ -424,6 +435,222 @@ export default {
         })
       }
 
+    },
+    getData () {
+      //面包屑
+      const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
+      // console.log(headerObj, 'headerObj');
+      this.$store.commit('changeHeadTitle', [
+        {
+          url: `/project-index/${this.$route.params.id}`,
+          title: headerObj.Project_Name
+        },
+        {
+          url:'',
+          title:'预警管理'
+        },
+        {
+          url:'',
+          title: '预警事件'
+        }
+      ])
+
+      this.eventTypeChart = echarts.init(document.getElementById('eventTypeChart'),'dark')
+      this.eventTypeChart.setOption({
+        backgroundColor: 'transparent',
+        legend: {
+          type: 'plain',
+          orient: 'vertical',
+          right: 10,
+          top: 20,
+          bottom: 20,
+          itemGap: 30,
+          data: [
+          ],
+          formatter: function(name){
+          }
+        },
+        tooltip:{
+          trigger: 'item',
+          formatter: '{b} : {d}%'
+        },
+        series: [
+          {
+            name:'预警事件类型',
+            type:'pie',
+            center: ['40%','50%'],
+            radius: ['65%', '80%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              formatter: '{b}:{d}%',
+            },
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            data:[
+            ]
+          }
+        ]
+      })
+
+//预警事件排名柱状图
+      this.eventRankingChart = echarts.init(document.getElementById('eventRankingChart'),'dark')
+      this.eventRankingChart.setOption({
+        backgroundColor: 'transparent',
+        grid: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          containLabel: false
+        },
+        tooltip:{
+          trigger:'item',
+          formatter:'数量：{c}'
+        },
+        xAxis: {
+          type: 'value',
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          axisTick: {
+            length: 0
+          },
+          splitLine: {
+            show: false
+          }
+        },
+        yAxis: {
+          show:false,
+          type: 'category',
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            length: 0
+          },
+          data:['','','','','']
+        },
+        series: [
+          {
+            type: 'bar',
+            barWidth: 10,
+            barCategoryGap: '300%',
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                offset: 0,
+                color: 'rgb(138, 76, 220)'
+              },{
+                offset: 1,
+                color: 'rgb(102, 143, 255)'
+              }])
+            },
+            data: [],
+
+          }
+        ]
+      })
+//请求接口替换数据
+      //饼图
+      this.$http.post('/Manage/WaringEvent/Index',{
+        'User_Id':window.localStorage.getItem('userId'),
+        'dayType':7,
+        'Project_Code':this.$route.params.id
+      }).then((data) => {
+        // console.log(data);
+        let total = []
+        total = data.Data.data.waringPiechart
+        let chartData = []
+        let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A']
+        let displayData = []
+        let legendData = []
+        total.forEach((item,i) => {
+          chartData.push(item)
+          displayData.push(
+            {name:item.Waring_Type,value:item.perc,itemStyle:{color:color[i]}}
+          )
+          legendData.push(
+            {name:item.Waring_Type,icon:'circle'}
+          )
+        })
+        // console.log(displayData);
+        this.eventTypeChart.setOption({
+          legend:{
+            data:legendData,
+            formatter: function (name) {
+              for(let i in chartData){
+                if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(0) + '%'
+              }
+              return name +''+ per
+            }
+          },
+          series:[
+            {data:displayData}
+          ]
+        })
+
+      })
+
+      //柱状图
+      this.$http.post('/Manage/WaringEvent/WaringEventRank',{
+        'User_Id':window.localStorage.getItem('userId'),
+        'dayType':7,
+        'Project_Code':this.$route.params.id
+      }).then((data) => {
+        console.log(data);
+        let eventRank = []
+        let num = []
+        for(let i = 0; i < data.Data.waringPiechart.length; i++) {
+          // this.sNumber.push(i)
+          num.push(i)
+        }
+        this.sNumber = num
+        eventRank = data.Data.waringPiechart
+        // console.log(eventRank);
+        let eventNum = []
+        this.ringRatio = []
+        this.eventRank = []
+        eventRank.forEach((item,i) => {
+          eventNum.unshift(item.num)
+          this.ringRatio.push(item.waringRingRatio)
+          this.eventRank.push(item)
+        })
+        if(eventRank.length < 5){
+          for(let i = 0; i < 5-eventRank.length; i++){
+            eventNum.unshift(0)
+          }
+        }
+        // console.log(this.ringRatio);
+        this.eventRankingChart.setOption({
+          series:[
+            {data:eventNum}
+          ]
+        })
+      })
+//表格数据
+      this.$http.post('/Manage/WaringEvent/WaringEventList',{
+        'User_Id':window.localStorage.getItem('userId'),
+        'Project_Code':this.$route.params.id,
+        // 'Project_Code':'cc5b7135fb814c5ea32d1815a1385163',
+      }).then((data) => {
+        // console.log(data);
+        this.waringEventList = data.Data.waringEventList
+        this.howMany = data.Data.howMany
+        // console.log(this.waringEventList);
+      })
     }
   },
   mounted () {
@@ -662,9 +889,12 @@ export default {
     }).then((data) => {
       console.log(data);
       let eventRank = []
+      let num = []
       for(let i = 0; i < data.Data.waringPiechart.length; i++) {
-        this.sNumber.push(i)
+        // this.sNumber.push(i)
+        num.push(i)
       }
+      this.sNumber = num
       eventRank = data.Data.waringPiechart
       // console.log(eventRank);
       let eventNum = []
@@ -703,6 +933,12 @@ export default {
   },
   filters : {
     transformDate : transformDate,
-    eventType : eventType
+    eventType : eventType,
+    formatSec:formatSec,
+  },
+  watch : {
+    $route (newVal) {
+      this.getData()
+    }
   }
 }

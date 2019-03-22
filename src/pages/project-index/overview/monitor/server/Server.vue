@@ -7,8 +7,13 @@
             <div class="panel panel-primary text-center no-border innerShadow2 server-height strange">
               <div class="col-md-2 server-btn strange">
                 <div class="serverPanel">
-                  <button class="  serverBtn"><div style="display: flex;align-items: center;justify-content: center;"><i  class="fas fa-4x fa-server"></i></div></button>
+                  <!--<button class="  serverBtn"><div style="display: flex;align-items: center;justify-content: center;"><i  class="fas fa-4x fa-server"></i></div></button>-->
+                  <img src="../../../../../assets/img/servericon.png">
                   <span class=" serverBadge" v-if="ifWarning" @click="toWarningEvent" style="cursor: pointer;">{{warningNum}}</span>
+                  <div class="offOn">
+                    <p style="float:left;display: block; margin-bottom: 20px; margin-top: 5px; color: #fff;">{{serverName}}</p>
+                    <p style="float:left;display: block;" :class="[{online: +serverStatus === 1},{offline: +serverStatus === 2}]">{{+serverStatus === 1 ? '在线' : '离线'}}</p>
+                  </div>
                 </div>
               </div>
               <div class="col-md-6 server-action">

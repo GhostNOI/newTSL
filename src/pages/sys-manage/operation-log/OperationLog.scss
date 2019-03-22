@@ -11,8 +11,12 @@
   width: 100%;
 }
 //宽度
+.operation-width2{
+  width: 20%;
+  float: left;
+}
 .operation-width3{
-  width: 30%;
+  width: 26%;
   float: left;
 }
 .operation-width4{
@@ -45,4 +49,11 @@
 //表格
 .operation-table{
   width: 100%;
+}
+.operation-ipt{
+  background: #100f16;
+  border: 1px solid #383b5d;
+  height: 40px;
+  text-indent: 10px;
+  color: #D6E4FF;
 }

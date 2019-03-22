@@ -72,6 +72,7 @@
               <div class="col-md-6 overview-chart1 chart-common">
                 <!--<div id="cpuChart" style="width: 100%; height: 200px"></div>-->
                 <div id="memoryChart" style="width: 100%; height: 200px"></div>
+                <div style="position: absolute;" ref="complateTip" v-if="showTip"></div>
               </div>
               <div class="col-md-6 overview-chart2 chart-common">
                 <div id="hardriveChart" style="width: 100%; height: 200px"></div>
