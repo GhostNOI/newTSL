@@ -29,6 +29,12 @@ export default {
     }
   },
   methods: {
+    toWaringEvent () {
+      this.$router.push({
+        path:`/project-index/${this.$route.params.id}/warningevent`,
+        query:{tapIndex:3,Warning_Group:3}
+      })
+    },
     moveLeft() {
       this.scrollArea.style.left = this.scrollArea.offsetLeft - this.scrollCount + 'px';
       if (Math.abs(this.scrollArea.offsetLeft) >= this.distance) {
@@ -46,13 +52,7 @@ export default {
       this.showLeft = true;
     },
     //是否显示预警标志
-    waringShow() {
-      if(this.warningNum != ''){
-        this.ifWaring = true
-      }else{
-        this.ifWaring = false
-      }
-    },
+
     getData() {
       //面包屑
       const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
@@ -77,8 +77,7 @@ export default {
       }).then((data) => {
         // console.log(data);
         this.topData = data.Data.data.serviceListMount
-        this.warningNum = data.Data.data.warningMount
-        this.waringShow()
+        this.warningNum = data.Data.data.warningMount.toLocaleString();
         // console.log(this.warningNum);
         this.$nextTick(() => {
           this.scrollArea = this.$refs.scrollArea;

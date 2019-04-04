@@ -15,6 +15,57 @@
 #index{
   width: 100%;
 }
+.showCase1{
+  height: 60px;
+  margin: 20px 20px;
+  padding: 10px 20px;
+  border: 1px solid #23305e;
+  background: #000;
+  -moz-box-shadow:0px 0px 40px 10px rgb(35,48,95) inset;
+  -webkit-box-shadow:0px 0px 40px 10px rgb(35,48,95) inset;
+  box-shadow:0px 0px 30px 10px rgb(35,48,95) inset;
+}
+.showCase1 > h5 {
+  color: #D6E4FF;
+  float: left;
+  line-height: 40px;
+  margin-top: 0;
+  font-size: 15px;
+  font-weight: 400;
+}
+.showCase1 > h3 {
+  color: #fff;
+  float: right;
+  line-height: 40px;
+  margin-top: 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+.showCase3{
+  height: 60px;
+  margin: 20px 20px;
+  padding: 10px 20px;
+
+}
+.showCase3 > h5 {
+  color: #eff4fd;
+  text-indent: 10px;
+  float: left;
+  //line-height: 40px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  border-left: 5px solid #2c3166;
+  border-bottom:1px solid #2c3166;
+}
+.showCase3 > h3 {
+  color: #eff4fd;
+  float: right;
+  line-height: 40px;
+  margin-top: 0;
+  font-size: 28px;
+  font-weight: 500;
+}
 .leftRow {
   height: calc(100% - 54px);
   width: 22%;
@@ -46,13 +97,13 @@
 }
 //右侧告警信息样式
 .disaster{
-  background: #E74C3C;
+  background: #f5222d;
 }
 .serious{
-  background: #D35400;
+  background: #fa541c;
 }
 .info{
-  background: #2980B9;
+  background: #02050b;
 }
 .alert{
   background: #F39C12;
@@ -130,4 +181,49 @@
   height: 170px;
   padding: 12px 15px;
   float: left;
+}
+.warning-level{
+  font-size: 14px;
+  font-weight: 100;
+
+}
+.warning-num{
+  font-weight: 700;
+  //background-image: url(../../assets/img/circle.png);
+  background: url(../../assets/img/circle.png) center no-repeat;
+  height: 65px;
+  line-height: 65px;
+}
+.change{
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+  display: inline-block;
+  text-indent: 20px;
+  cursor: pointer;
+  line-height: 30px;
+}
+.change:hover{
+  background: #20315c;
+}
+.changePassword{
+  width: 70%;
+  background: #100f16;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #24253a;
+  height: 30px;
+  margin-bottom: 30px;
+}
+.userName{
+  font-size: 16px;
+  color: #d0d4dd;
+}
+.btn{
+  width: 70%;
+  color: #fff;
+}
+.out{
+  position: relative;
 }

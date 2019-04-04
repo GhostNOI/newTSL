@@ -8,14 +8,14 @@
             <div class="panel panel-primary no-border innerShadow2">
               <div class="panel-body">
                 <div class="tableFliter" style="overflow:hidden;">
-                  <div class="data-pick-fixed" style="width: 27%;float: left;">
+                  <div class="data-pick-fixed" style="width: 7%;float: left;">
                     <span class="title">时间</span>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="one" value="1" name="data-pick" checked>
-                    <label class="date-pick-label" for="one">近1天</label>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="seven" value="7" name="data-pick">
-                    <label class="date-pick-label" for="seven">近7天</label>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="thirty" value="30" name="data-pick">
-                    <label class="date-pick-label" for="thirty">近30天</label>
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="one" value="1" name="data-pick" checked>-->
+                    <!--<label class="date-pick-label" for="one">近1天</label>-->
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="seven" value="7" name="data-pick">-->
+                    <!--<label class="date-pick-label" for="seven">近7天</label>-->
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="thirty" value="30" name="data-pick">-->
+                    <!--<label class="date-pick-label" for="thirty">近30天</label>-->
                   </div>
                   <div class="date-pick" style="width: 40%; float: left;">
                     <el-date-picker
@@ -35,8 +35,8 @@
                     <a class=" ctrlBtn darkBtnPrimary no-border query-btn" style="cursor: pointer;" @click="resetForm"><strong>重置</strong></a>
                   </div>
                 </div>
-                <div id="mainChart" style="width: 100%; height: 500px; margin-top: 50px; margin-bottom: 30px"></div>
-                <div class="" style="width: 100%; overflow: hidden;" v-if="noData">
+                <!--<div id="mainChart" style="width: 100%; height: 500px; margin-top: 50px; margin-bottom: 30px"></div>-->
+                <div class="" style="width: 100%; overflow: hidden;">
                   <table style="width: 100%;">
                     <thead>
                     <tr>
@@ -56,13 +56,16 @@
                       <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.ClientIp}}</td>
                       <td style="word-wrap:break-word;word-break:break-all;width: 5%">{{item.ErrorCode}}</td>
                       <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.Host}}</td>
-                      <td style="word-wrap:break-word;word-break:break-all;width: 20%">{{item.Post}}</td>
+                      <td style="word-wrap:break-word;word-break:break-all;width: 20%"><span class="post" :title="item.Post">{{item.Post}}</span></td>
                       <td style="word-wrap:break-word;word-break:break-all;width: 10%">{{item.RequestId}}</td>
                       <td style="width: 25%;"><span class="response" :title="item.Response">{{item.Response}}</span></td>
                       <td style="word-wrap:break-word;word-break:break-all;width: 10%;">{{item.URI}}</td>
                     </tr>
                     </tbody>
                   </table>
+                  <div style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px"  v-if="noData">
+                    暂无数据
+                  </div>
 
                   <el-pagination
                     @size-change="handleSizeChange"

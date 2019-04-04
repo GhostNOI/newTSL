@@ -57,14 +57,14 @@
                    <thead class="warning-table-head">
                    <tr>
                      <th style="width: 5%;"></th>
-                     <th style="width: 10%;">监控项</th>
+                     <th style="width: 5%;">监控项</th>
                      <th style="width: 30%;">监控项名称</th>
-                     <th style="width: 35%;">触发器</th>
-                     <th style="width: 15%;">触发等级</th>
+                     <th style="width: 25%;">触发器</th>
+                     <th style="width: 20%;">预警值</th>
+                     <th style="width: 10%;">触发等级</th>
                      <!--<th>采集间隔</th>-->
                      <th style="width: 5%;">操作</th>
                      <th style="width: 5%;"></th>
-
                    </tr>
                    </thead>
                    <tbody v-for="(item, i) in tableData1" :key="i">
@@ -81,8 +81,14 @@
                      <td></td>
                      <td></td>
                      <td>{{innerItem.Name}}</td>
-                     <td>{{innerItem.Description}}{{innerItem.Operator}}{{innerItem.Condition}}</td>
+                     <td>{{innerItem.Description}}{{innerItem.Operator}}{{(+innerItem.Rule_Id === 2 || 4 || 5 || 7) ? +innerItem.Condition*100 : innerItem.Condition}}{{innerItem.Company}}</td>
                      <td>
+                       <!-- 修改预警值 -->
+                       <span v-if="!innerItem.changed">{{innerItem.Condition | threshold}}</span>
+                       <input class="warning-ipt" type="text" v-if="innerItem.changed" v-model="threshold">
+                     </td>
+                     <td>
+                       <!-- 修改预警等级 -->
                        <span v-if="!innerItem.changed">{{innerItem.Warning_Level | triggerLevel}}</span>
                        <el-select v-model="innerItem.Warning_Level" placeholder="请选择触发等级" v-if="innerItem.changed" @change="changeVal">
                          <el-option
@@ -94,7 +100,7 @@
                        </el-select>
                      </td>
                      <!--<td></td>-->
-                     <td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem)">{{innerItem.changed ? '保存' : '修改'}}</td>
+                     <td style="color: #447cf4; cursor: pointer" @click="changeLevel(innerItem,innerIndex)">{{innerItem.changed ? '保存' : '修改'}}</td>
                    </tr>
                    </tbody>
                  </table>
@@ -102,7 +108,6 @@
                   <div class="default-tip" v-if="defaultIpt">
                     请选择项目并搜索
                   </div>
-
 
 
 

@@ -1,8 +1,9 @@
-import HeadMap from "../../components/head-map/HeadMap.vue";
+
 import AMap from 'AMap'
 import echarts from 'echarts'
 import {FormatDate, removeCookie} from "../../common/utils";
 import {transformDate} from '../../common/filters.js'
+import {PASSWORD} from "../../common/pattern";
 
 export default {
   name: "Home",
@@ -59,8 +60,15 @@ export default {
       ],
       projectManage:true,
       ifOps:true,
-      deviceTotalNumber:null
-
+      deviceTotalNumber:null,
+      indexTimer:null,
+      changePass:false,
+      oldPassword:'',
+      newPassword:'',
+      confirmPassword:'',
+      ifTips:false,
+      tips:'',
+      phone:window.localStorage.getItem('phone')
     }
   },
   filters:{
@@ -70,7 +78,52 @@ export default {
     warningListShow() {
 
     },
-
+    closeDialog () {
+      this.tips = '';
+      this.ifTips = '';
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirmPassword = ''
+    },
+    changePassowrd () {
+      if(this.oldPassword === ''){
+        this.ifTips = true;
+        this.tips = '请输入旧密码'
+      } else if(this.newPassword === ''){
+        this.ifTips = true;
+        this.tips = '请输入新密码'
+      } else if(this.confirmPassword === ''){
+        this.ifTips = true;
+        this.tips = '请输入确认密码'
+      } else if(this.newPassword.length < 8 || this.newPassword.length > 20) {
+        this.ifTips = true;
+        this.tips = '请输入8-20位的密码'
+      } else if(this.confirmPassword != this.newPassword){
+        this.ifTips = true;
+        this.tips = '两次输入的新密码不一致'
+      } else if(!PASSWORD.test(this.newPassword)){
+        this.ifTips = true;
+        this.tips = '密码需包含大小写字母和数字'
+      } else {
+        this.$http.post('/Manage/Login/UpdatePassword',{
+          'User_Id':window.localStorage.getItem('userId'),
+          'Phone':window.localStorage.getItem('phone'),
+          'Password':this.newPassword,
+          'OldPassword':this.oldPassword
+        }).then((data) => {
+          // console.log(data);
+          if(+data.Data.code === 0){
+            this.changePass = false
+          }else if(+data.Data.code === 2){
+            this.ifTips = true;
+            this.tips = '旧密码不正确'
+          } else{
+            this.ifTips = true;
+            this.tips = '修改密码失败'
+          }
+        })
+      }
+    },
     //切换项目
     changeProject() {
       let _this = this
@@ -103,20 +156,20 @@ export default {
             Level_Name:'信息',
             num:0
           }
-        ]
-        data.Data.waringMount.forEach((newItem,newIndex) => {
+        ];
+        data.Data.projectDetial[0].waringMount.forEach((newItem,newIndex) => {
           waringMountOld.forEach((item,i) => {
             if(+newItem.Level_Id === +item.Level_Id){
-              waringMountOld[i].num = newItem.num
+              waringMountOld[i].num = newItem.num.toLocaleString()
             }
           })
-        })
-        this.waringMount = waringMountOld
-        this.warningNum = data.Data.warningNum
-        this.warningDetail = data.Data.indexWaringDetial
-        let projectList = data.Data.projectDetial
+        });
+        this.waringMount = waringMountOld;
+        this.waringNum = data.Data.warningNum.toLocaleString();
+        this.warningDetail = data.Data.indexWaringDetial;
+        let projectList = data.Data.projectDetial;
         var map = new AMap.Map('map', {
-          zoom:17,//级别
+          zoom:9,//级别
           mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
           center: [projectList[0].Longitude, projectList[0].Latitude],//中心点坐标
           viewMode:'3D',//使用3D视图
@@ -125,8 +178,8 @@ export default {
         //创建提示框
         let infoWindowProvince = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
         //创建marker
-        let markers = []
-        let warningNumber = 0
+        let markers = [];
+        let warningNumber = 0;
         for(let i=0;i<projectList.length;i++){
           if(projectList[i].waringMount.length == 0){
             var marker2 = new AMap.Marker({
@@ -136,7 +189,7 @@ export default {
               extData: {
                 id: i + 1
               }
-            })
+            });
             marker2.content = `
               <div style="height: 30px;color: #fff;">
                 <span style="height: 30px;float:left;">${projectList[i].Project_Name}</span><span style="float: right;">运行正常</span>
@@ -178,7 +231,7 @@ export default {
               <div style="height: 30px;">
                 </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
-                <span style="float:right;color:#fa541c;font-size:28px;float:right">${warningNumber}</span>
+                <span  class="warningNumber" style="float:right;color:#fa541c;font-size:28px;">${warningNumber}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
               </div>
               <div>
@@ -192,9 +245,11 @@ export default {
               </div>
           </div>
           `
-            marker2.on('mouseover', markerOverProvince);
-            marker2.on('mouseout',markerOutProvince);
+            // marker2.on('mouseover', markerOverProvince);
+            // marker2.on('mouseout',markerOutProvince);
           }
+          infoWindowProvince.setContent(marker2.content);
+          infoWindowProvince.open(map, marker2.getPosition());
           //点击省级地图中项目marker，跳转到项目首页
           marker2.on('click',() => {
             toProject(projectList[i])
@@ -204,6 +259,7 @@ export default {
         var overlayGroups = new AMap.OverlayGroup(markers);
         map.add(overlayGroups);
         function markerOverProvince(e) {
+          // console.log(e);
           infoWindowProvince.setContent(e.target.content);
           infoWindowProvince.open(map, e.target.getPosition());
         }
@@ -222,8 +278,21 @@ export default {
     },
 
     toCountry(){
+      if(this.indexTimer){
+        clearInterval(this.indexTimer)
+      }
+      this.indexTimer = setInterval(() => {
+        this.$http.post('/Manage/User/index',{
+          'User_Id':window.localStorage.getItem('userId'),
+        }).then((data) => {
+          // console.log(data);
+          this.warningDetail = data.Data.data.indexWaringDetial
+        })
+      },300000);
       this.country = false
       let _this = this
+      this.areaVal = []
+      this.value = ''
       let map = new AMap.Map('map', {
         zoom:this.zoom,//级别
         mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
@@ -347,6 +416,18 @@ export default {
 
         //点击跳转省级地图
         function toProvince(a) {
+          if(_this.indexTimer){
+            clearInterval(_this.indexTimer)
+          }
+          _this.indexTimer = setInterval(() => {
+            _this.$http.post('/Manage/User/index',{
+              'User_Id':window.localStorage.getItem('userId'),
+              'Province_Code':a.AreaCode
+            }).then((data) => {
+              // console.log(data);
+              _this.warningDetail = data.Data.data.indexWaringDetial
+            })
+          },300000);
           _this.country = true
           // console.log(a);
           //echarts重新赋值
@@ -356,25 +437,25 @@ export default {
           }).then((data) => {
             console.log(data);
             //项目总数
-            _this.projectAllCount = data.Data.data.projectAllCount
+            _this.projectAllCount = data.Data.data.projectAllCount.toLocaleString();
             //城市top5
-            let cityTop5 = []
-            cityTop5 = data.Data.data.projectTop5City
+            let cityTop5 = [];
+            cityTop5 = data.Data.data.projectTop5City;
             //city top5背景色
-            let backgroundData = []
+            let backgroundData = [];
             //项目分类
-            let projectClass = []
-            projectClass = data.Data.data.projectClass
+            let projectClass = [];
+            projectClass = data.Data.data.projectClass;
             //设备总数
-            let deviceTotal = []
-            _this.deviceTotalNumber = data.Data.data.deviceAllCount.total
-            deviceTotal = data.Data.data.deviceAllCount
+            let deviceTotal = [];
+            _this.deviceTotalNumber = data.Data.data.deviceAllCount.total.toLocaleString();
+            deviceTotal = data.Data.data.deviceAllCount;
             // console.log(deviceTotal);
             //预警详情
-            _this.warningDetail = data.Data.data.indexWaringDetial
+            _this.warningDetail = data.Data.data.indexWaringDetial;
             // console.log(this.warningDetail);
             //预警列表
-            _this.warningList = data.Data.data.waringMount
+            _this.warningList = data.Data.data.waringMount;
             //预警项
             let waringMountOld = [
               {
@@ -397,32 +478,33 @@ export default {
                 Level_Name:'信息',
                 num:0
               }
-            ]
+            ];
             data.Data.data.waringMount.forEach((newItem,newIndex) => {
               waringMountOld.forEach((item,i) => {
                 if(+newItem.Level_Id === +item.Level_Id){
                   waringMountOld[i].num = newItem.num
                 }
               })
-            })
-            _this.waringMount = waringMountOld
+            });
+            _this.waringMount = waringMountOld;
             // this.waringNum = this.waringMount.length
-            _this.waringNum = null
+            _this.waringNum = null;
             _this.waringMount.forEach((item,i) => {
               _this.waringNum += +item.num
-            })
-            _this.warningListShow()
+            });
+            _this.waringNum = _this.waringNum.toLocaleString();
+            _this.warningListShow();
             //城市top5
-            let displayCity = []
-            let displayNum = []
+            let displayCity = [];
+            let displayNum = [];
             cityTop5.forEach((item,i) => {
-              displayCity.unshift(item.Name)
-              displayNum.unshift(item.num)
+              displayCity.unshift(item.Name);
+              displayNum.unshift(item.num);
               backgroundData.push(cityTop5[0].num)
-            })
+            });
             // console.log(displayNum);
             // console.log(displayCity);
-            let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5']
+            let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5'];
 
             let seriesData = [
               {
@@ -434,7 +516,7 @@ export default {
                 },
                 data: backgroundData
               },
-            ]
+            ];
             for(let i in displayNum){
               seriesData.push(
                 {
@@ -457,32 +539,32 @@ export default {
             _this.projectDistChart.setOption({
               yAxis:{data:displayCity},
               series:seriesData
-            })
+            });
             //项目分类
-            let projectName = []
-            let projectNum = []
+            let projectName = [];
+            let projectNum = [];
             projectClass.forEach((item,i) => {
               projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
               projectNum.push(item.num)
-            })
+            });
             _this.projectClassChart.setOption({
               xAxis:{data:projectName},
               series:[{data:projectNum}]
-            })
+            });
 
             //设备数量
             //计算项目总数
             //displayDeviceNum替换subtext中的数据
             //legendData替换legend中的data
-            let displayDeviceNum = null
-            let legendData = []
-            let displayDeviceSeries = []
-            let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5']
+            let displayDeviceNum = null;
+            let legendData = [];
+            let displayDeviceSeries = [];
+            let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5'];
             //百分比
-            let percent = [['32%','38%'],['48%','54%'],['64%','70%']]
-            displayDeviceNum = deviceTotal.total
+            let percent = [['32%','38%'],['48%','54%'],['64%','70%']];
+            displayDeviceNum = deviceTotal.total;
             deviceTotal.list.forEach((item,i) => {
-              legendData.unshift({name:item.type,icon:'circle'})
+              legendData.unshift({name:item.type,icon:'circle'});
               displayDeviceSeries.push(
                 {
                   type:'pie',
@@ -495,17 +577,30 @@ export default {
                     {
                       name:item.type,
                       value:item.pre,
+                      num:item.num,
                       itemStyle:{color:colorDeviceCount[i]}
                     },
                     {
+                      name:'',
                       value:1-item.pre,
+                      num:'',
                       itemStyle:{color:'#1D223D'}
                     },
                   ]
                 }
               )
-            })
+            });
             _this.deviceNumChart.setOption({
+              tooltip: {
+                trigger: 'item',
+                formatter: function(name){
+                  if(name.data.name != ''){
+                    return name.data.name + '：' + name.data.num
+                  }else {
+                    return null
+                  }
+                }
+              },
               title:{subtext:displayDeviceNum},
               legend:{
                 data:legendData,
@@ -518,15 +613,15 @@ export default {
               },
               series:displayDeviceSeries
             })
-          })
+          });
           _this.$http.post('/Manage/User/ProviceProjectList',{
             'User_Id':window.localStorage.getItem('userId'),
             'Province_Code':a.AreaCode
           }).then((data) => {
             // console.log(data);
-            let projectList = data.Data.data.projectList
+            let projectList = data.Data.data.projectList;
             var map = new AMap.Map('map', {
-              zoom:17,//级别
+              zoom:9,//级别
               mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
               center: [a.Longitude, a.Latitude],//中心点坐标
               viewMode:'3D',//使用3D视图
@@ -535,8 +630,8 @@ export default {
             //创建提示框
             let infoWindowProvince = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
             //创建marker
-            let markers = []
-            let warningNumber = 0
+            let markers = [];
+            let warningNumber = 0;
             for(let i=0;i<projectList.length;i++){
               // console.log(projectList[i].waringMount.length);
               if(projectList[i].waringMount.length == 0){
@@ -547,7 +642,7 @@ export default {
                   extData: {
                     id: i + 1
                   }
-                })
+                });
                 marker2.content = `
               <div style="height: 30px;color: #fff;">
                 <span style="height: 30px;float:left;">${projectList[i].Project_Name}</span><span style="float: right;">运行正常</span>
@@ -565,9 +660,9 @@ export default {
                   }
                 })
 
-                let levelName = ''
-                let levelNum = ''
-                let width = null
+                let levelName = '';
+                let levelNum = '';
+                let width = null;
                 if(projectList[i].waringMount.length == 1){
                   width = 100
                 }else if(projectList[i].waringMount.length ==2) {
@@ -580,16 +675,16 @@ export default {
                 projectList[i].waringMount.forEach(item => {
                   levelName += `<span style="width:${width}%;float:left;text-align:center">${item.Level_Name}</span>`
                   levelNum += `<span style="width:${width}%;float:left;text-align:center">${item.num}</span>`
-                })
+                });
                 projectList[i].waringMount.forEach(item => {
                   warningNumber += Number(item.num)
-                })
+                });
                 marker2.content =`
             <div class="out">
               <div style="height: 30px;">
                 </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
-                <span style="float:right;color:#fa541c;font-size:28px;float:right">${warningNumber}</span>
+                <span  class="warningNumber" style="float:right;color:#fa541c;font-size:28px;">${warningNumber}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
               </div>
               <div>
@@ -640,7 +735,7 @@ export default {
         let projectClass = []
         projectClass = data.Data.data.projectClass
         //设备总数
-        this.deviceTotalNumber = data.Data.data.deviceAllCount.total
+        this.deviceTotalNumber = data.Data.data.deviceAllCount.total.toLocaleString()
         let deviceTotal = []
         deviceTotal = data.Data.data.deviceAllCount
         // console.log(deviceTotal);
@@ -671,32 +766,33 @@ export default {
             Level_Name:'信息',
             num:0
           }
-        ]
+        ];
         data.Data.data.waringMount.forEach((newItem,newIndex) => {
           waringMountOld.forEach((item,i) => {
             if(+newItem.Level_Id === +item.Level_Id){
               waringMountOld[i].num = newItem.num
             }
           })
-        })
-        this.waringMount = waringMountOld
+        });
+        this.waringMount = waringMountOld;
         // this.waringNum = this.waringMount.length
-        this.waringNum = null
+        this.waringNum = null;
         this.waringMount.forEach((item,i) => {
           this.waringNum += +item.num
-        })
-        this.warningListShow()
+        });
+        this.waringNum = this.waringNum.toLocaleString();
+        this.warningListShow();
         //城市top5
-        let displayCity = []
-        let displayNum = []
+        let displayCity = [];
+        let displayNum = [];
         cityTop5.forEach((item,i) => {
-          displayCity.unshift(item.Province_Name)
-          displayNum.unshift(item.num)
+          displayCity.unshift(item.Province_Name);
+          displayNum.unshift(item.num);
           backgroundData.push(cityTop5[0].num)
-        })
+        });
         // console.log(displayNum);
         // console.log(displayCity);
-        let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5']
+        let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5'];
 
         let seriesData = [
           {
@@ -708,7 +804,7 @@ export default {
             },
             data: backgroundData
           },
-        ]
+        ];
         for(let i in displayNum){
           seriesData.push(
             {
@@ -732,32 +828,32 @@ export default {
         this.projectDistChart.setOption({
           yAxis:{data:displayCity},
           series:seriesData
-        })
+        });
         //项目分类
-        let projectName = []
-        let projectNum = []
+        let projectName = [];
+        let projectNum = [];
         projectClass.forEach((item,i) => {
-          projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
+          projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version);
           projectNum.push(item.num)
-        })
+        });
         this.projectClassChart.setOption({
           xAxis:{data:projectName},
           series:[{data:projectNum}]
-        })
+        });
 
         //设备数量
         //计算项目总数
         //displayDeviceNum替换subtext中的数据
         //legendData替换legend中的data
-        let displayDeviceNum = null
-        let legendData = []
-        let displayDeviceSeries = []
-        let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5']
+        let displayDeviceNum = null;
+        let legendData = [];
+        let displayDeviceSeries = [];
+        let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5'];
         //百分比
-        let percent = [['32%','38%'],['48%','54%'],['64%','70%']]
-        displayDeviceNum = deviceTotal.total
+        let percent = [['32%','38%'],['48%','54%'],['64%','70%']];
+        displayDeviceNum = deviceTotal.total;
         deviceTotal.list.forEach((item,i) => {
-          legendData.unshift({name:item.type,icon:'circle'})
+          legendData.unshift({name:item.type,icon:'circle'});
           displayDeviceSeries.push(
             {
               type:'pie',
@@ -770,18 +866,31 @@ export default {
                 {
                   name:item.type,
                   value:item.pre,
+                  num:item.num,
                   itemStyle:{color:colorDeviceCount[i]}
                 },
                 {
+                  name:'',
                   value:1-item.pre,
+                  num:'',
                   itemStyle:{color:'#1D223D'}
                 },
               ]
             }
           )
-        })
+        });
         // console.log(displayDeviceSeries);
         this.deviceNumChart.setOption({
+          tooltip: {
+            trigger: 'item',
+            formatter: function(name){
+              if(name.data.name != ''){
+                return name.data.name + '：' + name.data.num
+              }else {
+                return null
+              }
+            }
+          },
           title:{subtext:displayDeviceNum},
           legend:{
             data:legendData,
@@ -799,7 +908,7 @@ export default {
     },
 
 
-    //原头部组件
+    //切换项目
     areaChange(val){
       // console.log(val);
       if(!val && this.areaVal.length>0){
@@ -821,9 +930,9 @@ export default {
       }).then((data) => {
         // console.log(data);
         if(+data.Data.code === 0){
-          removeCookie('tsl_token')
-          window.localStorage.removeItem('userId')
-          window.localStorage.removeItem('insertTime')
+          removeCookie('tsl_token');
+          window.localStorage.removeItem('userId');
+          window.localStorage.removeItem('insertTime');
           this.$router.push('/login')
         }else {
           window.alert('系统繁忙，请稍后再试')
@@ -832,20 +941,29 @@ export default {
     }
   },
   mounted () {
-    var _this = this
+    //轮询接口
+    this.indexTimer = setInterval(() => {
+      this.$http.post('/Manage/User/index',{
+        'User_Id':window.localStorage.getItem('userId')
+      }).then((data) => {
+        this.warningDetail = data.Data.data.indexWaringDetial
+      })
+    },300000);
+
+    let _this = this;
     //原头部组件
     setInterval(function () {
       _this.date = FormatDate((new Date()).getTime(),'HH : mm : ss')
-    },1000)
+    },1000);
 
     //权限判断
     if(+window.localStorage.getItem('roleId') === 253){
       this.projectManage = false
     }else if(+window.localStorage.getItem('roleId') === 254){
-      this.projectManage = false
+      this.projectManage = false;
       this.ifOps = false
     }else{
-      this.projectManage = true
+      this.projectManage = true;
       this.ifOps = true
     }
 
@@ -901,13 +1019,13 @@ export default {
     }).then((data) => {
       //项目列表
       // console.log(data);
-      this.provinceListResult = data.Data.data.provinceListResult
+      this.provinceListResult = data.Data.data.provinceListResult;
       // console.log(this.provinceListResult);
 
       //创建提示框
       var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
       //创建Mark实例
-      let lnglats = data.Data.data.provinceListResult
+      let lnglats = data.Data.data.provinceListResult;
       // console.log(lnglats);
       var markers = [];
       for (let i = 0; i < lnglats.length; i++) {
@@ -971,16 +1089,28 @@ export default {
 
       //点击跳转省级地图
       function toProvince(a) {
+        if(_this.indexTimer){
+          clearInterval(_this.indexTimer)
+        }
+        _this.indexTimer = setInterval(() => {
+          _this.$http.post('/Manage/User/index',{
+            'User_Id':window.localStorage.getItem('userId'),
+            'Province_Code':a.AreaCode
+          }).then((data) => {
+            // console.log(data);
+            _this.warningDetail = data.Data.data.indexWaringDetial
+          })
+        },300000);
         _this.country = true
         // console.log(a);
         _this.$http.post('/Manage/User/ProviceProjectList',{
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           let projectList = data.Data.data.projectList
           var map = new AMap.Map('map', {
-            zoom:17,//级别
+            zoom:9,//级别
             mapStyle: 'amap://styles/ecbddbc275fcc6efbc8a1eecaf8fe2c9',
             center: [a.Longitude, a.Latitude],//中心点坐标
             viewMode:'3D',//使用3D视图
@@ -1040,7 +1170,7 @@ export default {
               <div style="height: 30px;">
                 </span>　<span class="fo-color" style="display:inline-block;margin-top:4px">${projectList[i].Project_Name}</span></span>
                 
-                <span style="float:right;color:#fa541c;font-size:28px;float:right">${a.warningNum}</span>
+                <span class="warningNumber" style="float:right;color:#fa541c;font-size:28px;">${projectList[i].warningNum}</span>
                 <span style="color:#FFF;font-weight:300;float:right;display:inline-block;margin-top:4px">预警事件数量</span>
               </div>
               <div>
@@ -1084,27 +1214,27 @@ export default {
           'User_Id':window.localStorage.getItem('userId'),
           'Province_Code':a.AreaCode
         }).then((data) => {
-          console.log(data);
+          // console.log(data);
           //项目总数
-          _this.projectAllCount = data.Data.data.projectAllCount
+          _this.projectAllCount = data.Data.data.projectAllCount.toLocaleString();
           //城市top5
-          let cityTop5 = []
-          cityTop5 = data.Data.data.projectTop5City
+          let cityTop5 = [];
+          cityTop5 = data.Data.data.projectTop5City;
           //city top5背景色
-          let backgroundData = []
+          let backgroundData = [];
           //项目分类
-          let projectClass = []
-          projectClass = data.Data.data.projectClass
+          let projectClass = [];
+          projectClass = data.Data.data.projectClass;
           //设备总数
-          _this.deviceTotalNumber = data.Data.data.deviceAllCount.total
-          let deviceTotal = []
-          deviceTotal = data.Data.data.deviceAllCount
+          _this.deviceTotalNumber = data.Data.data.deviceAllCount.total.toLocaleString();
+          let deviceTotal = [];
+          deviceTotal = data.Data.data.deviceAllCount;
           // console.log(deviceTotal);
           //预警详情
-          _this.warningDetail = data.Data.data.indexWaringDetial
+          _this.warningDetail = data.Data.data.indexWaringDetial;
           // console.log(this.warningDetail);
           //预警列表
-          _this.warningList = data.Data.data.waringMount
+          _this.warningList = data.Data.data.waringMount;
           //预警项
           let waringMountOld = [
             {
@@ -1127,32 +1257,33 @@ export default {
               Level_Name:'信息',
               num:0
             }
-          ]
+          ];
           data.Data.data.waringMount.forEach((newItem,newIndex) => {
             waringMountOld.forEach((item,i) => {
               if(+newItem.Level_Id === +item.Level_Id){
                 waringMountOld[i].num = newItem.num
               }
             })
-          })
-          _this.waringMount = waringMountOld
+          });
+          _this.waringMount = waringMountOld;
           // this.waringNum = this.waringMount.length
-          _this.waringNum = null
+          _this.waringNum = null;
           _this.waringMount.forEach((item,i) => {
             _this.waringNum += +item.num
-          })
-          _this.warningListShow()
+          });
+          _this.waringNum = _this.waringNum.toLocaleString()
+          _this.warningListShow();
           //城市top5
-          let displayCity = []
-          let displayNum = []
+          let displayCity = [];
+          let displayNum = [];
           cityTop5.forEach((item,i) => {
-            displayCity.unshift(item.Province_Name)
-            displayNum.unshift(item.num)
+            displayCity.unshift(item.Province_Name);
+            displayNum.unshift(item.num);
             backgroundData.push(cityTop5[0].num)
-          })
+          });
           // console.log(displayNum);
           // console.log(displayCity);
-          let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5']
+          let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5'];
 
           let seriesData = [
             {
@@ -1164,7 +1295,7 @@ export default {
               },
               data: backgroundData
             },
-          ]
+          ];
           for(let i in displayNum){
             seriesData.push(
               {
@@ -1187,32 +1318,32 @@ export default {
           _this.projectDistChart.setOption({
             yAxis:{data:displayCity},
             series:seriesData
-          })
+          });
           //项目分类
-          let projectName = []
-          let projectNum = []
+          let projectName = [];
+          let projectNum = [];
           projectClass.forEach((item,i) => {
-            projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
+            projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version);
             projectNum.push(item.num)
-          })
+          });
           _this.projectClassChart.setOption({
             xAxis:{data:projectName},
             series:[{data:projectNum}]
-          })
+          });
 
           //设备数量
           //计算项目总数
           //displayDeviceNum替换subtext中的数据
           //legendData替换legend中的data
-          let displayDeviceNum = null
-          let legendData = []
-          let displayDeviceSeries = []
-          let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5']
+          let displayDeviceNum = null;
+          let legendData = [];
+          let displayDeviceSeries = [];
+          let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5'];
           //百分比
-          let percent = [['32%','38%'],['48%','54%'],['64%','70%']]
-          displayDeviceNum = deviceTotal.total
+          let percent = [['32%','38%'],['48%','54%'],['64%','70%']];
+          displayDeviceNum = deviceTotal.total;
           deviceTotal.list.forEach((item,i) => {
-            legendData.unshift({name:item.type,icon:'circle'})
+            legendData.unshift({name:item.type,icon:'circle'});
             displayDeviceSeries.push(
               {
                 type:'pie',
@@ -1225,17 +1356,30 @@ export default {
                   {
                     name:item.type,
                     value:item.pre,
+                    num:item.num,
                     itemStyle:{color:colorDeviceCount[i]}
                   },
                   {
+                    name:'',
                     value:1-item.pre,
+                    num:'',
                     itemStyle:{color:'#1D223D'}
                   },
                 ]
               }
             )
-          })
+          });
           _this.deviceNumChart.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: function(name){
+                if(name.data.name != ''){
+                  return name.data.name + '：' + name.data.num
+                }else {
+                  return null
+                }
+              }
+            },
             title:{subtext:displayDeviceNum},
             legend:{
               data:legendData,
@@ -1252,14 +1396,14 @@ export default {
       }
 
 
-    })
+    });
 
 
 
 
 //echarts
   //项目分部top5
-    this.projectDistChart = echarts.init(document.getElementById('projectDistChart'),'dark')
+    this.projectDistChart = echarts.init(document.getElementById('projectDistChart'),'dark');
     this.projectDistChart.setOption({
       backgroundColor: 'transparent',
       title: {
@@ -1393,7 +1537,7 @@ export default {
       ]
     })
   //项目分类
-    this.projectClassChart = echarts.init(document.getElementById('projectClassChart'),'dark')
+    this.projectClassChart = echarts.init(document.getElementById('projectClassChart'),'dark');
     this.projectClassChart.setOption({
       backgroundColor: 'transparent',
       title: {
@@ -1417,6 +1561,12 @@ export default {
         containLabel: true
       },
       xAxis: {
+        axisLabel:{
+          //名称过长截取
+          formatter: function (name) {
+            return (name.length > 7 ? (name.slice(0,7)+"...") : name );
+          },
+        },
         type: 'category',
         boundaryGap: [0, 0.01],
         axisLine: {
@@ -1435,7 +1585,13 @@ export default {
         axisTick: {
           length: 0
         },
-
+        splitLine:{
+          lineStyle:{
+            type:'solid',
+            opacity:0.8,
+            color:['#24253a']
+          }
+        }
       },
       series: [
         {
@@ -1455,14 +1611,13 @@ export default {
           data: []
         }
       ]
-    })
+    });
   //设备总数
-    this.deviceNumChart = echarts.init(document.getElementById('deviceNumChart'),'dark')
+    this.deviceNumChart = echarts.init(document.getElementById('deviceNumChart'),'dark');
     this.deviceNumChart.setOption({
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'item',
-        formatter: "{b}: {d}%"
       },
       title: {
         text: '',
@@ -1478,6 +1633,7 @@ export default {
         }
       },
       legend: {
+        selectedMode:false,
         type: 'plain',
         orient: 'vertical',
         right: 10,
@@ -1506,25 +1662,25 @@ export default {
     }).then((data) => {
       // console.log(data);
       //项目总数
-      this.projectAllCount = data.Data.data.projectAllCount
+      this.projectAllCount = data.Data.data.projectAllCount.toLocaleString();
       //城市top5
-      let cityTop5 = []
-      cityTop5 = data.Data.data.projectTop5City
+      let cityTop5 = [];
+      cityTop5 = data.Data.data.projectTop5City;
       //city top5背景色
-      let backgroundData = []
+      let backgroundData = [];
       //项目分类
-      let projectClass = []
-      projectClass = data.Data.data.projectClass
+      let projectClass = [];
+      projectClass = data.Data.data.projectClass;
       //设备总数
-      this.deviceTotalNumber = data.Data.data.deviceAllCount.total
-      let deviceTotal = []
-      deviceTotal = data.Data.data.deviceAllCount
+      this.deviceTotalNumber = data.Data.data.deviceAllCount.total.toLocaleString();
+      let deviceTotal = [];
+      deviceTotal = data.Data.data.deviceAllCount;
       // console.log(deviceTotal);
       //预警详情
-      this.warningDetail = data.Data.data.indexWaringDetial
+      this.warningDetail = data.Data.data.indexWaringDetial;
       // console.log(this.warningDetail);
       //预警列表
-      this.warningList = data.Data.data.waringMount
+      this.warningList = data.Data.data.waringMount;
       //预警项
       let waringMountOld = [
         {
@@ -1547,32 +1703,33 @@ export default {
           Level_Name:'信息',
           num:0
         }
-      ]
+      ];
       data.Data.data.waringMount.forEach((newItem,newIndex) => {
         waringMountOld.forEach((item,i) => {
           if(+newItem.Level_Id === +item.Level_Id){
             waringMountOld[i].num = newItem.num
           }
         })
-      })
-      this.waringMount = waringMountOld
+      });
+      this.waringMount = waringMountOld;
       // this.waringNum = this.waringMount.length
-      this.waringNum = null
+      this.waringNum = null;
       this.waringMount.forEach((item,i) => {
         this.waringNum += +item.num
-      })
-      this.warningListShow()
+      });
+      this.waringNum = this.waringNum.toLocaleString();
+      this.warningListShow();
       //城市top5
-      let displayCity = []
-      let displayNum = []
+      let displayCity = [];
+      let displayNum = [];
       cityTop5.forEach((item,i) => {
-        displayCity.unshift(item.Province_Name)
-        displayNum.unshift(item.num)
+        displayCity.unshift(item.Province_Name);
+        displayNum.unshift(item.num);
         backgroundData.push(cityTop5[0].num)
-      })
+      });
       // console.log(displayNum);
       // console.log(displayCity);
-      let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5']
+      let colorCity =['#F6EB69','#46FFB9','#0BB9FF','#4681FF','#9A54F5'];
 
       let seriesData = [
         {
@@ -1584,7 +1741,7 @@ export default {
           },
           data: backgroundData
         },
-      ]
+      ];
       for(let i in displayNum){
         seriesData.push(
           {
@@ -1608,32 +1765,32 @@ export default {
       this.projectDistChart.setOption({
         yAxis:{data:displayCity},
         series:seriesData
-      })
+      });
       //项目分类
-      let projectName = []
-      let projectNum = []
+      let projectName = [];
+      let projectNum = [];
       projectClass.forEach((item,i) => {
-        projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version)
+        projectName.push(item.PLatfrom_Type_Name + ' ' + 'V' + item.Version);
         projectNum.push(item.num)
-      })
+      });
       this.projectClassChart.setOption({
         xAxis:{data:projectName},
         series:[{data:projectNum}]
-      })
+      });
 
       //设备数量
       //计算项目总数
       //displayDeviceNum替换subtext中的数据
       //legendData替换legend中的data
-      let displayDeviceNum = null
-      let legendData = []
-      let displayDeviceSeries = []
-      let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5']
+      let displayDeviceNum = null;
+      let legendData = [];
+      let displayDeviceSeries = [];
+      let colorDeviceCount =['#46FFB9','#4681FF','#9A54F5'];
       //百分比
-      let percent = [['32%','38%'],['48%','54%'],['64%','70%']]
-      displayDeviceNum = deviceTotal.total
+      let percent = [['32%','38%'],['48%','54%'],['64%','70%']];
+      displayDeviceNum = deviceTotal.total;
       deviceTotal.list.forEach((item,i) => {
-        legendData.unshift({name:item.type,icon:'circle'})
+        legendData.unshift({name:item.type,icon:'circle'});
         displayDeviceSeries.push(
           {
             type:'pie',
@@ -1646,18 +1803,31 @@ export default {
               {
                 name:item.type,
                 value:item.pre,
+                num:item.num,
                 itemStyle:{color:colorDeviceCount[i]}
               },
               {
+                name:'',
                 value:1-item.pre,
+                num:'',
                 itemStyle:{color:'#1D223D'}
               },
             ]
           }
         )
-      })
+      });
       // console.log(displayDeviceSeries);
       this.deviceNumChart.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: function(name){
+            if(name.data.name != ''){
+              return name.data.name + '：' + name.data.num
+            }else {
+              return null
+            }
+          }
+        },
         title:{subtext:displayDeviceNum},
         legend:{
           data:legendData,
@@ -1665,13 +1835,18 @@ export default {
             for(let i in deviceTotal.list){
               if(name == deviceTotal.list[i].type) var num = deviceTotal.list[i].num
             }
-            return name + '      ' +num;
+            return name + ' ' +num;
           }
         },
         series:displayDeviceSeries
       })
     })
   },
+  destroyed () {
+    if(this.indexTimer) {
+      clearInterval(this.indexTimer)
+    }
+  }
 
 
 }

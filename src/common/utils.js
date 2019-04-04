@@ -132,3 +132,7 @@ export const neighborTime = (timer) => {
   }
   return newTimer;
 }
+
+export const formatSecMin = (formatSec) => {
+  return Math.ceil(+formatSec / 60)
+}

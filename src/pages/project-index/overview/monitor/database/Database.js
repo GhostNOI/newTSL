@@ -36,29 +36,61 @@ export default {
       waringNum:null,
       ifWarning:false,
       timer: null,
-      concurrency:''
+      concurrency:'',
+      isNormalConnection:0,
+      isNormalSlow:0
     }
   },
   methods: {
     getData() {
+      //面包屑
+      const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
+      const databaseListObj = headerObj.databaseList.find(item => item.DB_Code === this.$route.params.databaseId);
+
+      this.$store.commit('changeHeadTitle', [
+        {
+          url: `/project-index/${this.$route.params.id}`,
+          title: headerObj.Project_Name
+        },
+        {
+          url: '',
+          title: '实时监控'
+        },
+        {
+          url: '',
+          title: '数据库'
+        },
+        {
+          url: '',
+          title: databaseListObj.DB_Name
+        }
+      ])
+      //
+
+      this.databaseOptionIndex = 0;
+      this.dayOptionIndex = 0;
+      this.days = 1
       this.$http.post('/Manage/Database/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'DB_Code':this.$route.params.databaseId
       }).then((data) => {
-        console.log(data);
-        this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total : ''
-        this.concurrency = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Proc_Numbers : ''
+        // console.log(data);
+        this.connectionTotal = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Connection_Total.toLocaleString() : '';
+        this.concurrency = data.Data.data.connectionTotalAndProcNumbers.length > 0 ? data.Data.data.connectionTotalAndProcNumbers[0].Proc_Numbers.toLocaleString() : '';
         // this.lastBackupTime = FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
-        this.lastBackupTime = +data.Data.data.lastBackupTime === -1 ? '' : FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss')
-        this.slowQueryCount = data.Data.data.slowQueryCount
-        this.waringNum = data.Data.data.waringNum
+        this.lastBackupTime = +data.Data.data.lastBackupTime === -1 ? '' : FormatDate(data.Data.data.lastBackupTime*1000,'YYYY-MM-DD HH:mm:ss');
+        this.slowQueryCount = data.Data.data.slowQueryCount.toLocaleString();
+        this.waringNum = data.Data.data.waringNum;
+        this.isNormalConnection = data.Data.data.Connection_Total;
+        this.isNormalSlow = data.Data.data.slowQueryCount;
+
         if(+this.waringNum > 0){
           this.ifWarning = true
         }else{
           this.ifWarning = false
         }
-      })
+      });
 
       this.$http.post('/Manage/Database/DatabaseAllIndexDetial',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -68,28 +100,53 @@ export default {
         'detialType':'Connection_Total'
       }).then((data) => {
         // console.log(data);
-        let total = []
-        let maxAveMin = []
-        total = data.Data.data.detial
-        maxAveMin = data.Data.data.maxAvgMin
-        let yAxisData = []
-        let time = []
+        let total = [];
+        let maxAveMin = [];
+        total = data.Data.data.detial;
+        maxAveMin = data.Data.data.maxAvgMin;
+        let yAxisData = [];
+        let time = [];
         // console.log(total);
         total.forEach((item,i) => {
-          yAxisData.push(item.Connection_Total)
-          time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-        })
-        let displayYAxisData = []
-        let displayTime = []
+          yAxisData.push(item.Connection_Total);
+          time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
+        });
+        let displayYAxisData = [];
+        let displayTime = [];
         for(let i=0;i<time.length;i++){
-          displayYAxisData.push(yAxisData[i])
+          displayYAxisData.push(yAxisData[i]);
           displayTime.push(time[i])
         }
+        // console.log(maxAveMin.Connection_Total_MIN === null);
+        //loading
+        // this.mainChart.showLoading('default', {
+        //   text: 'loading',
+        //   color: '#1276FF',
+        //   textColor: '#BAD616',
+        //   maskColor: 'rgba(0,92,163,0)',
+        //   zlevel: 0,
+        //   series: []
+        // });
         this.mainChart.setOption({
           title:[{
             // subtext: '最近值' + yAxisData[yAxisData.length-1] + '  ' + '最小值' + maxAveMin.Connection_Total_MIN  + '  ' + '平均值' + maxAveMin.Connection_Total_AVG + '  ' +'最大值' + maxAveMin.Connection_Total_MAX,
-            subtext:`最近值${yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''} 最小值${maxAveMin.Connection_Total_MIN === 'null' || 'undefined' ? '' : maxAveMin.Connection_Total_MIN === 'null' || 'undefined' ? '' : maxAveMin.Connection_Total_MIN} 平均值${maxAveMin.Connection_Total_AVG === 'null' || 'undefined' ? '' : maxAveMin.Connection_Total_AVG} 最大值${maxAveMin.Connection_Total_MAX === 'null' || 'undefined' ? '' : maxAveMin.Connection_Total_MAX}`
+            subtext:`最近值${yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''} 最小值${maxAveMin.Connection_Total_MIN === null  ? '' : maxAveMin.Connection_Total_MIN === null ? '' : maxAveMin.Connection_Total_MIN} 平均值${maxAveMin.Connection_Total_AVG === null ? '' : maxAveMin.Connection_Total_AVG} 最大值${maxAveMin.Connection_Total_MAX === null ? '' : maxAveMin.Connection_Total_MAX}`
           }],
+          tooltip: {
+            formatter: "{b}<br />连接数: {c}",
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985'
+              }
+            }
+          },
+          yAxis:{
+            axisLabel:{
+              formatter:'{value}'
+            }
+          },
           xAxis:{
             data:displayTime
           },
@@ -137,18 +194,16 @@ export default {
       this.dialogFormVisible = false
     },
     tap(val,i){
-      val = val ? val : {code: this.detialType}
+      val = val ? val : {code: this.detialType};
       // i = i == 'undefined' ? this.databaseOptionIndex : i
-      if(i == 'undefined'){
+      if(i === undefined) {
         i = this.databaseOptionIndex
-      }else {
-        i = i
       }
-      this.databaseOptionIndex = i
-      console.log(this.databaseOptionIndex);
+      this.databaseOptionIndex = i;
+      // console.log(this.databaseOptionIndex);
       // this.databaseOptionIndex = (i ? this.databaseOptionIndex : i)
       // console.log(this.databaseOptionIndex);
-      this.detialType = val.code
+      this.detialType = val.code;
       this.$http.post('/Manage/Database/DatabaseAllIndexDetial',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -156,34 +211,54 @@ export default {
         'dayType':this.days,
         'detialType':val.code
       }).then((data) => {
-        let total = []
-        let maxAveMinVal = []
-        let displayMax = []
-        let displayAve = []
-        let displayMin = []
-        let displayLast =[]
-        total = data.Data.data.detial
-        maxAveMinVal = data.Data.data.maxAvgMin
-        let yAxisData = []
-        let time = []
+        let total = [];
+        let maxAveMinVal = [];
+        let displayMax = [];
+        let displayAve = [];
+        let displayMin = [];
+        let displayLast =[];
+        total = data.Data.data.detial;
+        maxAveMinVal = data.Data.data.maxAvgMin;
+        let yAxisData = [];
+        let time = [];
         if(this.detialType === 'Connection_Total'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />连接数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
               }
             }
-          })
+          });
           total.forEach((item,i) => {
-            yAxisData.push(item.Connection_Total)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-          })
-          displayMax = maxAveMinVal.Connection_Total_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_MAX
-          displayAve = maxAveMinVal.Connection_Total_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_AVG
-          displayMin = maxAveMinVal.Connection_Total_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_MIN
+            yAxisData.push(item.Connection_Total);
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
+          });
+          displayMax = maxAveMinVal.Connection_Total_MAX === 'undefined' ? '' : maxAveMinVal.Connection_Total_MAX;
+          displayAve = maxAveMinVal.Connection_Total_AVG === 'undefined' ? '' : maxAveMinVal.Connection_Total_AVG;
+          displayMin = maxAveMinVal.Connection_Total_MIN === 'undefined' ? '' : maxAveMinVal.Connection_Total_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'IO_Thread'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />线程连接率: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}%'
@@ -191,16 +266,26 @@ export default {
             }
           })
           total.forEach((item,i) => {
-            yAxisData.push(item.IO_Thread)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            yAxisData.push(Number(item.IO_Thread).toFixed(2))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
 
-          displayMax = maxAveMinVal.IO_Thread_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_MAX
-          displayAve = maxAveMinVal.IO_Thread_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_AVG
-          displayMin = maxAveMinVal.IO_Thread_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
+          displayMax = maxAveMinVal.IO_Thread_MAX === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_MAX).toFixed(2) + '%');
+          displayAve = maxAveMinVal.IO_Thread_AVG === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_AVG).toFixed(2) + '%');
+          displayMin = maxAveMinVal.IO_Thread_MIN === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_MIN).toFixed(2) + '%');
+          displayLast = yAxisData[yAxisData.length-1] ? (Number(yAxisData[yAxisData.length-1]).toFixed(2) + '%') : ''
         }else if(this.detialType === 'Proc_Numbers'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />进程总数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -209,14 +294,24 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Numbers)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.Proc_Numbers_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MAX
-          displayAve = maxAveMinVal.Proc_Numbers_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_AVG
-          displayMin = maxAveMinVal.Proc_Numbers_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MIN
+          displayMax = maxAveMinVal.Proc_Numbers_MAX === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MAX;
+          displayAve = maxAveMinVal.Proc_Numbers_AVG === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_AVG;
+          displayMin = maxAveMinVal.Proc_Numbers_MIN === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Copy_Delay'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />复制延迟: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -224,15 +319,25 @@ export default {
             }
           })
           total.forEach((item,i) => {
-            yAxisData.push(item.Copy_Delay)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            yAxisData.push(item.Copy_Delay);
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.Copy_Delay_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_MAX
-          displayAve = maxAveMinVal.Copy_Delay_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_AVG
-          displayMin = maxAveMinVal.Copy_Delay_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_MIN
+          displayMax = maxAveMinVal.Copy_Delay_MAX === 'undefined' ? '' : maxAveMinVal.Copy_Delay_MAX;
+          displayAve = maxAveMinVal.Copy_Delay_AVG === 'undefined' ? '' : maxAveMinVal.Copy_Delay_AVG;
+          displayMin = maxAveMinVal.Copy_Delay_MIN === 'undefined' ? '' : maxAveMinVal.Copy_Delay_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'SQL_Thread'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />SQL: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -241,11 +346,11 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.SQL_Thread)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.SQL_Thread_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_MAX
-          displayAve = maxAveMinVal.SQL_Thread_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_AVG
-          displayMin = maxAveMinVal.SQL_Thread_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_MIN
+          displayMax = maxAveMinVal.SQL_Thread_MAX === 'undefined' ? '' : maxAveMinVal.SQL_Thread_MAX;
+          displayAve = maxAveMinVal.SQL_Thread_AVG === 'undefined' ? '' : maxAveMinVal.SQL_Thread_AVG;
+          displayMin = maxAveMinVal.SQL_Thread_MIN === 'undefined' ? '' : maxAveMinVal.SQL_Thread_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }
 
@@ -258,21 +363,23 @@ export default {
           }
         }else if(+this.days === 3){
           for(let i=0;i<time.length;i++){
-            if(i % 36 === 0){
-              displayTime.push(time[i])
-            }else {
-              displayTime.push('')
-            }
+            // if(i % 36 === 0){
+            //   displayTime.push(time[i])
+            // }else {
+            //   displayTime.push('')
+            // }
+            displayTime.push(time[i])
             displayYAxisData.push(yAxisData[i])
 
           }
         }if(+this.days === 7){
           for(let i=0;i<time.length;i++){
-            if(i % 72 === 0){
-              displayTime.push(time[i])
-            }else {
-              displayTime.push('')
-            }
+            // if(i % 72 === 0){
+            //   displayTime.push(time[i])
+            // }else {
+            //   displayTime.push('')
+            // }
+            displayTime.push(time[i])
             displayYAxisData.push(yAxisData[i])
           }
         }
@@ -280,7 +387,7 @@ export default {
           title:[
             {
               // subtext: '最近值' + displayLast + '  ' + '最小值' + displayMin + '  ' + '平均值' + displayAve + '  ' +'最大值' + displayMax,
-              subtext:`最近值${displayLast} 最小值${displayMin === 'undefined' || 'null' ? '' : displayMin} 平均值${displayAve === 'undefined' || 'null' ? '' : displayAve} 最大值${displayMax === 'undefined' || 'null' ? '' : displayMax}`
+              subtext:`最近值${displayLast} 最小值${displayMin === null ? '' : displayMin} 平均值${displayAve === null ? '' : displayAve} 最大值${displayMax ===  null ? '' : displayMax}`
             }
           ],
           xAxis:{
@@ -300,21 +407,31 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
         'DB_Code':this.$route.params.databaseId,
-        'dayType':val.days,
+        'dayType':val.dayType,
         'detialType':this.detialType
       }).then((data) => {
         let total = []
-        let maxAveMinVal = []
-        let displayMax = []
-        let displayAve = []
-        let displayMin = []
-        let displayLast =[]
-        total = data.Data.data.detial
-        maxAveMinVal = data.Data.data.maxAvgMin
-        let yAxisData = []
-        let time = []
+        let maxAveMinVal = [];
+        let displayMax = [];
+        let displayAve = [];
+        let displayMin = [];
+        let displayLast =[];
+        total = data.Data.data.detial;
+        maxAveMinVal = data.Data.data.maxAvgMin;
+        let yAxisData = [];
+        let time = [];
         if(this.detialType === 'Connection_Total'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />连接数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -323,14 +440,24 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.Connection_Total)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.Connection_Total_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_MAX
-          displayAve = maxAveMinVal.Connection_Total_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_AVG
-          displayMin = maxAveMinVal.Connection_Total_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Connection_Total_MIN
+          displayMax = maxAveMinVal.Connection_Total_MAX === 'undefined' ? '' : maxAveMinVal.Connection_Total_MAX
+          displayAve = maxAveMinVal.Connection_Total_AVG === 'undefined' ? '' : maxAveMinVal.Connection_Total_AVG
+          displayMin = maxAveMinVal.Connection_Total_MIN === 'undefined' ? '' : maxAveMinVal.Connection_Total_MIN
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'IO_Thread'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />线程连接率: {c}%",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}%'
@@ -339,14 +466,24 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.IO_Thread)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.IO_Thread_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_MAX
-          displayAve = maxAveMinVal.IO_Thread_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_AVG
-          displayMin = maxAveMinVal.IO_Thread_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.IO_Thread_MIN
-          displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
+          displayMax = maxAveMinVal.IO_Thread_MAX === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_MAX).toFixed(2) + '%');
+          displayAve = maxAveMinVal.IO_Thread_AVG === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_AVG).toFixed(2) + '%');
+          displayMin = maxAveMinVal.IO_Thread_MIN === 'undefined' ? '' : (Number(maxAveMinVal.IO_Thread_MIN).toFixed(2) + '%');
+          displayLast = yAxisData[yAxisData.length-1] ? (Number(yAxisData[yAxisData.length-1]) + '%') : ''
         }else if(this.detialType === 'Proc_Numbers'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />进程总数: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -355,14 +492,24 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.Proc_Numbers)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.Proc_Numbers_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MAX
-          displayAve = maxAveMinVal.Proc_Numbers_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_AVG
-          displayMin = maxAveMinVal.Proc_Numbers_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MIN
+          displayMax = maxAveMinVal.Proc_Numbers_MAX === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MAX;
+          displayAve = maxAveMinVal.Proc_Numbers_AVG === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_AVG;
+          displayMin = maxAveMinVal.Proc_Numbers_MIN === 'undefined' ? '' : maxAveMinVal.Proc_Numbers_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'Copy_Delay'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />复制延迟: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -371,14 +518,24 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.Copy_Delay)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.Copy_Delay_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_MAX
-          displayAve = maxAveMinVal.Copy_Delay_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_AVG
-          displayMin = maxAveMinVal.Copy_Delay_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.Copy_Delay_MIN
+          displayMax = maxAveMinVal.Copy_Delay_MAX === 'undefined' ? '' : maxAveMinVal.Copy_Delay_MAX;
+          displayAve = maxAveMinVal.Copy_Delay_AVG === 'undefined' ? '' : maxAveMinVal.Copy_Delay_AVG;
+          displayMin = maxAveMinVal.Copy_Delay_MIN === 'undefined' ? '' : maxAveMinVal.Copy_Delay_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }else if(this.detialType === 'SQL_Thread'){
           this.mainChart.setOption({
+            tooltip: {
+              formatter: "{b}<br />SQL: {c}",
+              trigger: 'axis',
+              axisPointer: {
+                type: 'cross',
+                label: {
+                  backgroundColor: '#6a7985'
+                }
+              }
+            },
             yAxis:{
               axisLabel:{
                 formatter:'{value}'
@@ -387,45 +544,45 @@ export default {
           })
           total.forEach((item,i) => {
             yAxisData.push(item.SQL_Thread)
-            time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+            time.push(FormatDate(item.Insert_Time*1000,'YYYY-MM-DD HH:mm'))
           })
-          displayMax = maxAveMinVal.SQL_Thread_MAX === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_MAX
-          displayAve = maxAveMinVal.SQL_Thread_AVG === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_AVG
-          displayMin = maxAveMinVal.SQL_Thread_MIN === 'null' || 'undefined' ? '' : maxAveMinVal.SQL_Thread_MIN
+          displayMax = maxAveMinVal.SQL_Thread_MAX === 'undefined' ? '' : maxAveMinVal.SQL_Thread_MAX;
+          displayAve = maxAveMinVal.SQL_Thread_AVG === 'undefined' ? '' : maxAveMinVal.SQL_Thread_AVG;
+          displayMin = maxAveMinVal.SQL_Thread_MIN === 'undefined' ? '' : maxAveMinVal.SQL_Thread_MIN;
           displayLast = yAxisData[yAxisData.length-1] ? yAxisData[yAxisData.length-1] : ''
         }
-        let displayYAxisData = []
-        let displayTime = []
+        let displayYAxisData = [];
+        let displayTime = [];
         if(+this.days === 1){
           for(let i=0;i<time.length;i++){
-            displayYAxisData.push(yAxisData[i])
+            displayYAxisData.push(yAxisData[i]);
             displayTime.push(time[i])
           }
         }else if(+this.days === 3){
           for(let i=0;i<time.length;i++){
-            if(i % 36 === 0){
-              displayTime.push(time[i])
-            }else {
-              displayTime.push('')
-            }
-            displayYAxisData.push(yAxisData[i])
+            // if(i % 36 === 0){
+            //   displayTime.push(time[i])
+            // }else {
+            //   displayTime.push('')
+            // }
             displayTime.push(time[i])
+            displayYAxisData.push(yAxisData[i]);
           }
         }if(+this.days === 7){
           for(let i=0;i<time.length;i++){
-            if(i % 72 === 0){
-              displayTime.push(time[i])
-            }else {
-              displayTime.push('')
-            }
+            // if(i % 72 === 0){
+            //   displayTime.push(time[i])
+            // }else {
+            //   displayTime.push('')
+            // }
+            displayTime.push(time[i])
             displayYAxisData.push(yAxisData[i])
           }
         }
         this.mainChart.setOption({
           title:[
             {
-              // subtext: '最近值' + displayLast + '  ' + '最小值' + displayMin + '  ' + '平均值' + displayAve + '  ' +'最大值' + displayMax,
-              subtext:`最近值${displayLast} 最小值${displayMin === 'undefined' || 'null' ? '' : displayMin} 平均值${displayAve === 'undefined' || 'null' ? '' :displayAve} 最大值${displayMax === 'undefined' || 'null' ? '' : displayMax}`
+              subtext:`最近值${displayLast} 最小值${displayMin === null ? '' : displayMin} 平均值${displayAve === null ? '' :displayAve} 最大值${displayMax ===  null ? '' : displayMax}`
             }
           ],
           xAxis:{
@@ -441,33 +598,13 @@ export default {
 
     //点击角标跳转至预警事件
     toWarningEvent() {
-      this.$router.push(`/project-index/${this.$route.params.id}/warningevent/`)
+      this.$router.push({
+        path:`/project-index/${this.$route.params.id}/warningevent/`,
+        query:{tapIndex:2,Warning_Group:2}
+      })
     }
   },
   mounted () {
-    //面包屑
-    const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
-    const databaseListObj = headerObj.databaseList.find(item => item.DB_Code === this.$route.params.databaseId);
-
-    this.$store.commit('changeHeadTitle', [
-      {
-        url: `/project-index/${this.$route.params.id}`,
-        title: headerObj.Project_Name
-      },
-      {
-        url: '',
-        title: '实时监控'
-      },
-      {
-        url: '',
-        title: '数据库'
-      },
-      {
-        url: '',
-        title: databaseListObj.DB_Name
-      }
-    ])
-
     //初始化echarts
     this.mainChart = echarts.init(document.getElementById('mainChart'),'dark')
     this.mainChart.setOption({
@@ -478,6 +615,7 @@ export default {
         textAlign: 'left'
       }],
       tooltip: {
+        formatter: "{b}<br />连接数: {c}%",
         trigger: 'axis',
         axisPointer: {
           type: 'cross',
@@ -494,7 +632,7 @@ export default {
       },
       xAxis: {
         axisLabel:{
-          rotate:90
+          rotate:0
         },
         type: 'category',
         boundaryGap: false,
@@ -542,15 +680,15 @@ export default {
           data:[]
         },
       ]
-    })
+    });
 
     // console.log(this.$route.params);
-    this.getBtn()
+    this.getBtn();
     //页面上部数据
     this.timer = setInterval(() => {
       // this.getData()
       this.tap()
-    },300000)
+    },300000);
     this.getData()
 
 

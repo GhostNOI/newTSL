@@ -43,6 +43,8 @@
           <router-link to="/operationlog">
             <el-dropdown-item>操作日志</el-dropdown-item>
           </router-link>
+          <!--<el-dropdown-item @click="sendMsg">修改密码</el-dropdown-item>-->
+          <span class="change" @click="sendMsg">修改密码</span>
           <!--<el-dropdown-item style="border-top: 1px solid #5B5D7F"><span  style="display: inline-block;width: 100%;height: 100%;">注销</span></el-dropdown-item>-->
         </el-dropdown-menu>
       </el-dropdown>

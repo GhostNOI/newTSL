@@ -209,6 +209,9 @@
                     <!--</tr>-->
                     </tbody>
                   </table>
+                  <div v-if="noData" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                    暂无数据
+                  </div>
                   <!-- 分页 -->
                   <el-pagination
                     @size-change="handleSizeChange"

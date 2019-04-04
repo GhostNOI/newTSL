@@ -41,6 +41,9 @@
                         <!--</tr>-->
                         </tbody>
                       </table>
+                      <div v-if="noData" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                        暂无数据
+                      </div>
                       <!-- 弹框 -->
                       <el-dialog :title="title" :visible.sync="changeNoticeDialog" custom-class="editor innerShadow" @closed="closeChangeNoticeType">
 

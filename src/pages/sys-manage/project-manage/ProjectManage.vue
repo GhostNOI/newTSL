@@ -101,11 +101,14 @@
                     <td class="project-table-width1 new-line" style="padding-left: 12px; padding-right: 12px;">{{item.Project_Code}}</td>
                     <td class="project-table-width1 new-line" style="padding-left: 12px; padding-right: 12px;">{{item.Project_Name}}</td>
                     <td class="project-table-width2 new-line" style="padding-left: 12px; padding-right: 12px;"><span v-for="(manItem,manIndex) in item.ProjectManagerUser" :key="manIndex+9000">{{manItem.Name}}　</span></td>
-                    <td class="project-table-width4 new-line" style="padding-left: 12px; padding-right: 12px;"><span v-for="(opsItem,opsIndex) in item.ProjectOPSUser" :key="opsIndex+1000">{{opsItem.Name}}<i>{{","}}</i></span></td>
+                    <td class="project-table-width4 new-line" style="padding-left: 12px; padding-right: 12px;"><span v-for="(opsItem,opsIndex) in item.ProjectOPSUser" :key="opsIndex+1000">{{opsItem.Name}}　</span></td>
                     <td class="project-table-width2 new-line" style="padding-left: 12px; padding-right: 12px;"><span class="enabled" @click="changeManage(item)">修改</span></td>
                   </tr>
                   </tbody>
                 </table>
+                <div v-if="noData" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                  暂无数据
+                </div>
 
                 <el-pagination
                   @size-change="handleSizeChange"

@@ -1,4 +1,4 @@
-import {triggerLevel,toChinese} from "../../../common/filters";
+import {triggerLevel,toChinese,threshold} from "../../../common/filters";
 export default {
   name: "WarningTrigger",
   data () {
@@ -65,7 +65,9 @@ export default {
       waringLevelChange:'',
       areaCode:[],
       projectName:'',
-      defaultIpt:true
+      defaultIpt:true,
+      threshold:'',
+      obj:{},
     }
   },
   methods:{
@@ -74,11 +76,11 @@ export default {
       if(val.length === 1){
         this.Province_Code = val[0]
       }else if(val.length === 2){
-        this.Province_Code = val[0]
+        this.Province_Code = val[0];
         this.City_Code = val[1]
       }else if(val.length === 3){
-        this.Province_Code = val[0]
-        this.City_Code = val[1]
+        this.Province_Code = val[0];
+        this.City_Code = val[1];
         this.Area_Code = val[2]
       }
 
@@ -91,34 +93,77 @@ export default {
         // console.log(data);
         this.projectOption = data.Data.data
         // console.log(this.projectOption);
-      })
+      });
       this.projectOption = []
     },
     changeSelect(item) {
+      // console.log(item);
       this.$set(item, 'checked', !item.checked);
+      this.obj = item
     },
-    changeLevel(item) {
+    changeLevel(item,i) {
+      // console.log(item);
+      // console.log(this.waringLevelChange);
+      // console.log(item);
+      // console.log(this.tableData1);
+      // this.tableData1.map((item,i) => {
+      //   item.detial.map((innerItem,innerIndex) => {
+      //     if(innerItem.id === item.id){
+      //       innerItem.changed = true
+      //     }else {
+      //       innerItem.changed = false
+      //     }
+      //   })
+      // })
+
       if(item.changed){
         this.$http.post('/Manage/WarningSeting/Update',{
           'User_Id':window.localStorage.getItem('userId'),
           'id':item.Id,
           'Project_Code':item.Project_Code,
-          'Condition':item.Condition,
-          'Warning_Level':this.waringLevelChange,
+          'Condition':this.threshold,
+          'Warning_Level':this.waringLevelChange ? this.waringLevelChange : item.Warning_Level ,
           'Description':item.Description
         }).then((data) => {
           // console.log(data);
           this.$http.post('/Manage/WarningSeting/Index',{
             'User_Id':window.localStorage.getItem('userId'),
-            'Project_Code':this.projectCode
+            'Project_Code':this.projectCode ? this.projectCode : this.$route.query.Project_Code
           }).then((data) => {
+            // console.log(data);
+            this.tableData1 = data.Data.data.result;
+            // console.log(this.obj);
+            // this.tableData1.forEach((innerItem,innerIndex) =>{
+            //   if(innerItem.name = this.obj.name){
+            //     console.log('aa');
+            //     // this.$set(this.tableData1[i], 'checked', !item.checked)
+            //   }
+            // });
+            for(let i = 0; i < this.tableData1.length; i++){
+              // console.log(this.tableData1[i].name);
+              if(this.tableData1[i].name === this.obj.name){
+                this.$set(this.tableData1[i], 'checked', !item.checked)
+              }
+            }
+            // console.log(this.tableData1);
             this.waringLevel = data.Data.data.warning_Level;
-            this.$set(item,item.Warning_Level,this.waringLevel);
-            this.$set(item, 'changed', !item.changed);
+            // this.$set(item, 'changed', !item.changed);
           })
         })
       } else {
-        this.$set(item, 'changed', !item.changed);
+        this.tableData1.map((tItem,tI) => {
+          tItem.detial.map((innerItem,innerIndex) => {
+            if(innerItem.Id === item.Id){
+              this.$set(innerItem, 'changed', true)
+            } else {
+              this.$set(innerItem, 'changed', false)
+            }
+          })
+        });
+        // console.log(item);
+        // console.log(this.tableData1);
+        // this.$set(item, 'changed', !item.changed);
+        this.threshold = item.Condition
       }
     },
 
@@ -133,16 +178,18 @@ export default {
         }else if(data.Data.data.result.length > 0){
           this.defaultIpt = false
         }
-        console.log(data);
-        this.tableData1 = data.Data.data.result
+        // console.log(data);
+        this.tableData1 = data.Data.data.result;
         this.waringLevel = data.Data.data.warning_Level
         // console.log(this.waringLevel);
       })
     },
-    //重置（无意义）
+    //重置
     resetForm() {
-      // this.projectCode = ''
-      // this.areaCode = []
+      this.projectCode = '';
+      this.areaCode = [];
+      this.tableData1 = [];
+      this.projectName = ''
       // this.$http.post('/Manage/WarningSeting/Index',{
       //   'User_Id':window.localStorage.getItem('userId'),
       //   'Project_Code':this.projectCode,
@@ -160,10 +207,10 @@ export default {
     },
     //切换项目之后更改项目名称
     getName(val){
-      let name = {}
+      let name = {};
       name = this.projectOption.find(item => {
         return item.Project_Code === val
-      })
+      });
       this.projectName = name.Project_Name
     }
   },
@@ -180,7 +227,7 @@ export default {
         url:'',
         title:'预警规则'
       }
-    ])
+    ]);
     if(this.$route.query){
       this.projectName = this.$route.query.Project_Name
     }
@@ -191,28 +238,29 @@ export default {
       //console.log(data.Data);
       this.optionArea = data.Data.threeLevelLinkage
       //console.log(this.optionArea);
-    })
-    this.projectCode = this.$route.query === {} ? '' : this.$route.query.Project_Code
+    });
+    this.projectCode = this.$route.query === {} ? '' : this.$route.query.Project_Code;
     //表格数据
     // console.log(this.projectCode);
     this.$http.post('/Manage/WarningSeting/Index',{
       'User_Id':window.localStorage.getItem('userId'),
       'Project_Code':this.projectCode
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       if(+data.ErrorCode === -91){
-        this.defaultIpt = true
+        this.defaultIpt = true;
         return
       }else if(data.Data.data.result.length > 0){
         this.defaultIpt = false
       }
-      this.tableData1 = data.Data.data.result
-      this.waringLevel = data.Data.data.warning_Level
+      this.tableData1 = data.Data.data.result;
+      this.waringLevel = data.Data.data.warning_Level;
       this.projectCode = ''
     })
   },
   filters : {
     triggerLevel:triggerLevel,
-    toChinese: toChinese
+    toChinese: toChinese,
+    threshold:threshold
   }
 }

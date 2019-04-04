@@ -6,15 +6,14 @@
             <div class="panel panel-primary text-center no-border innerShadow2">
               <div class="col-md-2 borderRightDivide width-float">
                 <div class="serverPanel" style="text-align: center">
-                  <!--<button class="button button-primary button-rounded serverBtn"><div style="display: flex;justify-content: center;align-items: center;"><i class="fas fa-4x fa-database"></i></div></button>-->
                   <img src="../../../../../assets/img/databaseicon.png">
-                  <span class="serverBadge" style="float: none;cursor: pointer;" @click="toWarningEvent" v-if="ifWarning">4</span>
+                  <span class="serverBadge" style="float: none;cursor: pointer;" @click="toWarningEvent" v-if="ifWarning">{{waringNum}}</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide width-float">
                 <div class="panel-right" >
                   <h5 class="customH5" style="margin-bottom: -10px">连接数</h5>
-                  <h3 class="customH3">{{connectionTotal}}</h3>
+                  <h3 class="customH3" :class="{alert:+isNormalConnection === 1}">{{connectionTotal}}</h3>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide width-float">
@@ -26,7 +25,7 @@
               <div class="col-md-2 borderRightDivide width-float">
                 <div class="panel-right">
                   <h5 class="customH5" style="margin-bottom: -10px">慢查询数</h5>
-                  <h3 class="customH3 ">{{slowQueryCount}}</h3>
+                  <h3 class="customH3 " :class="{alert:+isNormalSlow === 1}">{{slowQueryCount}}</h3>
                 </div>
               </div>
               <div class="col-md-4 backup" style="padding: 0 0">

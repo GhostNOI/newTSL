@@ -1,0 +1,73 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#login{
+  width: 100vw;
+  height: 100vh;
+  background: #100f16;
+}
+.login-form-wrap{
+  background:url("../../assets/img/login.png") no-repeat center/cover;
+  width: 960px;
+  height: 600px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  overflow: hidden;
+}
+.login-form{
+  width: 50%;
+  float: right;
+  margin-top: 15%;
+}
+.title{
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+//登录按钮
+.login-btn-wrap{
+  background: url("../../assets/img/login-bg.png") no-repeat center/cover;
+  float: left;
+  width: 320px;
+}
+//表单
+.form-input{
+  float: left;
+  overflow: hidden;
+  margin-bottom: 30px;
+  min-width: 300px;
+}
+.login-input{
+  border: none;
+  border-bottom: 2px solid #24253a;
+  width: 320px;
+  background: transparent;
+  height: 30px;
+  color: #fff;
+  outline:none
+}
+.login-input:focus{
+  border-bottom: 2px solid blue;
+}
+.login-btn-wrap{
+  margin-bottom: 30px;
+}
+.login-btn{
+  width: 320px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  background: transparent;
+  border: none;
+}
+.rember{
+  float: left;
+  width: 320px;
+}

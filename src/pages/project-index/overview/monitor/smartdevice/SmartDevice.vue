@@ -8,33 +8,33 @@
                 <div class="serverPanel" style="text-align: center">
                   <!--<button class="button button-primary button-rounded serverBtn"><i class="fas fa-4x fa-lock"></i></button>-->
                   <img src="../../../../../assets/img/smartdeviceicon.png">
-                  <span class="badge1 serverBadge" style="float: none;cursor: pointer;" v-if="ifWarning" @click="toWarningEvent">{{warningNum}}</span>
+                  <span class="badge1 serverBadge" style="float: none;cursor: pointer;" v-if="ifWarning" @click="toWarningEvent">{{waringNum}}</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right" >
-                  <h5 class="customH5" style="padding-top: 14px;">设备总数 (项)</h5>
+                  <h5 class="customH5" style="padding-top: 14px;">设备总数 (台)</h5>
                   <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{deviceTotal}}</h3>
                   <span class="onlineRateTag normalText">在线{{deviceTotalPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5" style="padding-top: 14px;">智能门禁 (项)</h5>
+                  <h5 class="customH5" style="padding-top: 14px;">智能门禁 (台)</h5>
                   <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{lock}}</h3>
                   <span class="onlineRateTag normalText">在线{{lockPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 borderRightDivide smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5" style="padding-top: 14px;">摄像头 (项)</h5>
+                  <h5 class="customH5" style="padding-top: 14px;">摄像头 (台)</h5>
                   <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{camera}}</h3>
                   <span class="onlineRateTag normalText">在线{{cameraPercent}}%</span>
                 </div>
               </div>
               <div class="col-md-2 smart-item">
                 <div class="panel-right">
-                  <h5 class="customH5" style="padding-top: 14px;">烟感 (项)</h5>
+                  <h5 class="customH5" style="padding-top: 14px;">烟感 (台)</h5>
                   <h3 class="customH3" style="font-size: 36px; padding-bottom: 0;">{{smoke}}</h3>
                   <span class="onlineRateTag normalText">在线{{smokePercent}}%</span>
                 </div>
@@ -203,7 +203,7 @@
                             <th style="width: 15%;">设备名称</th>
                             <th style="width: 15%;">所属社区</th>
                             <th style="width: 20%;">IP地址</th>
-                            <th style="width: 15%;">设备类型</th>
+                            <!--<th style="width: 15%;">设备类型</th>-->
                             <th style="width: 10%;">设备状态</th>
                             <th style="width: 15%;">安装时间</th>
                           </tr>
@@ -214,7 +214,7 @@
                             <td>{{item.Name}}</td>
                             <td>{{item.Village_Name}}</td>
                             <td>{{item.MacAddress}}</td>
-                            <td>{{item.Camera_Type | deviceType}}</td>
+                            <!--<td>{{item.Camera_Type | deviceType}}</td>-->
                             <td><span @click="checkCameraDetail(item)" class="enabled" :class="[{onLine:item.IsOnline == 1},{notOnLine:item.IsOnline == 0}]">{{item.IsOnline | isOnline(item.IsOnline)}}</span></td>
                             <td>{{item.InstalledTime | transformDate}}</td>
                           </tr>

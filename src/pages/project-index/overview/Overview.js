@@ -1,6 +1,6 @@
 import echarts from 'echarts'
 import {FormatDate} from "../../../common/utils";
-import {transformDate} from '../../../common/filters.js'
+import {transformDate,formatSec} from '../../../common/filters.js'
 export default {
   name: "Overview",
   data(){
@@ -27,7 +27,13 @@ export default {
       deviceType:'',
       deviceName:'',
       projectRuleMount:'',
-      showTip:false
+      showTip:false,
+      version:'',
+      InstalledTime:'',
+      mac:'',
+      offOnline:[],
+      serverOffline:false
+
     }
   },
   destroyed() {
@@ -36,7 +42,8 @@ export default {
     }
   },
   filters: {
-    transformDate : transformDate
+    transformDate : transformDate,
+    formatSec : formatSec
   },
   mounted() {
     const headerObj = this.$store.state.header.headData.find(item => item.Project_Code === this.$route.params.id);
@@ -45,7 +52,7 @@ export default {
         url: `/project-index/${this.$route.params.id}`,
         title: headerObj.Project_Name
       },
-    ])
+    ]);
     //内存占用率
     this.memoryChart = echarts.init(document.getElementById('memoryChart'),'dark');
     this.memoryChart.setOption({
@@ -245,7 +252,7 @@ export default {
     this.cpuChart.setOption({
       backgroundColor: 'transparent',
       title: {
-        subtext: 'CPU平均负载',
+        subtext: 'CPU平均负载（5min）',
         subtextStyle:{
           color: '#fff'
         },
@@ -302,9 +309,10 @@ export default {
         subtext: '设备在线率',
         subtextStyle:{
           color: '#fff',
-          fontWeight: 800
+          fontWeight: 800,
         },
-        left: 'left'
+        left: 'center'
+        // align:'center'
       },
       series:[
 
@@ -396,9 +404,6 @@ export default {
     // console.log(date.toLocaleString());
     // console.log('1544716800'.toLocaleString());
 
-    this.hardriveChart.on('click', () => {
-      this.$router.push({path:'/tendency'})
-    })
   },
   watch: {
     $route(newVal) {
@@ -419,7 +424,7 @@ export default {
         },
       ])
 
-      //请求接口，处理数据，正式测试要把setinterval加上
+      //请求接口，处理数据
       this.$http.post('/Manage/Project/Index',{
         User_Id:window.localStorage.getItem('userId'),
         Project_Code: Project_Code
@@ -427,44 +432,45 @@ export default {
         // console.log(data);
         //设备数量以及平台部署位置
         //预警赋值
-        this.waring = data.Data.data.waringEventList
+        this.waring = data.Data.data.waringEventList;
         //日志相关
-        this.todayErroyLogMount = data.Data.data.todayErroyLogMount
-        this.todaySlowLogMount = data.Data.data.todaySlowLogMount
-        this.notDoWarningLogMount = data.Data.data.notDoWarningLogMount
-        this.deviceCount = data.Data.data.deviceCount
-        this.serversCount = data.Data.data.serversCount
-        this.deviceOnlineRate = data.Data.data.deviceOnlineRate
+        this.todayErroyLogMount = data.Data.data.todayErroyLogMount.toLocaleString();
+        this.todaySlowLogMount = data.Data.data.todaySlowLogMount.toLocaleString();
+        this.notDoWarningLogMount = data.Data.data.notDoWarningLogMount.toLocaleString();
+        this.deviceCount = data.Data.data.deviceCount.toLocaleString();
+        this.serversCount = data.Data.data.serversCount.toLocaleString();
+        this.deviceOnlineRate = data.Data.data.deviceOnlineRate;
+        this.version = data.Data.data.projectDetial.PLatfrom_Type_Name + ' ' + data.Data.data.projectDetial.Version;
         if(data.Data.data.projectDetial.Area_Name == null){
           this.location = data.Data.data.projectDetial.Province_Name + data.Data.data.projectDetial.City_Name
         }else{
           this.location = data.Data.data.projectDetial.Province_Name + data.Data.data.projectDetial.City_Name + data.Data.data.projectDetial.Area_Name
         }
-        let offLineRate = 100 - Number(data.Data.data.deviceOnlineRate)
+        let offLineRate = 100 - Number(data.Data.data.deviceOnlineRate);
         //内存
-        let memoryData = data.Data.data.serversMemoryUsageRate
+        let memoryData = data.Data.data.serversMemoryUsageRate;
         //CPU
         let cpuData = data.Data.data.serversCPULoadAverage;
         //数据库
         let database = data.Data.data.databaseConnectionTotal;
         //磁盘占用率数据
         //定义一个变量保存磁盘占用率数据
-        let disk = data.Data.data.ServersDiskUsageRate
+        let disk = data.Data.data.ServersDiskUsageRate;
         // console.log(disk);
         //磁盘占用率数据
         //已监控项
-        this.projectRuleMount = data.Data.data.projectRuleMount
+        this.projectRuleMount = data.Data.data.projectRuleMount.toLocaleString();
         let hardrive = [];
         let yAxisHardrive = [];
-        let color = ['#9A54F5','#4681FF','#0BB9FF','#46FFB9','#F6EB69']
+        let color = ['#9A54F5','#4681FF','#0BB9FF','#46FFB9','#F6EB69'];
         let diskRate = [];
-        let diskData = []
+        let diskData = [];
         for (let i in disk) {
-          hardrive.push(disk[i])
-          yAxisHardrive.push(disk[i].Server_Name)
+          hardrive.push(disk[i]);
+          yAxisHardrive.push(disk[i].Server_Name);
           diskRate.push(disk[i].Disk_Usage_Rate)
         }
-        let diskSeries = []
+        let diskSeries = [];
         for(let k in hardrive){
           diskSeries.push(
             {
@@ -535,7 +541,7 @@ export default {
             data: yAxisHardrive
           },
           series:diskSeries
-        },true)
+        },true);
 //设备在线率数据
         this.deviceOnlineChart.setOption({
           series:[
@@ -626,12 +632,12 @@ export default {
             trigger: 'axis',
             // showContent:false,
             axisPointer: {
-              type: 'shadow',
+              type: 'none',
             },
             formatter: "{b}"
           },
           grid:{
-            left: '3%',
+            left: '5%',
             right: '14%',
             top: 40,
             bottom: '3%',
@@ -665,53 +671,53 @@ export default {
             axisLabel:{
               //名称过长截取
               formatter: function (name) {
-                return (name.length > 7 ? (name.slice(0,7)+"...") : name );
+                return (name.length > 5 ? (name.slice(0,5)+"...") : name );
               },
             },
             data:memoryDeviceName
           },
           series:memorySeries
-        },true)
+        },true);
 
 //CPU平均负载
         //修改xAxis中的data,这里data是时间
         // console.log(cpuData);
-        let cpuDetail = []
+        let cpuDetail = [];
         //数组保存时间轴
-        let cpuDate = []
-        let dateIndex = null
+        let cpuDate = [];
+        let dateIndex = null;
         //cpuData中有的服务器的detial字段没有值，通过dateIndex变量找有数据的服务器的索引
         cpuData.forEach((value,i) =>{
-          cpuDetail.push(value.detial)
+          cpuDetail.push(value.detial);
           if(value.detial.length > 0){
             dateIndex = i
           }
-        })
+        });
         // console.log(cpuData);
         // console.log(cpuDetail);
         //时间坐标轴数据
-        let cpuTime = []
+        let cpuTime = [];
 
         cpuTime = cpuDetail[dateIndex] ? cpuDetail[dateIndex] : [];
         // console.log(cpuTime);
-        let displayTime = []
+        let displayTime = [];
         cpuTime.forEach((item,i) => {
           displayTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-        })
+        });
         //xAxis中的data改成displaytime
         //series中的data需替换，几条折线就是几个数据，需要把数组结构push进去
         //color数值需要改，渐变，总共需要三个数组循环遍历color的值
         //图表折线颜色
-        let cpuColor = ['154, 84, 245','70, 129, 255','11, 185, 255','70, 255, 185','246, 235, 105']
-        let cpuColorChange1 = ['154, 84, 245, 0.8','70, 129, 255, 0.8','11, 185, 255, 0.8','70, 255, 185 ,0.8','246, 235, 105 ,0.8']
-        let cpuColorChange2 = ['154, 84, 245, 0','70, 129, 255, 0','11, 185, 255 ,0','70, 255, 185 ,0','246, 235, 105 ,0']
-        let cpuSeriesData = []
-        let cpuDisplayData = []
-        let serverName = []
+        let cpuColor = ['154, 84, 245','70, 129, 255','11, 185, 255','70, 255, 185','246, 235, 105'];
+        let cpuColorChange1 = ['154, 84, 245, 0.8','70, 129, 255, 0.8','11, 185, 255, 0.8','70, 255, 185 ,0.8','246, 235, 105 ,0.8'];
+        let cpuColorChange2 = ['154, 84, 245, 0','70, 129, 255, 0','11, 185, 255 ,0','70, 255, 185 ,0','246, 235, 105 ,0'];
+        let cpuSeriesData = [];
+        let cpuDisplayData = [];
+        let serverName = [];
         cpuData.forEach((item,i) => {
           //cpuDisplayData保存[{},{}]
-          cpuDisplayData.push(item.detial)
-          serverName.push(item.Name)
+          cpuDisplayData.push(item.detial);
+          serverName.push(item.Name);
           cpuSeriesData.push(
             {
               name:item.Name,
@@ -721,7 +727,7 @@ export default {
                 color: 'rgb('+ cpuColor[i] +')'
               },
               lineStyle: {
-                width: 1,
+                width: 2,
                 color: 'rgb('+ cpuColor[i] +')'
               },
               areaStyle: {
@@ -739,14 +745,14 @@ export default {
               })
             }
           )
-        })
+        });
         // console.log(serverName);
         //cpuSeriesData的结果打印
         // console.log(cpuSeriesData);
         this.cpuChart.setOption({
           backgroundColor: 'transparent',
           title: {
-            subtext: 'CPU平均负载',
+            subtext: 'CPU平均负载（5min）',
             subtextStyle:{
               color: '#fff'
             },
@@ -804,11 +810,11 @@ export default {
             databaseTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
           })
         }
-        let databaseData =[]
-        let databaseDisplayData = []
+        let databaseData =[];
+        let databaseDisplayData = [];
         //数据处理，合成echarts最终需要的数据格式
         database.forEach((item,i) => {
-          databaseDisplayData.push(item.detial)
+          databaseDisplayData.push(item.detial);
           databaseData.push(
             {
               name: item.DB_Name,
@@ -835,9 +841,13 @@ export default {
               })
             }
           )
-        })
+        });
         // 替换数据
         // console.log(databaseData);
+        let databaseName = [];
+        databaseData.forEach((item,i) => {
+          databaseName.push(item.name)
+        })
         this.databaseLinkChart.setOption({
           backgroundColor: 'transparent',
           color: ['#37A2DA'],
@@ -855,13 +865,18 @@ export default {
             subtextStyle:{
               color: '#fff'
             },
-            left:'3%'
+            left:'2%'
           },
           grid: {
-            left: '3%',
+            left: '2%',
             right: '4%',
             bottom: '3%',
             containLabel: true
+          },
+          legend: {
+            data:databaseName ,
+            top: '10%',
+            right: '4%'
           },
           xAxis: {
             type: 'category',
@@ -893,16 +908,26 @@ export default {
       // console.log(val);
       if(+val.Warning_Group === 1){
         //服务器跳转到走势图
-        this.$router.push({
-          path:'tendency',
-          query:val
-        })
+        if(+val.Rule_Id === 1) {
+          this.offOnline = val.offFinalResult.reverse().slice(0,10);
+          this.serverOffline = true
+        }else {
+          this.$router.push({
+            path:'tendency',
+            query:val
+          })
+        }
       }else if(+val.Warning_Group === 2){
-        //数据库，跳转到慢日志
-        this.$router.push({
-          path:'slowlog',
-          query:val
-        })
+        if(+val.Rule_Id === 8) {
+          this.offOnline = val.DataBaseoffFinalResult.reverse().slice(0,10);
+          this.serverOffline = true
+        }else {
+          //数据库，跳转到慢日志
+          this.$router.push({
+            path:'slowlog',
+            query:val
+          })
+        }
       }else if(+val.Warning_Group === 3){
         //应用服务，跳转到错误日志
         this.$router.push({
@@ -912,23 +937,26 @@ export default {
       }else if(+val.Warning_Group === 4){
         //智能设备，打开弹框
         if(val.CameraMsg.length > 0){
-          this.deviceName = val.CameraMsg[0].Name
-          this.deviceType = val.Source_Type_Name
+          this.deviceName = val.CameraMsg[0].Name;
+          this.mac = val.CameraMsg[0].MacAddress;
           this.deviceStatus = val.CameraMsg[0].IsOnline_Name
+          this.InstalledTime = val.CameraMsg[0].InstalledTime
         }else if(val.LockMsg.length > 0){
-          this.deviceName = val.LockMsg[0].Name
-          this.deviceType = val.Source_Type_Name
+          this.deviceName = val.LockMsg[0].Name;
+          this.mac = val.LockMsg[0].MacAddress;
           this.deviceStatus = val.LockMsg[0].IsOnline_Name
+          this.InstalledTime = val.LockMsg[0].InstalledTime
         }else if(val.SmokeMsg.length > 0){
-          this.deviceName = val.SmokeMsg[0].Name
-          this.deviceType = val.Source_Type_Name
+          this.deviceName = val.SmokeMsg[0].Name;
+          this.mac = val.SmokeMsg[0].MacAddress;
           this.deviceStatus = val.SmokeMsg[0].IsOnline_Name
+          this.InstalledTime = val.SmokeMsg[0].InstalledTime
         }
         this.deviceShow = true
       } else{
         //安全，打开弹框
-        this.security = true
-        this.securityTime = val.Warning_Time
+        this.security = true;
+        this.securityTime = val.Warning_Time;
         this.securityMsg = val.Security_Msg
       }
     },

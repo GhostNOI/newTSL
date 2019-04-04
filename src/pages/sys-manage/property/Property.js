@@ -18,7 +18,8 @@ export default {
       Project_Code:'',
       dialogFormVisible:false,
       datePick:'',
-      areaCode:[]
+      areaCode:[],
+      noData:false
 
     }
   },
@@ -63,8 +64,12 @@ export default {
         // console.log(data);
         this.projectTable = data.Data.data
         this.howMany = data.Data.howMany
+        if(data.Data.data.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
-      // console.log('aa');
     },
     //重置
     resetForm() {
@@ -77,6 +82,11 @@ export default {
         // console.log(data);
         this.projectTable = data.Data.data
         this.howMany = data.Data.howMany
+        if(data.Data.data === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //分页按钮
@@ -136,6 +146,11 @@ export default {
       // console.log(data);
       this.projectTable = data.Data.data
       this.howMany = data.Data.howMany
+      if(data.Data.data === 0) {
+        this.noData = true
+      }else {
+        this.noData = false
+      }
       // console.log(this.projectTable);
     })
 

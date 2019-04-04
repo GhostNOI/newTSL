@@ -20,7 +20,8 @@ export default {
         value: '',
       optionArea:[],
       projectManage:true,
-      ifOps:true
+      ifOps:true,
+      changePass:true
       }
   },
   computed: {
@@ -62,6 +63,9 @@ export default {
           window.alert('系统繁忙，请稍后再试')
         }
       })
+    },
+    sendMsg (){
+      this.$emit('toParent', true)
     }
 
   }

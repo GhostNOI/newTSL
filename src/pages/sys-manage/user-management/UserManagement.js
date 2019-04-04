@@ -50,7 +50,8 @@ export default {
       isNothing:[
         {label:'有',value:1},
         {label:'无',value:0}
-      ]
+      ],
+      noData:false
     }
   },
   methods:{
@@ -62,8 +63,13 @@ export default {
         'Phone':this.iptPhone,
         'Role_Id':this.rolePower
       }).then((data) => {
-        this.tableData = data.Data.data.userList
-        this.howMany = data.Data.data.howMany
+        this.tableData = data.Data.data.userList;
+        this.howMany = data.Data.data.howMany;
+        if(data.Data.data.userList.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //重置
@@ -76,6 +82,11 @@ export default {
       }).then((data) => {
         this.tableData = data.Data.data.userList
         this.howMany = data.Data.data.howMany
+        if(data.Data.data.userList.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //分页
@@ -90,7 +101,7 @@ export default {
         // 'pageSize':this.pageSize,
         'pageNum':val
       }).then((data) => {
-        // console.log(data);
+        console.log(data);
         this.tableData = data.Data.data.userList
         this.howMany = data.Data.data.howMany
       })
@@ -129,7 +140,7 @@ export default {
         }else if(this.form.permissions === ''){
           this.ifTips = true
           this.tips = '请选择角色';
-        }else if(this.form.dingding === ''){
+        }else if(this.form.dingding === '11'){
           this.ifTips = true
           this.tips = '请选择是否有钉钉'
         }else if(this.form.email === ''){
@@ -158,7 +169,7 @@ export default {
                 'Password':123456,
                 'RoleId':this.form.permissions,
                 'email':this.form.email,
-                'dingding':this.form.dingdingNumber
+                // 'dingding':this.form.dingdingNumber
               }).then((data) => {
                 // console.log(data);
                 if(+data.Data.code === -7){
@@ -203,7 +214,7 @@ export default {
               'Password':123456,
               'RoleId':this.form.permissions,
               'email':this.form.email,
-              'dingding':this.form.dingdingNumber
+              // 'dingding':this.form.dingdingNumber
             }).then((data) => {
               // console.log(data);
               if(data.Data.code == -7){
@@ -240,7 +251,7 @@ export default {
             'Password':123456,
             'RoleId':this.form.permissions,
             'email':this.form.email,
-            'dingding':this.form.dingdingNumber
+            // 'dingding':this.form.dingdingNumber
           }).then((data) => {
             // console.log(data);
             if(data.Data.code === -7){
@@ -276,7 +287,7 @@ export default {
           'Update_User_Id':this.updateUserId,
           'Name':this.form.name,
           'Email':this.form.email,
-          'DingDing':this.form.dingdingNumber,
+          // 'DingDing':this.form.dingdingNumber,
           'RoleId':this.form.permissions
         }).then((data) => {
           // console.log(data);
@@ -385,14 +396,19 @@ export default {
         url:'',
         title:'用户管理'
       }
-    ])
+    ]);
     this.$http.post('/Manage/UserRun/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
       // console.log(data);
-      this.roleList = data.Data.data.roleList
-      this.tableData = data.Data.data.userList
-      this.howMany = data.Data.data.howMany
+      this.roleList = data.Data.data.roleList;
+      this.tableData = data.Data.data.userList;
+      this.howMany = data.Data.data.howMany;
+      if(data.Data.data.userList.length === 0) {
+        this.noData = true
+      }else {
+        this.noData = false
+      }
     })
   }
 }

@@ -40,127 +40,124 @@ export default {
       }
     ])
 
-
-    let _this = this;
     //折线图
-      this.mainChart = echarts.init(document.getElementById('mainChart'),'dark')
-      this.mainChart.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            length: 0
-          },
-          data: []
-        },
-        yAxis: {
-          type: 'value',
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            length: 0
-          },
-        },
-        series: [
-          {
-            markPoint: {
-              symbol: 'circle',
-              symbolSize: 15,
-              itemStyle: {
-                color: {
-                  type: 'radial',
-                  x: 0.5,
-                  y: 0.5,
-                  r: 0.5,
-                  colorStops: [{
-                    offset: 0, color: 'rgb(0, 0, 0)'
-                  }, {
-                    offset: 0.59, color: 'rgb(0, 0, 0)'
-                  }, {
-                    offset: 0.6, color: 'rgb(255, 0, 0)'
-                  },{
-                    offset: 1, color: 'rgba(255, 0, 0, 0)'
-                  }],
-                  globalCoord: false
-                }
-              },
-              label:{
-                position: 'top',
-                borderColor: '#4681FF',
-                fontSize: 15,
-                borderWidth: 1,
-                padding: 4,
-                backgroundColor: '#000',
-                align: 'left',
-                // formatter: '2018-11-30 {c} \n 25次'
-              },
-              data:[{
-                name: '预警事件',
-                value: '09:15',
-                coord: ['09:15', '7']
-              }]
-            },
-            markLine: {
-              symbol: 'none',
-              lineStyle: {
-                color: '#D6E4FF'
-              },
-              label:{
-                show: false
-              },
-              data: [{
-                name: '预警事件',
-                xAxis: '09:15'
-              }]
-            },
-            name:'慢日志',
-            type:'line',
-            smooth: true,
-
-            itemStyle:{
-              color: 'rgb(169, 110, 246)'
-            },
-            lineStyle: {
-              width: 3,
-              color: 'rgb(169, 110, 246)'
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(138, 76, 220, 0.8)'
-              }, {
-                offset: 0.5,
-                color: 'rgba(102, 143, 255, 0.4)'
-              },{
-                offset: 1,
-                color: 'rgba(102, 143, 255, 0)'
-              }])
-            },
-            data:[]
-          },
-        ]
-      })
-
+    //   this.mainChart = echarts.init(document.getElementById('mainChart'),'dark')
+    //   this.mainChart.setOption({
+    //     backgroundColor: 'transparent',
+    //     tooltip: {
+    //       trigger: 'axis',
+    //       axisPointer: {
+    //         type: 'cross',
+    //         label: {
+    //           backgroundColor: '#6a7985'
+    //         }
+    //       }
+    //     },
+    //     grid: {
+    //       left: '3%',
+    //       right: '4%',
+    //       bottom: '3%',
+    //       containLabel: true
+    //     },
+    //     xAxis: {
+    //       type: 'category',
+    //       boundaryGap: false,
+    //       axisLine: {
+    //         show: false
+    //       },
+    //       axisTick: {
+    //         length: 0
+    //       },
+    //       data: []
+    //     },
+    //     yAxis: {
+    //       type: 'value',
+    //       axisLine: {
+    //         show: false
+    //       },
+    //       axisTick: {
+    //         length: 0
+    //       },
+    //     },
+    //     series: [
+    //       {
+    //         markPoint: {
+    //           symbol: 'circle',
+    //           symbolSize: 15,
+    //           itemStyle: {
+    //             color: {
+    //               type: 'radial',
+    //               x: 0.5,
+    //               y: 0.5,
+    //               r: 0.5,
+    //               colorStops: [{
+    //                 offset: 0, color: 'rgb(0, 0, 0)'
+    //               }, {
+    //                 offset: 0.59, color: 'rgb(0, 0, 0)'
+    //               }, {
+    //                 offset: 0.6, color: 'rgb(255, 0, 0)'
+    //               },{
+    //                 offset: 1, color: 'rgba(255, 0, 0, 0)'
+    //               }],
+    //               globalCoord: false
+    //             }
+    //           },
+    //           label:{
+    //             position: 'top',
+    //             borderColor: '#4681FF',
+    //             fontSize: 15,
+    //             borderWidth: 1,
+    //             padding: 4,
+    //             backgroundColor: '#000',
+    //             align: 'left',
+    //             // formatter: '2018-11-30 {c} \n 25次'
+    //           },
+    //           data:[{
+    //             name: '预警事件',
+    //             value: '09:15',
+    //             coord: ['09:15', '7']
+    //           }]
+    //         },
+    //         markLine: {
+    //           symbol: 'none',
+    //           lineStyle: {
+    //             color: '#D6E4FF'
+    //           },
+    //           label:{
+    //             show: false
+    //           },
+    //           data: [{
+    //             name: '预警事件',
+    //             xAxis: '09:15'
+    //           }]
+    //         },
+    //         name:'慢日志',
+    //         type:'line',
+    //         smooth: true,
+    //
+    //         itemStyle:{
+    //           color: 'rgb(169, 110, 246)'
+    //         },
+    //         lineStyle: {
+    //           width: 3,
+    //           color: 'rgb(169, 110, 246)'
+    //         },
+    //         areaStyle: {
+    //           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+    //             offset: 0,
+    //             color: 'rgba(138, 76, 220, 0.8)'
+    //           }, {
+    //             offset: 0.5,
+    //             color: 'rgba(102, 143, 255, 0.4)'
+    //           },{
+    //             offset: 1,
+    //             color: 'rgba(102, 143, 255, 0)'
+    //           }])
+    //         },
+    //         data:[]
+    //       },
+    //     ]
+    //   })
 
     this.getData()
 
@@ -176,13 +173,11 @@ export default {
       //   this.tableData1 = data.Data.data.allErrorDetial
       //   console.log(this.tableData);
       // })
-
-      //echarts图表数据
       let formatDate = null
       if(this.$route.query.Warning_Time){
         formatDate = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD')
-        this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'HH:mm')
-        this.displayTime2 = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
+        // this.displayTime = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
+        // this.displayTime2 = FormatDate(this.$route.query.Warning_Time*1000,'YYYY-MM-DD HH:mm')
         // console.log(formatDate);
       }
       this.$http.post('/Manage/ErrorLog/Slow',{
@@ -192,43 +187,43 @@ export default {
       }).then((data) => {
         // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
-          this.noData = true
-        }else{
           this.noData = false
+        }else{
+          this.noData = true
         }
-        let times = data.Data.data.allSlowErrorTimeMount
+        // let times = data.Data.data.allSlowErrorTimeMount
         this.tableData1 = data.Data.data.allSlowErrorDetial
-        this.howMany = data.Data.data.howMany
-        let formatTime = [];
-        let number = []
-        times.forEach((item,i) => {
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-          number.push(item.num)
-        })
-        this.mainChart.setOption({
-          xAxis:{
-            data:formatTime
-          },
-          series:[{
-            markPoint:{
-              data:[{
-                name: '预警事件',
-                coord: [this.displayTime, this.$route.query.LogMount]
-              }],
-              label:{
-                formatter: `${this.displayTime2} \n ${this.$route.query.LogMount}次`
-              },
-            },
-            markLine:{
-              data: [{
-                name: '预警事件',
-                xAxis: this.displayTime
-              }]
-            },
-            data:number
-          }]
-
-        })
+        this.howMany = +data.Data.data.howMany
+        // let formatTime = [];
+        // let number = []
+        // times.forEach((item,i) => {
+        //   formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+        //   number.push(item.num)
+        // })
+        // this.mainChart.setOption({
+        //   xAxis:{
+        //     data:formatTime
+        //   },
+        //   series:[{
+        //     markPoint:{
+        //       data:[{
+        //         name: '预警事件',
+        //         coord: [this.displayTime, this.$route.query.LogMount]
+        //       }],
+        //       label:{
+        //         formatter: `${this.displayTime2} \n ${this.$route.query.LogMount}次`
+        //       },
+        //     },
+        //     markLine:{
+        //       data: [{
+        //         name: '预警事件',
+        //         xAxis: this.displayTime
+        //       }]
+        //     },
+        //     data:number
+        //   }]
+        //
+        // })
 
       })
     },
@@ -248,7 +243,7 @@ export default {
         'pageNum':val
       }).then((data) => {
         this.tableData1  = data.Data.data.allSlowErrorDetial;
-        this.howMany = data.Data.data.howMany
+        this.howMany = +data.Data.data.howMany
       })
     },
     handleSizeChange(val){
@@ -265,7 +260,7 @@ export default {
         'pageNum':this.pageNum
       }).then((data) => {
         this.tableData1  = data.Data.data.allSlowErrorDetial
-        this.howMany = data.Data.data.howMany
+        this.howMany = +data.Data.data.howMany
       })
     },
     query(){
@@ -275,10 +270,6 @@ export default {
       }else{
         this.datePick = ''
       }
-      // console.log(this.dayType);
-      // console.log(this.datePick);
-      // console.log(this.datePick[0]);
-      // console.log(this.datePick[1]);
       this.$http.post('/Manage/ErrorLog/Slow',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -288,29 +279,29 @@ export default {
       }).then((data) => {
         // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
-          this.noData = true
-        }else{
           this.noData = false
+        }else{
+          this.noData = true
         }
         this.tableData1  = data.Data.data.allSlowErrorDetial;
-        this.howMany = data.Data.data.howMany;
-        let times = data.Data.data.allSlowErrorTimeMount;
+        this.howMany = +data.Data.data.howMany;
+        // let times = data.Data.data.allSlowErrorTimeMount;
         // console.log(times);
-        let formatTime = [];
-        let number = [];
-        times.forEach((item,i) => {
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
-          number.push(item.num)
-        });
-        this.mainChart.setOption({
-          xAxis:{
-            data:formatTime
-          },
-          series:[{
-            data:number
-          }]
-
-        })
+        // let formatTime = [];
+        // let number = [];
+        // times.forEach((item,i) => {
+        //   formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
+        //   number.push(item.num)
+        // });
+        // this.mainChart.setOption({
+        //   xAxis:{
+        //     data:formatTime
+        //   },
+        //   series:[{
+        //     data:number
+        //   }]
+        //
+        // })
       })
     },
     //重置
@@ -324,29 +315,27 @@ export default {
       }).then((data) => {
         // console.log(data);
         if(data.Data.data.allSlowErrorDetial.length){
-          this.noData = true
-        }else{
           this.noData = false
+        }else{
+          this.noData = true
         }
         this.tableData1  = data.Data.data.allSlowErrorDetial;
-        this.howMany = data.Data.data.howMany;
-        let times = data.Data.data.allSlowErrorTimeMount;
-        // console.log(times);
-        let formatTime = [];
-        let number = []
-        times.forEach((item,i) => {
-          formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
-          number.push(item.num)
-        });
-        this.mainChart.setOption({
-          xAxis:{
-            data:formatTime
-          },
-          series:[{
-            data:number
-          }]
-
-        })
+        this.howMany = +data.Data.data.howMany;
+        // let times = data.Data.data.allSlowErrorTimeMount;
+        // let formatTime = [];
+        // let number = []
+        // times.forEach((item,i) => {
+        //   formatTime.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
+        //   number.push(item.num)
+        // });
+        // this.mainChart.setOption({
+        //   xAxis:{
+        //     data:formatTime
+        //   },
+        //   series:[{
+        //     data:number
+        //   }]
+        // })
       })
     },
     dateSelect(val){
@@ -358,6 +347,6 @@ export default {
     transformDate: transformDate
   },
   destroyed() {
-    this.noData = false
+    this.noData = true
   }
 }

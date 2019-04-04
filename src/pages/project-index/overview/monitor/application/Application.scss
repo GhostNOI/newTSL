@@ -49,12 +49,13 @@ table{
   font-size: 11px;
 }
 .normal{
-  background: #2980B9;
-
+  //background: #2980B9;
+  color: #e24e1c;
 
 }
 .abnormal{
-  background: #E74C3C;
+  //background: #E74C3C;
+  color: #4176e6;
 
 }
 .tableII{
@@ -62,8 +63,17 @@ table{
 }
 
 //gundong
-.scroll-wrap {
+.wrap{
+  position: relative;
   width: 75%;
+  height: 131px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.scroll-wrap {
+  left: 30px;
+  right: 30px;
+  width: calc(100% - 60px);
   height: 131px;
   position: relative;
   overflow-x: auto;

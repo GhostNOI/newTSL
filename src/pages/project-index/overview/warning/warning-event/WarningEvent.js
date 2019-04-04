@@ -1,5 +1,6 @@
 import echarts from 'echarts'
-import {transformDate,eventType,formatSec,formatSecMin} from "../../../../../common/filters";
+import {transformDate,eventType,formatSec} from "../../../../../common/filters";
+import {formatSecMin} from "../../../../../common/utils"
 
 export default {
   name: "WraningEvent",
@@ -50,7 +51,10 @@ export default {
       pageNum:1,
       delive:'1',
       serverOffline:false,
-      offOnline:[]
+      offOnline:[],
+      InstalledTime:'',
+      mac:'',
+      noData:false
     }
   },
 
@@ -66,44 +70,48 @@ export default {
       }).then((data) => {
         // console.log(data);
         if(data.Data.waringEventList){
-          if(data.Data.waringEventList[0].lastTime === ''){
-            this.delive = `已催办给${data.Data.waringEventList[0].other_Name}`
+          if(+data.Data.waringEventList[0].lastTime < 0){
+            if(data.Data.waringEventList[0].other_Name === ''){
+              this.delive = '超出可处理时间，未催办'
+            }else {
+              this.delive = '超出可处理时间，已催办'
+            }
           }else{
-            this.delive = `倒计时${data.Data.waringEventList[0].lastTime}`
+            this.delive = `倒计时${formatSecMin(data.Data.waringEventList[0].lastTime)} min`
           }
         }
       })
     },
 //饼图点击天数切换数据
     daysOptionPei(val,i){
-      this.pei = i
+      this.pei = i;
       this.$http.post('/Manage/WaringEvent/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'dayType':val.code,
         'Project_Code':this.$route.params.id
       }).then((data) => {
         // console.log(data);
-        let total = []
-        total = data.Data.data.waringPiechart
-        let chartData = []
-        let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A']
-        let displayData = []
-        let legendData = []
+        let total = [];
+        total = data.Data.data.waringPiechart;
+        let chartData = [];
+        let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A'];
+        let displayData = [];
+        let legendData = [];
         total.forEach((item,i) => {
-          chartData.push(item)
+          chartData.push(item);
           displayData.push(
             {name:item.Waring_Type,value:item.perc,itemStyle:{color:color[i]}}
-          )
+          );
           legendData.push(
             {name:item.Waring_Type,icon:'circle'}
           )
-        })
+        });
         this.eventTypeChart.setOption({
           legend:{
             data:legendData,
             formatter: function (name) {
               for(let i in chartData){
-                if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(0) + '%'
+                if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(2) + '%'
               }
               return name +''+ per
             }
@@ -116,29 +124,29 @@ export default {
     },
 //柱状图点击切换数据
     daysHistogram(val,i){
-      this.histogram = i
+      this.histogram = i;
       this.$http.post('/Manage/WaringEvent/WaringEventRank',{
         'User_Id':window.localStorage.getItem('userId'),
         'dayType':val.code,
         'Project_Code':this.$route.params.id
       }).then((data) => {
         // console.log(data);
-        let eventRank = []
-        let num = []
+        let eventRank = [];
+        let num = [];
         for(let i = 0; i < data.Data.waringPiechart.length; i++) {
           num.push(i)
         }
-        this.sNumber = num
-        eventRank = data.Data.waringPiechart
+        this.sNumber = num;
+        eventRank = data.Data.waringPiechart;
         // console.log(eventRank);
-        let eventNum = []
-        this.ringRatio = []
-        this.eventRank = []
+        let eventNum = [];
+        this.ringRatio = [];
+        this.eventRank = [];
         eventRank.forEach((item,i) => {
-          eventNum.unshift(item.num)
-          this.ringRatio.push(item.waringRingRatio)
+          eventNum.unshift(item.num);
+          this.ringRatio.push(item.waringRingRatio);
           this.eventRank.push(item)
-        })
+        });
         if(eventRank.length < 5){
           for(let i = 0; i < 5-eventRank.length; i++){
             eventNum.unshift(0)
@@ -156,7 +164,7 @@ export default {
 
     //点击切换预警类型
     tabChange(val,i){
-      this.typeIndex = i
+      this.typeIndex = i;
       // console.log(i);
       if(this.typeIndex === 0){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -164,8 +172,13 @@ export default {
           'Project_Code':this.$route.params.id,
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }else if(this.typeIndex === 1){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -174,8 +187,13 @@ export default {
           'Warning_Group':1
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }else if(this.typeIndex ===2){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -184,8 +202,13 @@ export default {
           'Warning_Group':2
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }else if(this.typeIndex === 3){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -194,8 +217,13 @@ export default {
           'Warning_Group':3
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }else if(this.typeIndex === 4) {
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -204,8 +232,13 @@ export default {
           'Warning_Group':4
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }else if(this.typeIndex === 5) {
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
@@ -214,8 +247,13 @@ export default {
           'Warning_Group':5
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
-          this.howMany = data.Data.howMany
+          this.waringEventList = data.Data.waringEventList;
+          this.howMany = data.Data.howMany;
+          if(data.Data.waringEventList.length === 0){
+            this.noData = true
+          }else {
+            this.noData = false
+          }
         })
       }
 
@@ -239,7 +277,7 @@ export default {
       if(+val.Warning_Group === 1){
         //服务器跳转到走势图
         if(+val.Rule_Id === 1){
-          this.offOnline = val.offFinalResult.slice(0,10)
+          this.offOnline = val.offFinalResult.reverse().slice(0,10);
           this.serverOffline = true
         }else {
           this.$router.push({
@@ -249,10 +287,15 @@ export default {
         }
       }else if(+val.Warning_Group === 2){
         //数据库，跳转到慢日志
-        this.$router.push({
-          path:`/project-index/${this.$route.params.id}/slowlog`,
-          query:val
-        })
+        if(+val.Rule_Id === 8){
+          this.offOnline = val.DataBaseoffFinalResult.reverse().slice(0,10);
+          this.serverOffline = true
+        }else {
+          this.$router.push({
+            path:`/project-index/${this.$route.params.id}/slowlog`,
+            query:val
+          })
+        }
       }else if(+val.Warning_Group === 3){
         //应用服务，跳转到错误日志
         this.$router.push({
@@ -262,30 +305,36 @@ export default {
       }else if(+val.Warning_Group === 4){
         //智能设备，打开弹框
         if(val.CameraMsg.length > 0){
-          this.deviceName = val.CameraMsg[0].Name
-          this.deviceType = val.Source_Type_Name
-          this.deviceStatus = val.CameraMsg[0].IsOnline_Name
+          this.deviceName = val.CameraMsg[0].Name;
+          this.deviceType = val.Source_Type_Name;
+          this.deviceStatus = val.CameraMsg[0].IsOnline_Name;
+          this.mac = val.CameraMsg[0].MacAddress;
+          this.InstalledTime = val.CameraMsg[0].InstalledTime
         }else if(val.LockMsg.length > 0){
-          this.deviceName = val.LockMsg[0].Name
-          this.deviceType = val.Source_Type_Name
-          this.deviceStatus = val.LockMsg[0].IsOnline_Name
+          this.deviceName = val.LockMsg[0].Name;
+          this.deviceType = val.Source_Type_Name;
+          this.deviceStatus = val.LockMsg[0].IsOnline_Name;
+          this.mac = val.LockMsg[0].MacAddress;
+          this.InstalledTime = val.LockMsg[0].InstalledTime
         }else if(val.SmokeMsg.length > 0){
-          this.deviceName = val.SmokeMsg[0].Name
-          this.deviceType = val.Source_Type_Name
-          this.deviceStatus = val.SmokeMsg[0].IsOnline_Name
+          this.deviceName = val.SmokeMsg[0].Name;
+          this.deviceType = val.Source_Type_Name;
+          this.deviceStatus = val.SmokeMsg[0].IsOnline_Name;
+          this.mac = val.SmokeMsg[0].MacAddress;
+          this.InstalledTime = val.SmokeMsg[0].InstalledTime
         }
         this.deviceShow = true
       } else{
         //安全，打开弹框
-        this.security = true
-        this.securityTime = val.Warning_Time
+        this.security = true;
+        this.securityTime = val.Warning_Time;
         this.securityMsg = val.Security_Msg
       }
     },
 
     //分页按钮
     handleSizeChange(val) {
-      this.pageSize = val
+      this.pageSize = val;
       if(this.typeIndex === 1){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
           'User_Id':window.localStorage.getItem('userId'),
@@ -295,7 +344,7 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 2) {
@@ -307,7 +356,7 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 3) {
@@ -319,7 +368,7 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 4) {
@@ -331,7 +380,7 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 5) {
@@ -343,7 +392,7 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 0) {    //默认全部
@@ -354,14 +403,14 @@ export default {
           'pageSize':val
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }
     },
     handleCurrentChange(val) {
       // console.log(val);
-      this.pageNum = val
+      this.pageNum = val;
       if(this.typeIndex === 1){
         this.$http.post('/Manage/WaringEvent/WaringEventList',{
           'User_Id':window.localStorage.getItem('userId'),
@@ -371,7 +420,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 2) {
@@ -383,7 +432,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 3) {
@@ -395,7 +444,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 4) {
@@ -407,7 +456,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 5) {
@@ -419,7 +468,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }else if(this.typeIndex === 0) {    //默认全部
@@ -430,7 +479,7 @@ export default {
           'pageSize':this.pageSize
         }).then((data) => {
           // console.log(data);
-          this.waringEventList = data.Data.waringEventList
+          this.waringEventList = data.Data.waringEventList;
           this.howMany = data.Data.howMany
         })
       }
@@ -571,28 +620,28 @@ export default {
         'Project_Code':this.$route.params.id
       }).then((data) => {
         // console.log(data);
-        let total = []
-        total = data.Data.data.waringPiechart
+        let total = [];
+        total = data.Data.data.waringPiechart;
         let chartData = []
-        let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A']
-        let displayData = []
-        let legendData = []
+        let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A'];
+        let displayData = [];
+        let legendData = [];
         total.forEach((item,i) => {
-          chartData.push(item)
+          chartData.push(item);
           displayData.push(
-            {name:item.Waring_Type,value:item.perc,itemStyle:{color:color[i]}}
-          )
+            {name:item.Waring_Type,value:item.perc,itemStyle:{color:color[i]}},
+          );
           legendData.push(
             {name:item.Waring_Type,icon:'circle'}
           )
-        })
+        });
         // console.log(displayData);
         this.eventTypeChart.setOption({
           legend:{
             data:legendData,
             formatter: function (name) {
               for(let i in chartData){
-                if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(0) + '%'
+                if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(2) + '%'
               }
               return name +''+ per
             }
@@ -611,23 +660,23 @@ export default {
         'Project_Code':this.$route.params.id
       }).then((data) => {
         console.log(data);
-        let eventRank = []
-        let num = []
+        let eventRank = [];
+        let num = [];
         for(let i = 0; i < data.Data.waringPiechart.length; i++) {
           // this.sNumber.push(i)
           num.push(i)
         }
-        this.sNumber = num
-        eventRank = data.Data.waringPiechart
+        this.sNumber = num;
+        eventRank = data.Data.waringPiechart;
         // console.log(eventRank);
-        let eventNum = []
-        this.ringRatio = []
-        this.eventRank = []
+        let eventNum = [];
+        this.ringRatio = [];
+        this.eventRank = [];
         eventRank.forEach((item,i) => {
-          eventNum.unshift(item.num)
-          this.ringRatio.push(item.waringRingRatio)
+          eventNum.unshift(item.num);
+          this.ringRatio.push(item.waringRingRatio);
           this.eventRank.push(item)
-        })
+        });
         if(eventRank.length < 5){
           for(let i = 0; i < 5-eventRank.length; i++){
             eventNum.unshift(0)
@@ -639,7 +688,7 @@ export default {
             {data:eventNum}
           ]
         })
-      })
+      });
 //表格数据
       this.$http.post('/Manage/WaringEvent/WaringEventList',{
         'User_Id':window.localStorage.getItem('userId'),
@@ -647,9 +696,14 @@ export default {
         // 'Project_Code':'cc5b7135fb814c5ea32d1815a1385163',
       }).then((data) => {
         // console.log(data);
-        this.waringEventList = data.Data.waringEventList
+        this.waringEventList = data.Data.waringEventList;
         this.howMany = data.Data.howMany
         // console.log(this.waringEventList);
+        if(data.Data.waringEventList.length === 0){
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     }
   },
@@ -685,10 +739,13 @@ export default {
       legend: {
         type: 'plain',
         orient: 'vertical',
-        right: 10,
+        right: 30,
         top: 20,
         bottom: 20,
         itemGap: 30,
+        textStyle:{
+          fontSize:14
+        },
         data: [
           // {
           //   name: "服务器",
@@ -837,7 +894,7 @@ export default {
 
         }
       ]
-    })
+    });
 
 
 //请求接口替换数据
@@ -848,10 +905,10 @@ export default {
       'Project_Code':this.$route.params.id
     }).then((data) => {
       // console.log(data);
-      let total = []
-      total = data.Data.data.waringPiechart
-      let chartData = []
-      let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A']
+      let total = [];
+      total = data.Data.data.waringPiechart;
+      let chartData = [];
+      let color=['#9A54F5','#4681FF','#46FFB9','#FF806D','#D7438A'];
       let displayData = []
       let legendData = []
       total.forEach((item,i) => {
@@ -869,7 +926,7 @@ export default {
           data:legendData,
           formatter: function (name) {
             for(let i in chartData){
-              if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(0) + '%'
+              if(name == chartData[i].Waring_Type) var per = (+chartData[i].perc*100).toFixed(2)+ '%'
             }
             return name +''+ per
           }
@@ -887,7 +944,7 @@ export default {
       'dayType':7,
       'Project_Code':this.$route.params.id
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
       let eventRank = []
       let num = []
       for(let i = 0; i < data.Data.waringPiechart.length; i++) {
@@ -920,16 +977,41 @@ export default {
 
     // console.log(this.eventRank);
 //表格数据
-    this.$http.post('/Manage/WaringEvent/WaringEventList',{
-      'User_Id':window.localStorage.getItem('userId'),
-      'Project_Code':this.$route.params.id,
-      // 'Project_Code':'cc5b7135fb814c5ea32d1815a1385163',
-    }).then((data) => {
-      // console.log(data);
-      this.waringEventList = data.Data.waringEventList
-      this.howMany = data.Data.howMany
-      // console.log(this.waringEventList);
-    })
+//     console.log(JSON.stringify(this.$route.query));
+    if(JSON.stringify(this.$route.query) != '{}'){
+      this.typeIndex = this.$route.query.tapIndex
+      this.$http.post('/Manage/WaringEvent/WaringEventList',{
+        'User_Id':window.localStorage.getItem('userId'),
+        'Project_Code':this.$route.params.id,
+        'Warning_Group':this.$route.query.Warning_Group
+      }).then((data) => {
+        // console.log(data);
+        this.waringEventList = data.Data.waringEventList
+        this.howMany = data.Data.howMany
+        if(data.Data.waringEventList.length === 0){
+          this.noData = true
+        }else {
+          this.noData = false
+        }
+      })
+    }else {
+      this.$http.post('/Manage/WaringEvent/WaringEventList',{
+        'User_Id':window.localStorage.getItem('userId'),
+        'Project_Code':this.$route.params.id,
+        // 'Project_Code':'cc5b7135fb814c5ea32d1815a1385163',
+      }).then((data) => {
+        // console.log(data);
+        this.waringEventList = data.Data.waringEventList
+        this.howMany = data.Data.howMany
+        if(data.Data.waringEventList.length === 0){
+          this.noData = true
+        }else {
+          this.noData = false
+        }
+        // console.log(this.waringEventList);
+      })
+    }
+
   },
   filters : {
     transformDate : transformDate,

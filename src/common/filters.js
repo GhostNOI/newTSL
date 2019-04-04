@@ -146,6 +146,10 @@ export const triggerLevel = (level) => {
   }
 }
 
+export const threshold = (threshold) => {
+  return threshold
+}
+
 export const  noticeType = (noticeType) => {
   if(noticeType == 1){
     return '平台弹窗'
@@ -202,6 +206,7 @@ export const formatSec = (formatSec) => {
   let s = Math.floor((formatSec % 60)) < 10 ? '0' + Math.floor((formatSec % 60)) : Math.floor((formatSec % 60));
   return formatSec = h + ":" + m + ":" + s;
 }
+
 
 export const toChinese = (toChinese) => {
   if(toChinese === 'service'){

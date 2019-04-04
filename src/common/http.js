@@ -8,15 +8,16 @@ import router from '../router/index'
 
 let loadingNum = 0; // 某周期内请求次数
 let loadingInstance = null; // loading实例
-let isError = false;  // 是否报错
-
-const instance = axios.create({});
+let timer = null;
+const instance = axios.create({method: 'post'});
 
 const instanceWithoutLoading = axios.create({});
 
 
+
 // 关闭loading
 const closeLoading = () => {
+  clearTimeout(timer);
   loadingInstance && loadingInstance.close();
   loadingInstance = null;
   loadingNum = 0;
@@ -24,27 +25,20 @@ const closeLoading = () => {
 
 // 显示loading
 export const showLoading = () => {
-  const IS_HIDE_LOADING = getStorage('HIDE_LOADING');
-  if (!IS_HIDE_LOADING) {
-    loadingNum++;
-    if (loadingNum === 1 && !loadingInstance && !isError) {
+  loadingNum++;
+  if (loadingNum === 1 && !loadingInstance) {
+    timer = setTimeout(() => {
       loadingInstance = Loading.service({fullscreen: true});
-    }
+    }, 500);
   }
 };
 
 // 隐藏loading
 export const hideLoading = () => {
-  const IS_HIDE_LOADING = getStorage('HIDE_LOADING');
-  if (!!IS_HIDE_LOADING) {
-    removeStorage('HIDE_LOADING')
-  } else {
     loadingNum--;
-    if (loadingNum <= 0 || isError) {
+    if (loadingNum <= 0) {
       closeLoading();
     }
-  }
-
 };
 
 
@@ -52,33 +46,30 @@ export const hideLoading = () => {
 [instance, instanceWithoutLoading].forEach((i, index) => {
   i.interceptors.request.use(
     config => {
+      showLoading();
       config.url = prepareUrl(config.url);
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      config.headers['X-Requested-With'] = 'XMLHttpRequest';
       const token = getCookie();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
       let dateNow = Date.now();
       let date = dateNow - window.localStorage.getItem('insertTime')*1000;
-      // console.log(date, 'date');
+      //重新获取token
       if(date > 6900000 && date < 7200000){
         window.localStorage.setItem('insertTime', date*1000000);
         post('/Manage/Login/GetNewToken',{})
           .then((data) => {
-            console.log(data);
-            let token = data.Data.token
+            let token = data.Data.token;
             setCookie(token);
-            console.log(getCookie('tsl_token'));
-            // console.log('重新请求token');
             window.localStorage.setItem('insertTime',data.Data.toeknTime)
-            console.log(window.localStorage.getItem('insertTime'));
           })
       }
-
-      // index == 0 && showLoading();
       return config
     },
     err => {
+      hideLoading();
       return Promise.reject(err)
     }
   )
@@ -95,9 +86,11 @@ export const hideLoading = () => {
         // if (+res.data.Data.code === -4) {
           // alert('用户不存在');
         // } else {
-        if(!window.localStorage.getItem('userId')){
-          logout()
-        }else if(+res.data.ErrorCode === 0){
+        hideLoading();
+        // if(!window.localStorage.getItem('userId')){
+        //   logout()
+        // }else
+        if(+res.data.ErrorCode === 0){
           if(+res.data.Data.code === -1){
             logout()
           }else if(+res.data.Data.code === 99){
@@ -110,6 +103,7 @@ export const hideLoading = () => {
         // }
       },
       error => {
+        hideLoading();
         return Promise.reject(error);
       }
     )

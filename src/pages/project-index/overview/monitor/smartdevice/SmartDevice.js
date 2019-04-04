@@ -311,7 +311,7 @@ export default {
     //烟感设备
     handleSizeChangeSmoke(val){
       // console.log(val);
-      this.smokePageSize = val
+      this.smokePageSize = val;
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -323,13 +323,13 @@ export default {
         'Name':this.smokeName
       }).then((data) => {
         // console.log(data);
-        this.smokeTableData = data.Data.data
+        this.smokeTableData = data.Data.data;
         this.smokeHowMany = data.Data.howMany
       })
     },
     handleCurrentChangeSmoke(val){
       // console.log(val);
-      this.smokePageNum = val
+      this.smokePageNum = val;
       this.$http.post('/Manage/Device/DeviceDetails',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -341,7 +341,7 @@ export default {
         'Name':this.smokeName
       }).then((data) => {
         // console.log(data);
-        this.smokeTableData = data.Data.data
+        this.smokeTableData = data.Data.data;
         this.smokeHowMany = data.Data.howMany
       })
     },
@@ -349,24 +349,27 @@ export default {
     //通行
     checkDetail(val) {
       // console.log(val);
-      this.deviceDetail = true
-      this.deviceName = val.Name
-      this.MACAddress = val.MacAddress
-      this.deviceType = val.Camera_Type
-      this.status = val.IsOnline
+      this.deviceDetail = true;
+      this.deviceName = val.Name;
+      this.MACAddress = val.MacAddress;
+      this.deviceType = val.Camera_Type;
+      this.status = val.IsOnline;
       this.installTime = val.InstalledTime
     },
     //监控
     checkCameraDetail (val) {
       // console.log(val);
-      this.cameraDetail = true
-      this.cameraNameDetail = val.Name
-      this.IPAddressDetail = val.MacAddress
-      this.status = val.IsOnline
+      this.cameraDetail = true;
+      this.cameraNameDetail = val.Name;
+      this.IPAddressDetail = val.MacAddress;
+      this.status = val.IsOnline;
       this.installTime = val.InstalledTime
     },
     toWarningEvent() {
-      this.$router.push(`/project-index/${this.$route.params.id}/warningevent/`)
+      this.$router.push({
+        path:`/project-index/${this.$route.params.id}/warningevent/`,
+        query:{tapIndex:4,Warning_Group:4}
+      })
     }
 
   },
@@ -389,7 +392,7 @@ export default {
         url: '',
         title: '智能设备'
       }
-    ])
+    ]);
 
     let _this = this;
     // this.$http.post('/Manage/Device/DeviceDetails',{
@@ -406,13 +409,13 @@ export default {
       // console.log(data);
       let device = 0
       device = Number(data.Data.data.camera.cameraNum) + Number(data.Data.data.lock.lockNum) + Number(data.Data.data.smoke.smokeNum)
-      this.deviceTotal = device
-      this.lock = Number(data.Data.data.lock.lockNum)
-      this.camera = Number(data.Data.data.camera.cameraNum)
-      this.smoke = Number(data.Data.data.smoke.smokeNum)
-      let lockOnline = Number(data.Data.data.lock.lockOnlineNum)
-      let cameraOnline = Number(data.Data.data.camera.cameraOnlineNum)
-      let smokeOnline = Number(data.Data.data.smoke.smokeOnlineNum)
+      this.deviceTotal = device;
+      this.lock = Number(data.Data.data.lock.lockNum);
+      this.camera = Number(data.Data.data.camera.cameraNum);
+      this.smoke = Number(data.Data.data.smoke.smokeNum);
+      let lockOnline = Number(data.Data.data.lock.lockOnlineNum);
+      let cameraOnline = Number(data.Data.data.camera.cameraOnlineNum);
+      let smokeOnline = Number(data.Data.data.smoke.smokeOnlineNum);
       //设备数量会出现为0的情况
       let l = this.lock === 0 ? 1 : this.lock;
       let c = this.camera === 0 ? 1 : this.camera;
@@ -424,19 +427,17 @@ export default {
       // this.cameraPercent = Number((cameraOnline / this.camera * 100).toFixed(2))
       // this.smokePercent = Number((smokeOnline / this.smoke *100).toFixed(2))
 
-      this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / d * 100).toFixed(2)
-      this.lockPercent = Number((lockOnline / l * 100).toFixed(2))
-      this.cameraPercent = Number((cameraOnline / c * 100).toFixed(2))
-      this.smokePercent = Number((smokeOnline / s *100).toFixed(2))
-
-
-      this.waringNum = data.Data.data.waringNum
-      if(this.warningNum > 0){
+      this.deviceTotalPercent = ((lockOnline + cameraOnline + smokeOnline) / d * 100).toFixed(2);
+      this.lockPercent = Number((lockOnline / l * 100).toFixed(2));
+      this.cameraPercent = Number((cameraOnline / c * 100).toFixed(2));
+      this.smokePercent = Number((smokeOnline / s *100).toFixed(2));
+      this.waringNum = data.Data.data.waringNum.toLocaleString();
+      if(this.waringNum > 0){
         this.ifWarning = true
       }else{
         this.ifWarning = false
       }
-    })
+    });
 
     //通行设备
     this.$http.post('/Manage/Device/DeviceDetails',{
@@ -453,7 +454,7 @@ export default {
       }else {
         this.lockNoData = false
       }
-    })
+    });
     //监控设备
     this.$http.post('/Manage/Device/DeviceDetails',{
       'User_Id':window.localStorage.getItem('userId'),
@@ -461,15 +462,15 @@ export default {
       'DeviceType':'camera'
     }).then((data) =>{
       // console.log(data);
-      this.cameraTableData = data.Data.data
-      this.cameraHowMany = data.Data.howMany
-      this.cameraVillageData = data.Data.village_Date
+      this.cameraTableData = data.Data.data;
+      this.cameraHowMany = data.Data.howMany;
+      this.cameraVillageData = data.Data.village_Date;
       if(this.cameraTableData.length === 0){
         this.cameraNoData = true
       }else {
         this.cameraNoData = false
       }
-    })
+    });
     //烟感设备
     this.$http.post('/Manage/Device/DeviceDetails',{
       'User_Id':window.localStorage.getItem('userId'),
@@ -477,9 +478,9 @@ export default {
       'DeviceType':'smoke'
     }).then((data) =>{
       // console.log(data);
-      this.smokeTableData = data.Data.data
-      this.smokeHowMany = data.Data.howMany
-      this.smokeVillageData = data.Data.village_Date
+      this.smokeTableData = data.Data.data;
+      this.smokeHowMany = data.Data.howMany;
+      this.smokeVillageData = data.Data.village_Date;
       if(this.smokeTableData.length === 0){
         this.smokeNoData = true
       }else {

@@ -109,7 +109,7 @@
 .server-break{
   width: 100%;
   color: #fff;
-  background: #242531;
+  background: #100f16;
   border: 1px solid #5c5e80;
   position: absolute;
   left: 0;
@@ -136,4 +136,7 @@
 }
 .offline{
   color: #f5a623;
+}
+.alert{
+  color: red;
 }

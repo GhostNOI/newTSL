@@ -80,22 +80,20 @@
                             </el-option>
                           </el-select>
                         </el-form-item>
-                        <el-form-item label="钉钉" :label-width="formLabelWidth">
-                          <el-select v-model="form.dingding" placeholder="请选择" @change="changeDingDing">
-                            <!--<el-option label="有" value="1"></el-option>-->
-                            <!--<el-option label="无" value="0"></el-option>-->
-                            <el-option
-                              v-for="(item,i) in isNothing"
-                              :key="i"
-                              :label="item.label"
-                              :value="item.value"
-                            >
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                        <el-form-item label="钉钉号" :label-width="formLabelWidth" v-if="isDingDing">
-                          <el-input v-model="form.dingdingNumber" autocomplete="off"></el-input>
-                        </el-form-item>
+                        <!--<el-form-item label="钉钉" :label-width="formLabelWidth">-->
+                          <!--<el-select v-model="form.dingding" placeholder="请选择" @change="changeDingDing">-->
+                            <!--<el-option-->
+                              <!--v-for="(item,i) in isNothing"-->
+                              <!--:key="i"-->
+                              <!--:label="item.label"-->
+                              <!--:value="item.value"-->
+                            <!--&gt;-->
+                            <!--</el-option>-->
+                          <!--</el-select>-->
+                        <!--</el-form-item>-->
+                        <!--<el-form-item label="钉钉号" :label-width="formLabelWidth" v-if="isDingDing">-->
+                          <!--<el-input v-model="form.dingdingNumber" autocomplete="off"></el-input>-->
+                        <!--</el-form-item>-->
                         <el-form-item label="邮箱" :label-width="formLabelWidth">
                           <el-input v-model="form.email" autocomplete="off"></el-input>
                         </el-form-item>
@@ -117,11 +115,11 @@
                   <thead>
                   <tr>
                     <th style="width: 10%">姓名</th>
-                    <td style="width: 15%">用户名</td>
-                    <td style="width: 10%">角色权限</td>
-                    <td style="width: 5%">钉钉</td>
-                    <td style="width: 15%">钉钉号</td>
-                    <td style="width: 15%">邮箱</td>
+                    <td style="width: 20%">用户名</td>
+                    <td style="width: 15%">角色权限</td>
+                    <!--<td style="width: 5%">钉钉</td>-->
+                    <!--<td style="width: 15%">钉钉号</td>-->
+                    <td style="width: 25%">邮箱</td>
                     <td style="width: 10%">账号状态</td>
                     <td style="width: 20%">操作</td>
                   </tr>
@@ -131,31 +129,22 @@
                     <th>{{item.Name}}</th>
                     <td>{{item.Phone}}</td>
                     <td>{{item.Role_Name}}</td>
-                    <td>{{item.DingDing ? '有' : '无'}}</td>
-                    <td>{{item.DingDing}}</td>
+                    <!--<td>{{item.DingDing ? '有' : '无'}}</td>-->
+                    <!--<td>{{item.DingDing}}</td>-->
                     <td>{{item.Email}}</td>
                     <td><span :class="[{proEnable : item.Status == 1},{proDisable : item.Status == 0}]">{{item.Status == 1 ? '启用中' : '禁用中'}}</span></td>
                     <td>
                       <a class="enabled changeModal" @click="modify(item)">修改</a>
-                      <a :class="[{active:item.Status == 1},{notActive:item.Status == 0}]" @click="changeStatus(item)">{{item.Status == 1 ? '禁用' : '启用'}}</a>
+                      <!--<a :class="[{active:item.Status == 1},{notActive:item.Status == 0}]" @click="changeStatus(item)">{{item.Status == 1 ? '禁用' : '启用'}}</a>-->
+                      <a class="notActive" :class="[{disabled:+item.Role_Id === 252}]" @click="changeStatus(item)">{{item.Status == 1 ? '禁用' : '启用'}}</a>
                     </td>
                   </tr>
-                  <!--<tr>-->
-                    <!--<th>新晓</th>-->
-                    <!--<td>18872672827</td>-->
-                    <!--<td>超级管理员</td>-->
-                    <!--<td>有</td>-->
-                    <!--<td>18872672827</td>-->
-                    <!--<td>5677868789@123.com</td>-->
-                    <!--<td><span class="badge badgeActive">启用中</span></td>-->
-                    <!--<td>-->
-                      <!--<a class="enabled changeModal">修改</a>-->
-                      <!--<a class="enabled">禁用</a>-->
-                    <!--</td>-->
-                  <!--</tr>-->
 
                   </tbody>
                 </table>
+                <div v-if="noData" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                  暂无数据
+                </div>
                 <el-pagination
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"

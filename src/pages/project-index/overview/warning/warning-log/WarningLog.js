@@ -35,7 +35,8 @@ export default {
       tips:'',
       ifTips:false,
       changeTipShow:false,
-      changeTip:''
+      changeTip:'',
+      noData:false
     }
   },
   methods:{
@@ -57,6 +58,11 @@ export default {
         this.userList = data.Data.data.userList
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
+        if(data.Data.data.warningLogListCount.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
 
@@ -113,6 +119,11 @@ export default {
         // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
+        if(data.Data.data.warningLogListCount.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //重置
@@ -128,6 +139,11 @@ export default {
         // console.log(data);
         this.warningLogListCount = data.Data.data.warningLogListCount
         this.howMany = data.Data.data.howMany
+        if(data.Data.data.warningLogListCount.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //导出记录

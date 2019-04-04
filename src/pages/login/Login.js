@@ -14,7 +14,9 @@ export default {
       flagPassword:false,
       isReal:false,
       ifPhone:false,
-      errorTip:''
+      errorTip:'',
+      failNum:0,
+      phoneLock:false
     }
   },
   mounted() {
@@ -25,11 +27,12 @@ export default {
   methods:{
 
     phoneFocus () {
-      this.flag = false
-      this.flagPhone = false
-      this.ifPhone = false
-      this.flagPassword = false
-      this.isReal = false
+      this.flag = false;
+      this.flagPhone = false;
+      this.ifPhone = false;
+      this.flagPassword = false;
+      this.isReal = false;
+      this.phoneLock = false
 
     },
     login () {
@@ -46,15 +49,26 @@ export default {
         }).then( (data) => {
           // console.log(data);
           if(data.Data.code === 0){
-            let token = data.Data.data.token
+            this.failNum = 0;
+            let token = data.Data.data.token;
             setCookie(token);
-            window.localStorage.setItem('roleId',data.Data.data.roleMsg[0].Role_Id)
-            window.localStorage.setItem('userId',data.Data.data.User_Id)
-            window.localStorage.setItem('insertTime',data.Data.data.toeknTime)
+            window.localStorage.setItem('roleId',data.Data.data.roleMsg[0].Role_Id);
+            window.localStorage.setItem('userId',data.Data.data.User_Id);
+            window.localStorage.setItem('insertTime',data.Data.data.toeknTime);
+            window.localStorage.setItem('phone',this.phoneNumber);
             this.$router.push({path:'/index'})
           } else{
-            this.isReal = true
-            this.errorTip = data.Data.msg
+            this.isReal = true;
+            this.errorTip = data.Data.msg;
+            // this.failNum ++
+            // if(this.failNum >= 5){
+            //   this.phoneLock = true;
+            //   this.flag = false;
+            //   this.flagPhone = false;
+            //   this.ifPhone = false;
+            //   this.flagPassword = false;
+            //   this.isReal = false;
+            // }
           }
         })
       }

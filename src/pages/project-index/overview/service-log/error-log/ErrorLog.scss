@@ -87,3 +87,10 @@ table{
   display: -webkit-box;
   white-space: nowrap
 }
+.post{
+  width: 200px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;
+  white-space: nowrap
+}

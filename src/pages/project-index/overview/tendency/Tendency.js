@@ -20,9 +20,9 @@ export default {
       //中间大折线图
 
       // console.log(FormatDate(neighborTime(this.$route.query.Warning_Time*1000), 'HH:mm'));
-      const newDate = FormatDate(neighborTime(this.$route.query.Warning_Time*1000), 'HH:mm')
-      let message = this.$route.query.Message
-      let displayMessage = `{c} {b}: ${message}.`
+      const newDate = FormatDate(neighborTime(this.$route.query.Warning_Time*1000), 'HH:mm');
+      let message = this.$route.query.Message;
+      let displayMessage = `{c} {b}: ${message}.`;
       this.$http.post('/Manage/TrendMap/ServerCpuDetial',{
         'User_Id':window.localStorage.getItem('userId'),
         'Project_Code':this.$route.params.id,
@@ -34,28 +34,28 @@ export default {
         if(+data.ErrorCode === -91){
           return
         }
-        this.startTime = FormatDate((data.Data.data.cpu.startTime)*1000,'YYYY-MM-DD HH:mm:ss')
-        this.endTime = FormatDate((data.Data.data.cpu.endTime)*1000,'YYYY-MM-DD HH:mm:ss')
+        this.startTime = FormatDate((data.Data.data.cpu.startTime)*1000,'YYYY-MM-DD HH:mm:ss');
+        this.endTime = FormatDate((data.Data.data.cpu.endTime)*1000,'YYYY-MM-DD HH:mm:ss');
         //保存所有数据
-        this.middleData = data.Data.data.cpu.detial
-        let total = []
-        total = data.Data.data.cpu.detial
+        this.middleData = data.Data.data.cpu.detial;
+        let total = [];
+        total = data.Data.data.cpu.detial;
         //x轴的time
-        let time = []
+        let time = [];
         //所有的指标
-        let CPU_Load_Average = []
-        let IO_Waiting_Time = []
-        let Maxproc = []
-        let Proc_Total = []
-        let Usage_Rate = []
+        let CPU_Load_Average = [];
+        let IO_Waiting_Time = [];
+        let Maxproc = [];
+        let Proc_Total = [];
+        let Usage_Rate = [];
         total.forEach((item,i) => {
-          time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
-          CPU_Load_Average.push(item.CPU_Load_Average)
-          IO_Waiting_Time.push(item.IO_Waiting_Time)
-          Maxproc.push(item.Maxproc)
-          Proc_Total.push(item.Proc_Total)
+          time.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
+          CPU_Load_Average.push(item.CPU_Load_Average);
+          IO_Waiting_Time.push(item.IO_Waiting_Time);
+          Maxproc.push(item.Maxproc);
+          Proc_Total.push(item.Proc_Total);
           Usage_Rate.push(item.Usage_Rate)
-        })
+        });
         this.mainChart.setOption({
           xAxis:{data:time},
           legend: {
@@ -80,7 +80,7 @@ export default {
             {data:Proc_Total},
             {data:Usage_Rate}
           ]
-        })
+        });
         // let datas = data.Data.data.cpu.detial
         // console.log(datas);
         // let Usage_Rate = []
@@ -109,23 +109,23 @@ export default {
         }).then((data) => {
           // console.log(data);
           if(data.ErrorCode == 0 && data.Data.code == 0){
-            let total = []
-            total = data.Data.data
-            this.leftButtomData = total
+            let total = [];
+            total = data.Data.data;
+            this.leftButtomData = total;
             // console.log(this.leftButtomData);
-            let displayProcessName = []
-            let displayProcessVal = []
+            let displayProcessName = [];
+            let displayProcessVal = [];
             total.forEach((item,i) => {
-              displayProcessName.unshift(item.Proc_Name)
+              displayProcessName.unshift(item.Proc_Name);
               displayProcessVal.unshift(item.CPU_Rate)
-            })
+            });
             this.processChart.setOption({
               yAxis:{data:displayProcessName},
               series:[
                 {},
                 {data:displayProcessVal}
               ]
-            })
+            });
 
             //进程占用折线图
             // console.log(total[0].CPU_Logs_Code);
@@ -139,25 +139,34 @@ export default {
               'Server_Code':this.$route.query.Server_Code,
             }).then((data) => {
               // console.log(data);
-              if(data.ErrorCode = 0 && data.Data.code == 0){
-                let total = []
-                let maxAvgMin =[]
-                total = data.Data.data.pro.detial
-                maxAvgMin = data.Data.data.pro.maxAvgMin
-                let time = []
-                let processVal = []
+              if(+data.ErrorCode === 0 && +data.Data.code === 0){
+                let total = [];
+                let maxAvgMin =[];
+                total = data.Data.data.pro.detial;
+                maxAvgMin = data.Data.data.pro.maxAvgMin;
+                let time = [];
+                let processVal = [];
                 total.forEach((item,i) => {
-                  time.push(FormatDate(item.Insert_Time*1000,'HH:mm'))
+                  time.push(FormatDate(item.Insert_Time*1000,'HH:mm'));
                   processVal.push(item.CPU_Rate)
-                })
-                let displayTime = []
-                let displayProcessVal = []
+                });
+                let displayTime = [];
+                let displayProcessVal = [];
                 for(let i=0;i<time.length;i+=10){
-                  displayProcessVal.push(processVal[i])
+                  displayProcessVal.push(processVal[i]);
                   displayTime.push(time[i])
                 }
                 this.processLineChart.setOption({
-                  title:{subtext: '最近值' + processVal[processVal.length-1] + ' ' + '最小值' + maxAvgMin.CPU_Rate_MIN + ' ' + '平均值' + maxAvgMin.CPU_Rate_AVG + ' ' +'最大值' + maxAvgMin.CPU_Rate_MAX,},
+                  tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params) {
+                      return params[0].axisValue + '<br />' + '进程占用率：' + params[0].value + '%'
+                    }
+                  },
+                  title:{
+                    // subtext: '最近值' + processVal[processVal.length-1] + ' ' + '最小值' + maxAvgMin.CPU_Rate_MIN + ' ' + '平均值' + maxAvgMin.CPU_Rate_AVG + ' ' +'最大值' + maxAvgMin.CPU_Rate_MAX,
+                    subtext:`最近值${processVal[processVal.length-1]}% 最小值${maxAvgMin.CPU_Rate_MIN}% 平均值${maxAvgMin.CPU_Rate_AVG}% 最大值${maxAvgMin.CPU_Rate_MAX}%`
+                  },
                   xAxis:{data:displayTime},
                   series:[{data:displayProcessVal}]
                 })
@@ -167,12 +176,12 @@ export default {
           }
 
 
-        })
+        });
 
         //点击到左下角
         this.mainChart.on('click',(params) => {
           this.tabProcess(params)
-        })
+        });
         this.processChart.on('click',(params) => {
           this.leftButtomClick(params)
         })
@@ -192,16 +201,16 @@ export default {
         'Insert_Time':this.middleData[4 - params.dataIndex].Insert_Time
       }).then((data) => {
         // console.log(data);
-        let total = []
-        total = data.Data.data
-        this.leftButtomData = total
+        let total = [];
+        total = data.Data.data;
+        this.leftButtomData = total;
         // console.log(total);
-        let displayProcessName = []
-        let displayProcessVal = []
+        let displayProcessName = [];
+        let displayProcessVal = [];
         total.forEach((item,i) => {
-          displayProcessName.unshift(item.Proc_Name)
+          displayProcessName.unshift(item.Proc_Name);
           displayProcessVal.unshift(item.CPU_Rate)
-        })
+        });
         this.processChart.setOption({
           yAxis:{data:displayProcessName},
           series:[
@@ -225,10 +234,10 @@ export default {
         'Server_Code':this.leftButtomData[4 - params.dataIndex].Server_Code,
       }).then((data) => {
         // console.log(data);
-        let total = []
-        let maxAvgMin =[]
-        total = data.Data.data.pro.detial
-        maxAvgMin = data.Data.data.pro.maxAvgMin
+        let total = [];
+        let maxAvgMin =[];
+        total = data.Data.data.pro.detial;
+        maxAvgMin = data.Data.data.pro.maxAvgMin;
         let time = []
         let processVal = []
         total.forEach((item,i) => {
@@ -242,7 +251,16 @@ export default {
           displayTime.push(time[i])
         }
         this.processLineChart.setOption({
-          title:{subtext: '最近值' + processVal[processVal.length-1] + ' ' + '最小值' + maxAvgMin.CPU_Rate_MIN + ' ' + '平均值' + maxAvgMin.CPU_Rate_AVG + ' ' +'最大值' + maxAvgMin.CPU_Rate_MAX,},
+          title:{
+            // subtext: '最近值' + processVal[processVal.length-1] + '%' + ' ' + '最小值' + maxAvgMin.CPU_Rate_MIN + '%' + ' ' + '平均值' + maxAvgMin.CPU_Rate_AVG + '%' + ' ' +'最大值' + maxAvgMin.CPU_Rate_MAX + '%',
+            subtext:`最近值${processVal[processVal.length-1]}% 最小值${maxAvgMin.CPU_Rate_MIN}% 平均值${maxAvgMin.CPU_Rate_AVG}% 最大值${maxAvgMin.CPU_Rate_MAX}% `
+          },
+          tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+              return params[0].axisValue + '<br />' + '进程占用率：' + params[0].value + '%'
+            }
+          },
           xAxis:{data:displayTime},
           series:[{data:displayProcessVal}]
         })
@@ -690,6 +708,9 @@ export default {
         },
         axisTick: {
           length: 0
+        },
+        axisLabel:{
+          formatter:'{value}%'
         },
         type: 'value'
       },

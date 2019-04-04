@@ -123,6 +123,9 @@
 
                         </tbody>
                       </table>
+                      <div v-if="noData1" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                        暂无数据
+                      </div>
 
                       <el-pagination
                         @size-change="manageSizeChange"
@@ -138,7 +141,7 @@
 
                 </el-tab-pane>
                 <!--通知人员设定-->
-                <el-tab-pane label="通知人员设定" name="second">
+                <el-tab-pane label="催办人员设定" name="second">
                   <div class="panel-body" style="padding-top: 0;">
                     <div class="notification-width12" >
                       <div class="notification-new" style="text-align: center;">
@@ -183,20 +186,20 @@
                             <el-form-item label="联系电话" :label-width="formLabelWidth">
                               <el-input v-model="form.phone" autocomplete="off"></el-input>
                             </el-form-item>
-                            <el-form-item label="钉钉" :label-width="formLabelWidth">
-                              <el-select v-model="form.isDingding" @change="changeDingding">
-                                <el-option
-                                  v-for="(item,i) in ifDingding"
-                                  :key="i"
-                                  :label="item.name"
-                                  :value="item.value"
-                                >
-                                </el-option>
-                              </el-select>
-                            </el-form-item>
-                            <el-form-item label="钉钉号" :label-width="formLabelWidth" v-if="dingdingIpt">
-                              <el-input v-model="form.dingding" autocomplete="off"></el-input>
-                            </el-form-item>
+                            <!--<el-form-item label="钉钉" :label-width="formLabelWidth">-->
+                              <!--<el-select v-model="form.isDingding" @change="changeDingding">-->
+                                <!--<el-option-->
+                                  <!--v-for="(item,i) in ifDingding"-->
+                                  <!--:key="i"-->
+                                  <!--:label="item.name"-->
+                                  <!--:value="item.value"-->
+                                <!--&gt;-->
+                                <!--</el-option>-->
+                              <!--</el-select>-->
+                            <!--</el-form-item>-->
+                            <!--<el-form-item label="钉钉号" :label-width="formLabelWidth" v-if="dingdingIpt">-->
+                              <!--<el-input v-model="form.dingding" autocomplete="off"></el-input>-->
+                            <!--</el-form-item>-->
                             <el-form-item label="邮箱" :label-width="formLabelWidth">
                               <el-input v-model="form.email" autocomplete="off"></el-input>
                             </el-form-item>
@@ -219,15 +222,15 @@
                         <table class="table darkTable notification-table">
                           <thead>
                           <tr>
-                            <td style="width: 10%;padding-left: 5px;">通知接收人</td>
-                            <td style="width: 10%">人员类型</td>
+                            <td style="width: 15%;padding-left: 5px;">通知接收人</td>
+                            <td style="width: 15%">人员类型</td>
                             <td style="width: 15%">所选项目</td>
                             <td style="width: 15%">事件类型</td>
-                            <td style="width: 10%">联系电话</td>
-                            <td style="width: 5%">钉钉</td>
-                            <td style="width: 15%">钉钉号</td>
+                            <td style="width: 15%">联系电话</td>
+                            <!--<td style="width: 5%">钉钉</td>-->
+                            <!--<td style="width: 15%">钉钉号</td>-->
                             <td style="width: 10%">通知方式</td>
-                            <td style="width: 10%">操作</td>
+                            <td style="width: 15%">操作</td>
                           </tr>
                           </thead>
                           <tbody>
@@ -237,8 +240,8 @@
                             <td><span v-for="(proItem,proIndex) in item.warningProjectList" :key="proIndex">{{proItem.Project_Name}}　</span>　</td>
                             <td><span v-for="(typeItem,typeIndex) in item.warningGroupList" :key="typeIndex">{{typeItem.Warning_Group_Name}}　</span></td>
                             <td>{{item.Phone}}</td>
-                            <td>{{item.DingDing ? '有' : '无'}}</td>
-                            <td>{{item.DingDing}}</td>
+                            <!--<td>{{item.DingDing ? '有' : '无'}}</td>-->
+                            <!--<td>{{item.DingDing}}</td>-->
                             <td><span v-for="(noticeItem,noticeIndex) in item.WarningNoticeTypeList":key="noticeIndex">{{noticeItem.Notice_type_Name}}　</span></td>
                             <td>
                               <span class="enabled" @click="changeNotice(item)">修改</span>
@@ -264,6 +267,9 @@
                           </tbody>
                         </table>
                         <!-- 分页 -->
+                        <div v-if="noData2" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                          暂无数据
+                        </div>
                         <el-pagination
                           @size-change="setSizeChange"
                           @current-change="setCurrentChange"

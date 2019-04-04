@@ -83,8 +83,31 @@
       </el-row>
     </div>
 
+    <!-- 修改密码弹框 -->
+    <div id="changePassword">
+      <el-dialog title="修改密码" :visible.sync="changePass" custom-class="editor innerShadow" @closed="closeDialog">
+        <div class="changePassowrd-wrap">
+          <label class="userName">用户名：</label>
+          <span class="userName">{{phone}}</span>
+          <br />
+          <input style="margin-top:30px" class="changePassword" type="text" v-model="oldPassword" placeholder="旧密码"><br />
+          <input class="changePassword" maxlength="20" type="text" v-model="newPassword" placeholder="新密码（请输入8-20位字符，包含大小写字母与数字）"><br />
+          <input class="changePassword" maxlength="20" type="text" v-model="confirmPassword" placeholder="确认密码（请输入8-20位字符，包含大小写字母与数字）">
+          <div style="text-align: center">
+            <span v-if="ifTips" style="color: red">{{tips}}</span>
+          </div>
+          <el-button class="darkBtnPrimary no-border btn" type="confirm" @click="changePassowrd">确 定</el-button>
+        </div>
+        <!--<div slot="footer" class="dialog-footer">-->
+          <!---->
+        <!--</div>-->
+      </el-dialog>
+    </div>
+
+    <!-- 修改密码弹框 -->
+
     <div id="right-side" v-if="projectList.length > 0">
-      <v-head></v-head>
+      <v-head @toParent="showFarme"></v-head>
       <router-view></router-view>
     </div>
 

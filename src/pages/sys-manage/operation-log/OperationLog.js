@@ -14,13 +14,14 @@ export default {
       currentPage:1,
       pageNum:'',
       pageSize:10,
-      operate:''
+      operate:'',
+      noData:true
     }
   },
   methods:{
     //查询
     query(){
-      this.currentPage = 1
+      this.currentPage = 1;
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
@@ -30,9 +31,14 @@ export default {
         'pageSize':this.pageSize
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.operateLogsList
-        this.howMany = data.Data.data.howMany
-        this.countPage = data.Data.data.countPage
+        this.tableData = data.Data.data.operateLogsList;
+        this.howMany = data.Data.data.howMany;
+        this.countPage = data.Data.data.countPage;
+        if(data.Data.data.operateLogsList.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //重置
@@ -45,14 +51,19 @@ export default {
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.operateLogsList
+        this.tableData = data.Data.data.operateLogsList;
         this.howMany = data.Data.data.howMany
+        if(data.Data.data.operateLogsList.length === 0) {
+          this.noData = true
+        }else {
+          this.noData = false
+        }
       })
     },
     //分页
     handleCurrentChange(val) {
       //页码切换
-      this.pageNum = val
+      this.pageNum = val;
       // console.log(val);
       // console.log(this.pageSize);
       this.$http.post('/Manage/OperateLogs/Index',{
@@ -67,14 +78,14 @@ export default {
         'pageSize':this.pageSize
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.operateLogsList
-        this.howMany = data.Data.data.howMany
+        this.tableData = data.Data.data.operateLogsList;
+        this.howMany = data.Data.data.howMany;
         this.countPage = data.Data.data.countPage
       })
     },
     handleSizeChange(val){
       //表格一页数据多少切换
-      this.pageSize = val
+      this.pageSize = val;
       this.$http.post('/Manage/OperateLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
         'Operate_user_Id':this.userId,
@@ -86,8 +97,8 @@ export default {
         'pageNum':this.pageNum,
         'pageSize':val
       }).then((data) => {
-        this.tableData = data.Data.data.operateLogsList
-        this.howMany = data.Data.data.howMany
+        this.tableData = data.Data.data.operateLogsList;
+        this.howMany = data.Data.data.howMany;
         this.countPage = data.Data.data.countPage
       })
     }
@@ -108,16 +119,21 @@ export default {
         url:'',
         title:'操作日志'
       }
-    ])
+    ]);
     //初始表格
     this.$http.post('/Manage/OperateLogs/Index',{
       'User_Id':window.localStorage.getItem('userId'),
     }).then((data) => {
       console.log(data);
-      this.userList = data.Data.data.userList
-      this.tableData = data.Data.data.operateLogsList
-      this.howMany = data.Data.data.howMany
-      this.countPage = data.Data.data.countPage
+      this.userList = data.Data.data.userList;
+      this.tableData = data.Data.data.operateLogsList;
+      this.howMany = data.Data.data.howMany;
+      this.countPage = data.Data.data.countPage;
+      if(data.Data.data.operateLogsList.length === 0) {
+        this.noData = true
+      }else {
+        this.noData = false
+      }
     })
   }
 }

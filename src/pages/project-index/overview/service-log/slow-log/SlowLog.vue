@@ -10,12 +10,12 @@
                 <div class="tableFliter" style="overflow:hidden;">
                   <div class="data-pick-fixed">
                     <span class="title">时间</span>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="one" value="1" name="data-pick" />
-                    <label class="date-pick-label" for="one">近1天</label>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="seven" value="7" name="data-pick" />
-                    <label class="date-pick-label" for="seven">近7天</label>
-                    <input type="radio" v-model="dayType" class="date-pick-radio" id="thirty" value="30" name="data-pick" />
-                    <label class="date-pick-label" for="thirty">近30天</label>
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="one" value="1" name="data-pick" />-->
+                    <!--<label class="date-pick-label" for="one">近1天</label>-->
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="seven" value="7" name="data-pick" />-->
+                    <!--<label class="date-pick-label" for="seven">近7天</label>-->
+                    <!--<input type="radio" v-model="dayType" class="date-pick-radio" id="thirty" value="30" name="data-pick" />-->
+                    <!--<label class="date-pick-label" for="thirty">近30天</label>-->
                   </div>
                   <div class="date-pick" style="width: 40%;float: left;margin-left: 30px;">
                     <el-date-picker
@@ -30,13 +30,14 @@
                     </el-date-picker>
                   </div>
 
-                  <div class="ctrlBtnPanel" style="float: left;">
+                  <div class="ctrlBtnPanel" style="float: right;">
                     <a class="darkBtnPrimary no-border query-btn" style="cursor: pointer;"  @click="query"><strong>查询</strong></a>
                     <a class="darkBtnPrimary no-border query-btn" style="cursor: pointer;"  @click="resetForm"><strong>重置</strong></a>
                   </div>
                 </div>
-                <div id="mainChart" style="width: 100%; height: 500px; margin-top: 50px; margin-bottom: 30px"></div>
-                <div class="" style="width: 100%; overflow: hidden;" v-if="noData">
+                <!--<div id="mainChart" style="width: 100%; height: 500px; margin-top: 50px; margin-bottom: 30px"></div>-->
+                <!--<div class="" style="width: 100%; overflow: hidden;" v-if="noData">-->
+                <div class="" style="width: 100%; overflow: hidden;">
                   <table style="width: 100%;">
                     <thead>
                     <tr>
@@ -53,6 +54,9 @@
                     </tr>
                     </tbody>
                   </table>
+                  <div style="text-align: center;font-size: 20px;color: #fff;margin-top: 20px;" v-if="noData">
+                    暂无数据
+                  </div>
 
                   <el-pagination
                     @size-change="handleSizeChange"

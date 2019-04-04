@@ -23,7 +23,7 @@
                 <div class="showCase2">
                   <div class="showCase strange" style="margin: 10px 0;position: relative;">
                     <h5>累计中断</h5>
-                    <h3 id="countBreak" style="cursor: default; font-size: 40px">{{interrupt}}<span style="font-size: 14px">次</span></h3>
+                    <h3 id="countBreak" style="cursor: default; font-size: 40px;color: #15ebf5;">{{interrupt}}<span style="font-size: 14px;color: #fff;margin-left: 20px;">次</span></h3>
                     <ul class="server-break innerShadow">
                       <li v-for="(item,i) in interruptdetail" :key="i">中断时间　{{item.offTime | transformDate}}　持续时间　{{item.continuedTime | formatSec}}</li>
                     </ul>
@@ -34,26 +34,26 @@
               <div class="col-md-12 divideLine"></div>
               <div class="col-md-3 server-cpu-per">
                 <div class="panel-right">
-                  <h5 class="customH5">CPU平均负载 (5min)</h5>
-                  <h3 class="customH3">{{cpuLoadAve}}</h3>
+                  <h5 class="customH5" style="font-size: 18px; font-weight: 100;">CPU平均负载 (5min)</h5>
+                  <h3 class="customH3" :class="{alert:+isNormalCpu === 1}">{{cpuLoadAve}}</h3>
                 </div>
               </div>
               <div class="col-md-3 server-memory-per">
                 <div class="panel-right">
-                  <h5 class="customH5">可用内存百分比</h5>
-                  <h3 class="customH3">{{memoryFree}}%</h3>
+                  <h5 class="customH5" style="font-size: 18px; font-weight: 100;">可用内存百分比</h5>
+                  <h3 class="customH3" :class="{alert:+isNormalMemory === 1}">{{memoryFree}}%</h3>
                 </div>
               </div>
               <div class="col-md-3 server-disk-per">
                 <div class="panel-right">
-                  <h5 class="customH5">磁盘可用空间占比</h5>
-                  <h3 class="customH3">{{diskFree}}%</h3>
+                  <h5 class="customH5" style="font-size: 18px; font-weight: 100;">磁盘可用空间占比</h5>
+                  <h3 class="customH3" :class="{alert:+isNormalDisk === 1}">{{diskFree}}%</h3>
                 </div>
               </div>
               <div class="col-md-3 server-network">
                 <div class="panel-right">
 
-                  <h5 class="customH5">网络流入流量</h5>
+                  <h5 class="customH5" style="font-size: 18px; font-weight: 100;">网络流入流量</h5>
                   <h3 class="customH3">{{network}}M</h3>
                 </div>
               </div>
@@ -67,7 +67,7 @@
               <div class="panel-body">
                 <div class="col-md-11 quota-btn left-right">
                   <div id="defineBtnGroup">
-                    <div class="button-group">
+                    <div class="button-group" style="margin-bottom: 5px; margin-left: 10px;">
                       <!--<button  type="button" class="  button-tiny btnLight  active">-->
                         <!--<strong>CPU平均负载(15min)</strong>-->
                       <!--</button>-->
@@ -96,14 +96,29 @@
                     </div>
                   </el-dialog>
                 </div>
-                <div class="col-md-12 quota-date" style="margin-top:10px; z-index: 100;padding-left:15px">
+                <div class="col-md-12 quota-date" style="margin-top:10px; z-index: 100;padding-left:15px; margin-left: 10px; margin-bottom: 5px;">
                   <div class="">
                     <!--<button type="button" class=" button-tiny btnLight active">-->
                       <!--<strong>近1天</strong>-->
                     <!--</button>-->
-                    <button v-for="(item,i) in daysPick" @click="daysTab(item,i)" type="button" class="button-tiny btnLight" :class="{active:i==dayOptionIndex}">
-                      <strong>{{item.name}}</strong>
-                    </button>
+                    <div style="float:right;margin-right: 100px;">
+                      <button style="float:left;" v-for="(item,i) in daysPick" @click="daysTab(item,i)" type="button" class="button-tiny btnLight" :class="{active:i==dayOptionIndex}">
+                        <strong>{{item.name}}</strong>
+                      </button>
+                    </div>
+
+                    <div style="float:left;margin-left: 20px;margin-top: -10px;" v-show="selectNetworkCard">
+                      <span style="color: #fff;">请选择网卡</span>
+                      <el-select placeholder="请选择" v-model="Network_Card_Name" @change="networkCard">
+                        <el-option
+                          v-for="(item,i) in networkCardList"
+                          :key="i"
+                          :label="item.Network_Card_Name"
+                          :value="item.Network_Card_Name"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
 
                   </div>
                 </div>

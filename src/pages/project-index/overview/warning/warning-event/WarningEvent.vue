@@ -6,9 +6,9 @@
           <div class="col-md-6 warning-event-top-left" style="padding: 0 15px 0 0">
             <div class="panel panel-primary text-center no-border innerShadow2">
               <div class="listTitle">
-                <h5>预警事件类型</h5>
+                <h5 style="font-size: 16px;">预警事件类型</h5>
                 <div class="button-group" style="float: right">
-                  <button v-for="(item,i) in peiChartsDate" :key="i" @click="daysOptionPei(item,i)" class="button-tiny btnLight" :class="{active:i==pei}">
+                  <button style="font-size: 16px;" v-for="(item,i) in peiChartsDate" :key="i" @click="daysOptionPei(item,i)" class="button-tiny btnLight" :class="{active:i==pei}">
                     <strong>{{item.name}}</strong>
                   </button>
                   <!--<button type="button" class="button-tiny btnLight">-->
@@ -24,9 +24,9 @@
           <div class="col-md-6 warning-event-top-right" style="padding: 0 0 0 15px">
             <div class="panel panel-primary text-center no-border innerShadow2 ranking-height">
               <div class="listTitle">
-                <h5>预警事件排名</h5>
+                <h5 style="font-size: 16px;">预警事件排名</h5>
                 <div class="button-group" style="float: right">
-                  <button type="button" v-for="(item,i) in histogramDate" @click="daysHistogram(item,i)" class="button-tiny btnLight" :class="{active:i==histogram}" :key="i">
+                  <button  style="font-size: 16px;" type="button" v-for="(item,i) in histogramDate" @click="daysHistogram(item,i)" class="button-tiny btnLight" :class="{active:i==histogram}" :key="i">
                     <strong>{{item.name}}</strong>
                   </button>
                   <!--<button type="button" class="button button-border button-tiny btnLight">-->
@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(item,i) in eventRank" :key="i">
-                      <td class="warning-event-rank" style="white-space: nowrap; overflow: hidden;  text-overflow: ellipsis;">{{item.Name}}</td>
+                      <td class="warning-event-rank" style="white-space: nowrap; overflow: hidden;  text-overflow: ellipsis;"><span :title="item.Name">{{item.Name}}</span></td>
                       <td class="warning-event-rank">{{item.num}}</td>
                     </tr>
                     <!--<tr>-->
@@ -128,7 +128,7 @@
                   <table class="darkTable warning-event-bottom-table">
                     <thead>
                     <tr>
-                      <td style="width: 20%;text-indent: 10px;">发生时间</td>
+                      <td style="width: 20%;text-indent: 30px;">发生时间</td>
                       <td style="width: 8%">事件类型</td>
                       <td style="width: 8%">预警等级</td>
                       <td style="width: 10%">主体</td>
@@ -147,7 +147,7 @@
                       <td>{{item.Message}}</td>
                       <td>{{item.Name}}</td>
                       <td>
-                        <el-popover placement="bottom"  :content="delive" width="30" trigger="hover"  @show="countDown(item)">
+                        <el-popover placement="bottom"  :content="delive"  trigger="hover"  @show="countDown(item)">
                           <span slot="reference">{{item.State_Name}}</span>
                         </el-popover>
                       </td>
@@ -165,6 +165,10 @@
                     <!--</tr>-->
                     </tbody>
                   </table>
+
+                  <div v-if="noData" style="text-align: center;color: #fff;font-size: 20px;margin-top: 20px">
+                    暂无数据
+                  </div>
                   <!-- 分页 -->
                   <el-pagination
                     @size-change="handleSizeChange"
@@ -186,17 +190,21 @@
                     <span class="device" style="color: #fff;">{{deviceName}}</span>
                   </div>
                   <div>
-                    <span class="device" style="color: #fff;">设备型号</span>：
-                    <span class="device" style="color: #fff;">{{deviceType}}</span>
+                    <span class="device" style="color: #fff;">MAC/IP</span>：
+                    <span class="device" style="color: #fff;">{{mac}}</span>
                   </div>
                   <div>
                     <span class="device" style="color: #fff;">设备状态</span>：
                     <span class="device" style="color: #fff;">{{deviceStatus}}</span>
                   </div>
+                  <div>
+                    <span class="device" style="color: #fff;">安装时间</span>：
+                    <span class="device" style="color: #fff;">{{InstalledTime | transformDate}}</span>
+                  </div>
 
                 </div>
                 <div slot="footer" class="dialog-footer">
-                  <el-button type="cancel" @click="deviceShow = false">取 消</el-button>
+                  <el-button type="cancel" @click="deviceShow = false">确 定</el-button>
                 </div>
               </el-dialog>
 
@@ -213,7 +221,7 @@
                   </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
-                  <el-button type="cancel" @click="security = false">取 消</el-button>
+                  <el-button type="cancel" @click="security = false">确 定</el-button>
                 </div>
               </el-dialog>
               <!-- 弹框3服务器离线时间 -->
@@ -223,6 +231,9 @@
                     <ul>
                       <li v-for="(item,i) in offOnline" :key="i" style="color: #fff;font-size: 14px;">中断时间 {{item.offTime | transformDate}} 持续时间 {{item.continuedTime | formatSec}}</li>
                     </ul>
+                  </div>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button type="cancel" @click="serverOffline = false">确 定</el-button>
                   </div>
                 </el-dialog>
               </div>

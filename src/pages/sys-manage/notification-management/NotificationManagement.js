@@ -62,6 +62,8 @@ export default {
       title:'新建',
       tips:'',
       ifTips:false,
+      noData1:false,
+      noData2:false
 
     }
   },
@@ -88,23 +90,33 @@ export default {
         // console.log(data);
         this.tableData = data.Data.data.noticeHistoryLogs
         this.howManyManage = data.Data.data.howMany
+        if(data.Data.data.noticeHistoryLogs.length === 0) {
+          this.noData1 = true
+        }else {
+          this.noData1 = false
+        }
       })
     },
     //重置
     resetForm() {
-      this.currentPage = 1
-      this.receiver = ''
-      this.notificationClass = ''
-      this.notificationType = ''
-      this.projectIpt = ''
-      this.projectIpt = ''
-      this.value = []
+      this.currentPage = 1;
+      this.receiver = '';
+      this.notificationClass = '';
+      this.notificationType = '';
+      this.projectIpt = '';
+      this.projectIpt = '';
+      this.value = [];
       this.$http.post('/Manage/NoticeHistoryLogs/Index',{
         'User_Id':window.localStorage.getItem('userId'),
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.noticeHistoryLogs
-        this.howManyManage = data.Data.data.howMany
+        this.tableData = data.Data.data.noticeHistoryLogs;
+        this.howManyManage = data.Data.data.howMany;
+        if(data.Data.data.noticeHistoryLogs.length === 0) {
+          this.noData1 = true
+        }else {
+          this.noData1 = false
+        }
       })
     },
     manageCurrentChange(val) {
@@ -122,7 +134,7 @@ export default {
         'pageSize':this.managePageSize
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.noticeHistoryLogs
+        this.tableData = data.Data.data.noticeHistoryLogs;
         this.howManyManage = data.Data.data.howMany
       })
     },
@@ -139,7 +151,7 @@ export default {
         'pageSize':val
       }).then((data) => {
         // console.log(data);
-        this.tableData = data.Data.data.noticeHistoryLogs
+        this.tableData = data.Data.data.noticeHistoryLogs;
         this.howManyManage = data.Data.data.howMany
       })
     },
@@ -147,11 +159,11 @@ export default {
     createOrModify () {
       if(!this.isCreate){
         if(!MOBILE.test(this.form.phone)){
-          this.tips = '请输入正确的手机号'
+          this.tips = '请输入正确的手机号';
           this.ifTips = true
         }else if(this.form.email){
           if(!IS_MAIL){
-            this.tips = '请输入正确的邮箱号'
+            this.tips = '请输入正确的邮箱号';
             this.ifTips = true
           }else{
             this.$http.post('/Manage/NoticeOtherSeting/Update',{
@@ -162,28 +174,33 @@ export default {
               'Notice_Type' :this.form.isDingding,
               'Role_Id' :this.form.role,
               'Project_Code' :this.form.project.join(","),
-              'DingDing' :this.form.dingding,
+              // 'DingDing' :this.form.dingding,
               'Warning_Type':this.eventType.join(","),
               'Email':this.form.email
             }).then((data) => {
               // console.log(data);
               if(+data.ErrorCode === -91){
-                this.tips = '操作失败'
+                this.tips = '操作失败';
                 this.ifTips = true
                 return ;
               }
               if(+data.Data.code === -7){
-                this.tips = '手机号已被使用'
+                this.tips = '手机号已被使用';
                 this.ifTips = true
               }else if(+data.Data.code === 0){
-                this.dialogFormVisible = false
+                this.dialogFormVisible = false;
                 this.$http.post('/Manage/NoticeOtherSeting/Index',{
                   'User_Id':window.localStorage.getItem('userId'),
                   'pageNum':this.pageNum,
                   'pageSize':this.setPageSize
                 }).then((data) => {
-                  this.tableData2 = data.Data.data.resultList
-                  this.howManySet = data.Data.data.howMany
+                  this.tableData2 = data.Data.data.resultList;
+                  this.howManySet = data.Data.data.howMany;
+                  if(data.Data.data.resultList.length === 0) {
+                    this.noData2 = true
+                  }else {
+                    this.noData2 = false
+                  }
                 })
               }
             })
@@ -197,56 +214,61 @@ export default {
             'Notice_Type' :this.form.isDingding,
             'Role_Id' :this.form.role,
             'Project_Code' :this.form.project.join(","),
-            'DingDing' :this.form.dingding,
+            // 'DingDing' :this.form.dingding,
             'Warning_Type':this.this.eventType.join(","),
             'Email':this.form.email
           }).then((data) => {
             // console.log(data);
             if(data.Data.code == 0){
-              this.dialogFormVisible = false
+              this.dialogFormVisible = false;
               this.$http.post('/Manage/NoticeOtherSeting/Index',{
                 'User_Id':window.localStorage.getItem('userId'),
                 'pageNum':this.pageNum,
                 'pageSize':this.setPageSize
               }).then((data) => {
-                this.tableData2 = data.Data.data.resultList
+                this.tableData2 = data.Data.data.resultList;
                 this.howManySet = data.Data.data.howMany
+                if(data.Data.data.resultList.length === 0) {
+                  this.noData2 = true
+                }else {
+                  this.noData2 = false
+                }
               })
             }
           })
         }
       }else{
         if(this.form.name === ''){
-          this.tips = '请输入姓名'
-          this.ifTips = true
+          this.tips = '请输入姓名';
+          this.ifTips = true;
           return ;
         }else if(this.form.role === ''){
-          this.tips = '请选择人员类型'
-          this.ifTips = true
+          this.tips = '请选择人员类型';
+          this.ifTips = true;
           return ;
         }else if(this.form.project === []){
-          this.tips = '请选择项目'
-          this.ifTips = true
+          this.tips = '请选择项目';
+          this.ifTips = true;
           return ;
         }else if(this.eventType === ''){
-          this.tips = '请选择项目'
-          this.ifTips = true
+          this.tips = '请选择项目';
+          this.ifTips = true;
           return ;
         }else if(this.form.phone === ''){
-          this.tips = '请输入手机号'
-          this.ifTips = true
+          this.tips = '请输入手机号';
+          this.ifTips = true;
           return ;
         }else if(this.form.email === ''){
-          this.tips = '请输入邮箱'
-          this.ifTips = true
+          this.tips = '请输入邮箱';
+          this.ifTips = true;
           return ;
         }
         if(!MOBILE.test(this.form.phone)){
-          this.tips = '请输入正确的手机号'
+          this.tips = '请输入正确的手机号';
           this.ifTips = true
         }else if(this.form.email){
           if(!IS_MAIL.test(this.form.email)){
-            this.tips = '请输入正确的邮箱号'
+            this.tips = '请输入正确的邮箱号';
             this.ifTips = true
           }else{
             this.$http.post('/Manage/NoticeOtherSeting/Insert',{
@@ -257,7 +279,7 @@ export default {
               'Role_Id':this.form.role,
               'Warning_Type':this.eventType.join(","),
               'Project_Code':this.form.project.join(","),
-              'DingDing':this.form.dingding,
+              // 'DingDing':this.form.dingding,
               'Email':this.form.email
             }).then((data) => {
               // console.log(data);
@@ -273,8 +295,13 @@ export default {
                   'pageSize':this.setPageSize
                 }).then((data) => {
                   // console.log(data);
-                  this.tableData2 = data.Data.data.resultList
-                  this.howManySet = data.Data.data.howMany
+                  this.tableData2 = data.Data.data.resultList;
+                  this.howManySet = data.Data.data.howMany;
+                  if(data.Data.data.resultList.length === 0) {
+                    this.noData2 = true
+                  }else {
+                    this.noData2 = false
+                  }
                 })
               }
 
@@ -289,21 +316,26 @@ export default {
             'Role_Id':this.form.role,
             'Warning_Type':this.eventType.join(","),
             'Project_Code':this.form.project.join(","),
-            'DingDing':this.form.dingding,
+            // 'DingDing':this.form.dingding,
             'Email':this.form.email
           }).then((data) => {
             // console.log(data);
             if(data.Data.code == 0){
               // this.dingdingIpt = false
-              this.dialogFormVisible = false
+              this.dialogFormVisible = false;
               this.$http.post('/Manage/NoticeOtherSeting/Index',{
                 'User_Id':window.localStorage.getItem('userId'),
                 'pageNum':this.setPageNum,
                 'pageSize':this.setPageSize
               }).then((data) => {
                 // console.log(data);
-                this.tableData2 = data.Data.data.resultList
-                this.howManySet = data.Data.data.howMany
+                this.tableData2 = data.Data.data.resultList;
+                this.howManySet = data.Data.data.howMany;
+                if(data.Data.data.resultList.length === 0) {
+                  this.noData2 = true
+                }else {
+                  this.noData2 = false
+                }
               })
             }
 
@@ -460,6 +492,11 @@ export default {
       this.noticeType = data.Data.data.noticeType
       this.tableData = data.Data.data.noticeHistoryLogs
       this.howManyManage = data.Data.data.howMany
+      if(data.Data.data.noticeHistoryLogs.length === 0) {
+        this.noData1 = true
+      }else {
+        this.noData1 = false
+      }
     })
 
     //通知人员设定
@@ -472,6 +509,11 @@ export default {
       this.warningGroup = data.Data.data.warningGroup
       this.projectList = data.Data.data.projectList
       this.howManySet = data.Data.data.howMany
+      if(data.Data.data.resultList.length === 0) {
+        this.noData2 = true
+      }else {
+        this.noData2 = false
+      }
     })
   }
 }

@@ -1448,3 +1448,69 @@ input{
   }
 
 }
+//修改密码弹框
+#changePassword{
+  .editor{
+    padding:20px 20px 20px 80px;
+    background: #100f16;
+    width: 25%;
+    .el-dialog__title{
+      color: #d0d4dd;
+    }
+  }
+}
+//面包屑
+.el-breadcrumb__inner{
+  color: #d2e6fb;
+}
+//地图悬浮框样式
+.amap-info-outer{
+  position: relative;
+  background: #000 !important;
+  border: 1px solid #447df7 !important;
+  -moz-box-shadow:0px 0px 40px 10px rgb(68,125,247) inset;
+  -webkit-box-shadow:0px 0px 40px 10px rgb(68,125,247) inset;
+  box-shadow:0px 0px 40px 10px rgb(68,125,247) inset;
+}
+.fo-sizeB{
+  width: 65px;
+  height: 65px;
+  display: inline-block;
+  margin-top: -14px;
+  margin-right: -14px;
+  line-height: 65px;
+  text-indent: 24px;
+  background: url(http://47.96.70.222:8080/image/circle.png) center no-repeat;
+}
+.warningNumber{
+  margin-top: -14px;
+  margin-right: -14px;
+  font-size: 19px !important;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url(http://47.96.70.222:8080/image/circle.png) center/cover no-repeat;
+}
+.el-loading-mask{
+  background:rgba(0, 0, 0, 0.5);
+}
+.code{
+  .el-input__inner{
+    width: 150px !important;
+  }
+  .el-input{
+    float: left !important;
+    width: 200px;
+  }
+}
+html{
+  height: 100% !important;
+}
+body{
+  height: 100%;
+}
+#app{
+  height: 100%;
+}
