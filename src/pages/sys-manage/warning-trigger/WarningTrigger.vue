@@ -81,7 +81,7 @@
                      <td></td>
                      <td></td>
                      <td>{{innerItem.Name}}</td>
-                     <td>{{innerItem.Description}}{{innerItem.Operator}}{{(+innerItem.Rule_Id === 2 || 4 || 5 || 7) ? +innerItem.Condition*100 : innerItem.Condition}}{{innerItem.Company}}</td>
+                     <td>{{innerItem.Description}}{{innerItem.Operator}}{{+innerItem.Rule_Id === 2 || +innerItem.Rule_Id === 4 || +innerItem.Rule_Id === 5 || +innerItem.Rule_Id === 7 ? +innerItem.Condition*100 : innerItem.Condition}}{{innerItem.Company}}</td>
                      <td>
                        <!-- 修改预警值 -->
                        <span v-if="!innerItem.changed">{{innerItem.Condition | threshold}}</span>

@@ -178,7 +178,7 @@ export default {
         }else if(data.Data.data.result.length > 0){
           this.defaultIpt = false
         }
-        // console.log(data);
+        console.log(data);
         this.tableData1 = data.Data.data.result;
         this.waringLevel = data.Data.data.warning_Level
         // console.log(this.waringLevel);

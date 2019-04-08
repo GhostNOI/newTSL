@@ -678,7 +678,7 @@ export default {
         }
       },
       title: {
-        text: '进程一变化曲线',
+        text: '进程占用率',
         subtext: '',
         textAlign: 'left'
       },
