@@ -160,7 +160,7 @@ export default {
       // console.log(window.localStorage.getItem('userId'));
       axios({
         method:'POST',
-        url:'http://118.31.172.237:9031/api/Manage/WaringLogs/ExportNotes',
+        url:'http://118.31.172.237:9032/api/Manage/WaringLogs/ExportNotes',
         data:params,
         headers:{
           'Authorization':'Bearer' +' '+ getCookie('tsl_token')

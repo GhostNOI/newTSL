@@ -65,7 +65,9 @@ export const FormatDate = (dateTime, format = 'YYYY-MM-DD HH:mm') => {
 export const setCookie = (value, key = 'tsl_token', expiredays = 30) => {
   value = encodeURIComponent(value);
   let exdate = new Date();
-  exdate.setDate(exdate.getDate() + expiredays);
+  // exdate.setDate(exdate.getDate() + expiredays);
+  // exdate = exdate.toGMTString();
+  exdate.setTime(exdate.getTime() + 7200000);
   exdate = exdate.toGMTString();
   document.cookie = `${key}=${value};expires=${exdate};path=/;`;
 };

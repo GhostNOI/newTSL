@@ -656,6 +656,9 @@
     color: #fff;
     outline:none
   }
+  .el-input__clear::before{
+    display: none;
+  }
   .el-input__inner:focus{
     border-bottom: 2px solid #4681FF;
   }
